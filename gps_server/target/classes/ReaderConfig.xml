@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ReaderConfig>
+
+    <readerconfig>
+        <readertype>filesystem</readertype>
+        <basepath>%configpath%/gps</basepath>
+    </readerconfig>
+
+</ReaderConfig>
