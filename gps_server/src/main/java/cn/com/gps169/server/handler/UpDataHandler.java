@@ -136,7 +136,7 @@ public class UpDataHandler {
 			//调用 消息处理器
 			IJt808Handler h =  codeHandler.get(msg.getMessageID());
 			if(h == null){
-				logger.info("没有相应的处理器或平台不需要处理，消息ID:"+msg.getMessageID());
+				logger.info(String.format("没有相应的处理器或平台不需要处理，消息ID:%s;内容：",msg.getMessageID(),msg.toString()));
 				return;
 			}
 			//平台通用响应

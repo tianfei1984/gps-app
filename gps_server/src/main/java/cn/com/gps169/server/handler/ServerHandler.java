@@ -72,7 +72,9 @@ public class ServerHandler extends IoHandlerAdapter {
 	@Override
 	public void sessionIdle(IoSession session, IdleStatus status)
 			throws Exception {
-		logger.info("服务器进入空闲状态...");
+		//心跳超时，断开连接 
+		logger.info(String.format("终端与平台超时断开连接，SIM：%s",getSimNo(session)));
+		session.close(true);
 	}
 
 	@Override
