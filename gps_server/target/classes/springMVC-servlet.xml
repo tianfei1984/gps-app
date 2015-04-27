@@ -21,7 +21,7 @@
 	      </bean>
 	    </mvc:message-converters>
     </mvc:annotation-driven> 
-    <context:component-scan base-package="cn.com.tf" />
+    <context:component-scan base-package="cn.com.gps169.server" />
 
 	<!-- Jackson转换器 -->
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />

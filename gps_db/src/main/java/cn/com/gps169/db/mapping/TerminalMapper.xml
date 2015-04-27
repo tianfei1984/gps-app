@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.gps169.db.dao.TerminalMapper" >
+  <resultMap id="ResultMapTerminal" type="cn.com.gps169.db.model.Terminal" >
+    <id column="terminal_id" property="terminalId" jdbcType="INTEGER" />
+    <result column="terminal_style" property="terminalStyle" jdbcType="CHAR" />
+    <result column="imei" property="imei" jdbcType="VARCHAR" />
+    <result column="imsi" property="imsi" jdbcType="VARCHAR" />
+    <result column="validate_code" property="validateCode" jdbcType="VARCHAR" />
+    <result column="hardware_version" property="hardwareVersion" jdbcType="VARCHAR" />
+    <result column="software_version" property="softwareVersion" jdbcType="VARCHAR" />
+    <result column="working_status" property="workingStatus" jdbcType="INTEGER" />
+    <result column="bind_time" property="bindTime" jdbcType="TIMESTAMP" />
+    <result column="handle_customer" property="handleCustomer" jdbcType="VARCHAR" />
+    <result column="handle_time" property="handleTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    terminal_id, terminal_style, imei, imsi, validate_code, hardware_version, software_version, 
+    working_status, bind_time, handle_customer, handle_time
+  </sql>
+  <select id="selectByExample" resultMap="ResultMapTerminal" parameterType="cn.com.gps169.db.model.TerminalExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from gps_terminal
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapTerminal" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gps_terminal
+    where terminal_id = #{terminalId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gps_terminal
+    where terminal_id = #{terminalId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.gps169.db.model.TerminalExample" >
+    delete from gps_terminal
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="cn.com.gps169.db.model.Terminal" >
+    insert into gps_terminal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="terminalId != null" >
+        terminal_id,
+      </if>
+      <if test="terminalStyle != null" >
+        terminal_style,
+      </if>
+      <if test="imei != null" >
+        imei,
+      </if>
+      <if test="imsi != null" >
+        imsi,
+      </if>
+      <if test="validateCode != null" >
+        validate_code,
+      </if>
+      <if test="hardwareVersion != null" >
+        hardware_version,
+      </if>
+      <if test="softwareVersion != null" >
+        software_version,
+      </if>
+      <if test="workingStatus != null" >
+        working_status,
+      </if>
+      <if test="bindTime != null" >
+        bind_time,
+      </if>
+      <if test="handleCustomer != null" >
+        handle_customer,
+      </if>
+      <if test="handleTime != null" >
+        handle_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="terminalId != null" >
+        #{terminalId,jdbcType=INTEGER},
+      </if>
+      <if test="terminalStyle != null" >
+        #{terminalStyle,jdbcType=CHAR},
+      </if>
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="validateCode != null" >
+        #{validateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hardwareVersion != null" >
+        #{hardwareVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="softwareVersion != null" >
+        #{softwareVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="workingStatus != null" >
+        #{workingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="bindTime != null" >
+        #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleCustomer != null" >
+        #{handleCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="handleTime != null" >
+        #{handleTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.gps169.db.model.TerminalExample" resultType="java.lang.Integer" >
+    select count(*) from gps_terminal
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update gps_terminal
+    <set >
+      <if test="record.terminalId != null" >
+        terminal_id = #{record.terminalId,jdbcType=INTEGER},
+      </if>
+      <if test="record.terminalStyle != null" >
+        terminal_style = #{record.terminalStyle,jdbcType=CHAR},
+      </if>
+      <if test="record.imei != null" >
+        imei = #{record.imei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imsi != null" >
+        imsi = #{record.imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.validateCode != null" >
+        validate_code = #{record.validateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hardwareVersion != null" >
+        hardware_version = #{record.hardwareVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.softwareVersion != null" >
+        software_version = #{record.softwareVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workingStatus != null" >
+        working_status = #{record.workingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.bindTime != null" >
+        bind_time = #{record.bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.handleCustomer != null" >
+        handle_customer = #{record.handleCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleTime != null" >
+        handle_time = #{record.handleTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update gps_terminal
+    set terminal_id = #{record.terminalId,jdbcType=INTEGER},
+      terminal_style = #{record.terminalStyle,jdbcType=CHAR},
+      imei = #{record.imei,jdbcType=VARCHAR},
+      imsi = #{record.imsi,jdbcType=VARCHAR},
+      validate_code = #{record.validateCode,jdbcType=VARCHAR},
+      hardware_version = #{record.hardwareVersion,jdbcType=VARCHAR},
+      software_version = #{record.softwareVersion,jdbcType=VARCHAR},
+      working_status = #{record.workingStatus,jdbcType=INTEGER},
+      bind_time = #{record.bindTime,jdbcType=TIMESTAMP},
+      handle_customer = #{record.handleCustomer,jdbcType=VARCHAR},
+      handle_time = #{record.handleTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.gps169.db.model.Terminal" >
+    update gps_terminal
+    <set >
+      <if test="terminalStyle != null" >
+        terminal_style = #{terminalStyle,jdbcType=CHAR},
+      </if>
+      <if test="imei != null" >
+        imei = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        imsi = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="validateCode != null" >
+        validate_code = #{validateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hardwareVersion != null" >
+        hardware_version = #{hardwareVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="softwareVersion != null" >
+        software_version = #{softwareVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="workingStatus != null" >
+        working_status = #{workingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="bindTime != null" >
+        bind_time = #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleCustomer != null" >
+        handle_customer = #{handleCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="handleTime != null" >
+        handle_time = #{handleTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where terminal_id = #{terminalId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.gps169.db.model.Terminal" >
+    update gps_terminal
+    set terminal_style = #{terminalStyle,jdbcType=CHAR},
+      imei = #{imei,jdbcType=VARCHAR},
+      imsi = #{imsi,jdbcType=VARCHAR},
+      validate_code = #{validateCode,jdbcType=VARCHAR},
+      hardware_version = #{hardwareVersion,jdbcType=VARCHAR},
+      software_version = #{softwareVersion,jdbcType=VARCHAR},
+      working_status = #{workingStatus,jdbcType=INTEGER},
+      bind_time = #{bindTime,jdbcType=TIMESTAMP},
+      handle_customer = #{handleCustomer,jdbcType=VARCHAR},
+      handle_time = #{handleTime,jdbcType=TIMESTAMP}
+    where terminal_id = #{terminalId,jdbcType=INTEGER}
+  </update>
+</mapper>

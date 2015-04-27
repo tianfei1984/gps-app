@@ -5,14 +5,14 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd  ">
 	
 	<context:annotation-config />
-	<context:component-scan base-package="cn.com.tf" />
+	<context:component-scan base-package="cn.com.gps169" />
 	
 	<import resource="spring-mybatis.xml" />
 
 	<!-- 上行处理器 -->
-	<bean id="upDataHandler" class="cn.com.tf.handler.UpDataHandler">
+	<bean id="upDataHandler" class="cn.com.gps169.server.handler.UpDataHandler">
 		<property name="codeHandler">
-			<map key-type="java.lang.String" value-type="cn.com.tf.handler.IJt808Handler">
+			<map key-type="java.lang.String" value-type="cn.com.gps169.server.handler.IJt808Handler">
 				<entry key="0100" value-ref="jt0100Handler"></entry>
 				<entry key="0102" value-ref="jt0102Handler"></entry>
 				<entry key="0200" value-ref="jt0200Handler"></entry>

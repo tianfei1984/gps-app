@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  ">
 	<!-- 引入属性文件 -->
-	<context:property-placeholder location="file:${configpath}/hypt/jdbc.properties" />
+	<context:property-placeholder location="file:${configpath}/gps/jdbc.properties" />
 
 	<!-- 配置数据源 -->
 	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
@@ -34,11 +34,11 @@
 	<!-- myBatis文件 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath*:cn/com/hypt/db/mapping/*Mapper.xml" />
+		<property name="mapperLocations" value="classpath*:cn/com/gps169/db/mapping/*Mapper.xml" />
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="cn.com.hypt.db.dao" />
+		<property name="basePackage" value="cn.com.gps169.db.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
@@ -66,7 +66,7 @@
 	</tx:advice>
 	<aop:config>
 		<aop:pointcut id="transactionPointcut"
-			expression="execution(* cn.com.tf.*.*(..))" />
+			expression="execution(* cn.com.gps169.*.*(..))" />
 		<aop:advisor pointcut-ref="transactionPointcut"
 			advice-ref="transactionAdvice" />
 	</aop:config>
