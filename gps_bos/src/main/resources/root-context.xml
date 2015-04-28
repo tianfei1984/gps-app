@@ -3,10 +3,33 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd  ">
-	
+
 	<context:annotation-config />
 	<context:component-scan base-package="cn.com.gps169" />
-	
-	<import resource="spring-mybatis.xml" />
 
+	<import resource="spring-mybatis.xml" />
+	<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/user/list" />
+		<property name="unauthorizedUrl" value="/login" />
+		<property name="filterChainDefinitions">
+			<value>
+				/ login = anon
+				/user/** = authc
+				/role/edit/* = perms[role:edit]
+				/role/ save = perms
+				[role:edit]
+				/role/ list = perms [role:view]
+				/** =
+				authc
+			</value>
+		</property>
+	</bean>
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm" />
+	</bean>
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 </beans>  

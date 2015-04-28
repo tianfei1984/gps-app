@@ -1,0 +1,345 @@
+﻿*{
+	margin:0px;
+	padding:0px;
+}
+body{
+    font-family:Arial,"微软雅黑";
+	*font-family:"微软雅黑",Arial;
+    font-size:12px; 
+	background-color:#fff;
+}
+body,html{
+	height:100%;
+}
+ul{
+    list-style: none outside none;
+}
+input,button,select,textarea{outline:none}  
+textarea{resize:none}
+a{
+	color:#1d52b6;
+	text-decoration:none;
+	cursor:pointer;
+}
+a:hover{
+	text-decoration:underline;
+}
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+.ui-btn-login{
+	background-color:#2283c5;
+	color:#ffffff;
+	font-size:16px;
+	display:block;
+	height:32px;
+	line-height:32px;
+	cursor:pointer;
+	width: 86px;
+	text-align:center;
+}
+.ui-btn-login:hover {
+	background-position:left -41px;
+}
+.login-wrap{
+	height:100%;
+	position:relative;
+}
+.login-wrap-inner{
+	position:absolute;
+	width:100%;
+	top: 50%;	
+	margin-top:-326px;
+}
+.login-logo-wrapper{
+	text-align: center;
+	margin-bottom: 60px;
+	margin-top: 10px;
+}
+.login-logo-wrapper img{
+	display: inline;
+	vertical-align: middle;
+	height: 50px;
+}
+.login-wrap input{
+	color:#666666;
+}
+.login-wrap input:focus{
+	color:#3B4047;
+}
+.login-wrap h1{
+	color: #3196d9;
+	font-size: 30px;
+	font-weight:normal;
+	margin-bottom:25px;
+	text-align:center;
+	display:inline;
+	vertical-align: middle;
+}
+.login-container{
+	background: #f6f6f6;
+	padding:50px 0px 50px;
+	min-height:250px;
+	margin-bottom:10px;
+}
+.login-content{
+	background: #f6f6f6 url('images/login-bg.jpg') no-repeat scroll left center;
+	position:absolute;
+	left:50%;
+	margin-left:-375px;
+	min-height: 262px;
+	padding-left:382px;
+}
+.login-content-main{
+	background-color: #ffffff;
+	border:1px #bfc2c4 solid;
+	padding:43px 33px 16px;
+	width:297px;
+	margin-top:10px;
+}
+.login-content-main input{
+	border:0px;
+}
+.login-wrap li{
+	margin-bottom:25px;
+}
+.login-wrap .login-input{
+	background:transparent url('images/login-input-bg.png') no-repeat scroll 0 0;
+	width:280px;
+	display:inline-block\0;
+	height:16px;
+	padding:8px 6px 8px 11px;
+}
+.login-wrap .icon{
+	background:transparent url('images/icon16.png') no-repeat scroll 0 0;
+	display:inline-block;
+	width:16px;
+	height:16px;
+	vertical-align:middle;
+}
+.login-wrap .login-name-icon{
+	background-position:0px 0px;
+}
+.login-wrap .login-password-icon{
+	background-position:-16px 0px;
+}
+.login-wrap .login-code-icon{
+	background-position:-32px 0px;
+}
+.login-input input,
+.check-code input{
+	font-size:12px;
+	font-family:Arial,'微软雅黑';
+	font-family:'微软雅黑',Arial;
+	vertical-align:middle;
+	padding:0 5px;
+	height:16px;
+	line-height:16px;
+}
+.login-input input{
+	width:254px;
+}
+.login-input img {
+	position: absolute;
+	right: 29px;
+	top: 154px;
+}
+.login-wrap .on-error{
+	background:transparent url('images/ui-field-error.png') no-repeat scroll 0 0;
+	color:#BB4B47;
+	min-height:14px;
+	line-height:14px;
+	padding-left:20px;
+	margin-top:5px;
+	position:absolute;
+}
+.login-wrap .op-tips{
+	background-color:#eff8ff;
+	border:1px #bbdafa solid;
+	color:#1781c8;
+	padding:6px 8px;
+	position:absolute;
+	box-shadow:1px 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow:1px 1px 1px rgba(0,0,0,0.1);
+	-webkit-box-shadow:1px 1px 1px rgba(0,0,0,0.1);
+	position:absolute;
+	margin-top:6px;
+	display:none;
+}
+.login-wrap .op-tips .arrow{
+	background:transparent url('images/op-tips-arrow.png') no-repeat scroll 0 0;
+	width:13px;
+	height:7px;
+	position:absolute;
+	left:50%;
+	top:-7px;
+	margin-left:-6px;
+}
+.check-code-box{
+    font-size:14px;
+    overflow:hidden;
+	float:left;
+}
+.check-code-box p{
+    margin-bottom:15px;
+}
+.check-code-box label strong{
+    line-height:24px;
+}
+.check-code{
+    background: transparent url('images/code.png') no-repeat scroll 0 0;
+	display: inline-block;
+	width: 75px;
+	vertical-align: middle;
+	margin-right: 6px;
+	padding: 8px 14px 8px 8px;
+    *margin-right:10px;
+}
+.check-code input{
+    width:44px;
+}
+.check-code-box .captcha-img{
+	border:1px #e0e0e0 solid;
+	background-color:#ffffff;
+	display:inline-block;
+	padding:4px 0px 3px;
+	vertical-align:middle;
+}
+.check-code-box .captcha-img span{
+	display:block;
+	width: 86px;
+	height: 23px;
+	overflow:hidden;	
+}
+.check-code-box .captcha-img img{
+	border:0px;
+	width:88px;
+	height:25px;
+	margin:-1px;
+}
+.check-code-box .forgot-password{
+	color:#555555;
+	display:inline-block;
+	font-size:12px;
+	margin-top:10px;
+	display:none;
+}
+.buttons-wrap{
+	float:right;
+}
+.version-tips{
+	color:#aaaaaa;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	width: 100%;
+}
+.login-wrap .footer{
+	color:#666666;
+	text-align:center;
+	letter-spacing: 1px;
+}
+/*响应式*/
+@media only screen and (max-width: 900px) {
+	.login-content-main{
+		margin-left:464px;
+	}
+	.login-content{
+		background-position:40px center;
+	}
+}
+@media only screen and (max-width: 800px) {
+	.login-content-main{
+		margin-left:444px;
+	}
+	.login-content{
+		background-position:60px center;
+	}
+}
+@media only screen and (max-width: 768px) {
+	body{
+		background:#249ad4;
+	}
+	.login-wrap h1{
+		font-size:24px;
+		color:#ffffff;
+		margin:20px 0px 0px;
+	}
+	.login-container{
+		width:100%;
+		padding:20px 0px;
+		min-height:0;
+	}
+	.login-content{
+		background:none;
+		position:static;
+		margin:0px;
+	}	
+	.login-content-main{
+		margin:0px auto;
+	}
+}
+@media only screen and (max-width: 480px) {
+	body{
+		height:auto;
+	}
+	.login-wrap h1{
+		font-size:20px;
+	}
+	.login-wrap-inner{
+		position:static;
+		margin-top:0px;
+	}
+	.login-content-main{
+		padding:25px 20px 10px;
+		width:259px;
+		margin:0 auto;
+	}
+	.login-wrap .login-input{
+		background:#ffffff;
+		border:1px #d8d8d8 solid;
+		border-radius:2px;
+		-webkit-border-radius:2px;
+		width:240px;
+	}
+	.login-input input{
+		width:214px;
+	}
+	.ui-btn-login{
+		width:67px;
+	}
+	.check-code{
+		margin-right:2px;
+	}
+}
+@media only screen and (max-height: 767px){
+	.login-wrap-inner{
+		margin-top: -270px;
+	}
+}
+@media only screen and (max-height: 639px){
+	.login-wrap-inner{
+		margin-top:30px;
+		top:auto;
+	}
+}
+@media only screen and (max-height: 480px){
+	.login-container{
+		padding:20px 0px;
+	}
+}
+@media only screen and (max-height: 320px){
+	.login-container{
+		padding:0px;
+	}
+	
+}
