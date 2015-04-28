@@ -98,11 +98,7 @@ var index = {
 						$(".check-code-box").show();
 					}
 					var responseText = data.msg;
-					if (data.code == 2) {
-						$('#' + code + "error").html("验证码不正确").show();
-					} else {
-						$('#errorInfo').html(responseText[0].message).show();
-					}
+					$('#errorInfo').html(responseText).show();
 					try {
 						if (index.loginCount == 3) {
 							self.refreshCaptchaImg("captchimg");
@@ -120,29 +116,19 @@ var index = {
 	/**
 	 *退出登录。
 	 */
-	logOut: function() {
+	logout: function() {
 		$.ajax({
-			url: '/sc-euc-ws/ws/0.1/login/logout',
+			url: '/gps_bos/ws/0.1/login/logout',
 			async: false,
-			success: function(loginUrl) {
+			dataType: "json",
+			success: function(data) {
+				alert(data);
 				if(window.sessionStorage) {
 					sessionStorage.clear();
 				}
-				if(!!window.localStorage) {
-					// 超时退出后，登陆调到退出前页面
-					var hash = window.location.hash;
-					!!hash && hash !== '' && hash != '#' && localStorage.setItem('sc-login-hash', hash);
-				}
-				if(!!loginUrl) {
-					window.location = loginUrl;
-				} else {
-					if(!!window.localStorage && !!localStorage.getItem('loginHTML')) {
-						window.location.href = localStorage.getItem('loginHTML');
-						localStorage.removeItem('loginHTML');
-					} else {
-						window.location = "login.html";
-					}
-				}
+				window.location = "/gps_bos/login.jsp";
+			},error: function(xhr) {
+				alert("退出异常！");
 			}
 		});
 	},

@@ -80,9 +80,20 @@
 
             $('#loginOut').click(function() {
                 $.messager.confirm('系统提示', '您确定要退出本次登录吗?', function(r) {
-
                     if (r) {
-                        location.href = '/gps_bos/ws/0.1/login/logout';
+                    	$.ajax({
+                			url: '/gps_bos/ws/0.1/login/logout',
+                			async: false,
+                			dataType: "json",
+                			success: function(data) {
+                				if(window.sessionStorage) {
+                					sessionStorage.clear();
+                				}
+                				window.location = "/gps_bos/login.jsp";
+                			},error: function(xhr) {
+                				alert("退出异常！");
+                			}
+                		});	
                     }
                 });
             })

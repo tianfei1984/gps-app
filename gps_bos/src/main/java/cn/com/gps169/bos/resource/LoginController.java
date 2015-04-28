@@ -105,14 +105,16 @@ public class LoginController {
     @RequestMapping("logout")
     @ResponseBody
     public String logout(HttpServletRequest request) {
+    	JSONObject result = new JSONObject();
     	try{
+    		result.put("code", 1);
     		request.getSession().invalidate();
     		SecurityUtils.getSubject().logout();
     	} catch(Exception e){
     		
     	}
     	
-    	return "";
+    	return result.toString();
     }
     
     /**
