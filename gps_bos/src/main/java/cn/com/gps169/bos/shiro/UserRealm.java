@@ -1,23 +1,36 @@
 package cn.com.gps169.bos.shiro;
 
+import java.util.List;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import cn.com.gps169.db.dao.UserMapper;
+import cn.com.gps169.db.model.User;
+import cn.com.gps169.db.model.UserExample;
 
 /**
+ * shiro验证realm
  * @author tianfei
  *
  */
 public class UserRealm extends AuthorizingRealm  {
+	
+	@Autowired
+	private UserMapper userMapper;
 
     /**
      * 授权
      */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 //        String username = (String) principals.getPrimaryPrincipal();
 //        
 //        Set<Role> roleSet =  userService.findUserByUsername(username).getRoleSet();
@@ -44,30 +57,26 @@ public class UserRealm extends AuthorizingRealm  {
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.shiro.realm.AuthenticatingRealm#doGetAuthenticationInfo(org.apache.shiro.authc.AuthenticationToken)
+    /**
+     * 身份验证
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(
-            AuthenticationToken arg0) throws AuthenticationException {
-//        String username = (String) token.getPrincipal();
-//        User user = userService.findUserByUsername(username);
-//        
-//        if(user==null){
-//          //木有找到用户
-//          throw new UnknownAccountException("没有找到该账号");
-//        }
-//        /* if(Boolean.TRUE.equals(user.getLocked())) {  
-//                  throw new LockedAccountException(); //帐号锁定  
-//              } */
-//        
-//        /**
-//         * 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以在此判断或自定义实现  
-//         */
-//        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(),getName());
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        String username = (String) token.getPrincipal();
+        UserExample example = new UserExample();
+        example.or().andAccountEqualTo(username).andStatusEqualTo(1);
+        List<User> users = userMapper.selectByExample(example);
         
+        if(users==null || users.isEmpty()){
+          //木有找到用户
+          throw new UnknownAccountException("帐号或密码错误");
+        }
+        //当前登录用户
+        User user = users.get(0);
         
-        return null;
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user.getAccount(),user.getPassword(),getName());
+        
+        return info;
     }
 
 }

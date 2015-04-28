@@ -22,7 +22,7 @@
 <div class="login-wrap">
     <div class="login-wrap-inner">
         <div class="login-logo-wrapper">
-            <img src="css/images/login_logo.png"/><h1>政企车辆管理系统</h1>
+            <h1>车辆定位系统</h1>
         </div>
         <div class="login-container">
             <div class="login-content">
@@ -66,7 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer">© 北京车网互联科技有限公司&nbsp;&nbsp;版权所有</div>
+        <div class="footer">© ****&nbsp;&nbsp;版权所有</div>
         <div class="version-tips">（访问本网站建议您使用Chrome、IE9及以上版本浏览器，至少1024*768分辨率）</div>
     </div>
 </div>
