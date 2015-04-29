@@ -1,4 +1,4 @@
-package cn.com.gps169.bos.shiro;
+package cn.com.gps169.common.shiro;
 
 import java.util.List;
 

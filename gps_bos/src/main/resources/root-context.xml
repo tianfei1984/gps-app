@@ -11,9 +11,8 @@
 	<!-- Shiro Filter -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<!-- <property name="loginUrl" value="/login" />
-		<property name="successUrl" value="/user/list" />
-		<property name="unauthorizedUrl" value="/login" /> -->
+		<!-- <property name="loginUrl" value="/login" /> <property name="successUrl" 
+			value="/user/list" /> <property name="unauthorizedUrl" value="/login" /> -->
 		<property name="filterChainDefinitions">
 			<value>
 				/ws/0.1/login/** = anon
@@ -21,20 +20,40 @@
 				/js/** = anon
 				/image/** = anon
 				/easyui/** = anon
-				<!--  /user/** = authc
-				/role/edit/* = perms[role:edit]
-				/role/ save = perms
-				[role:edit]
-				/role/ list = perms [role:view]-->
+				<!-- /user/** = authc /role/edit/* = perms[role:edit] /role/ save = perms 
+					[role:edit] /role/ list = perms [role:view] -->
 				/** = authc
 			</value>
 		</property>
 	</bean>
+	<!-- 用户授权信息Cache（本机内存实现） -->
+	<bean id="memoryConstrainedCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+	<!-- 配置 shiro session共享 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="sessionManager" ref="defaultWebSessionManager"></property>
 		<property name="realm" ref="userRealm" />
+		<property name="cacheManager" ref="redisCacheManager" />
+	</bean>
+	<!-- 自定义 -->
+	<bean id="userRealm" class="cn.com.gps169.common.shiro.UserRealm"></bean>
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+    <!-- 本地会话 -->
+	<bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="1200000" />
+		<property name="sessionDAO" ref="redisSessionDAO" />
 	</bean>
 	
-	<bean id="userRealm" class="cn.com.gps169.bos.shiro.UserRealm"></bean>
-
-	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
-</beans>  
+	<!-- sessionDao实现类 -->
+	<bean id="redisSessionDAO" class="cn.com.gps169.common.shiro.RedisSessionDAO">  
+	    <property name="redisManager" ref="redisManager" />  
+	</bean>  
+    <!-- cache实现类 -->
+    <bean id="redisCacheManager" class="cn.com.gps169.common.shiro.RedisCacheManager">
+        <property name="redisManager" ref="redisManager"></property>
+    </bean>
+    <!-- redis操作类 -->
+    <bean id="redisManager" class="cn.com.gps169.common.shiro.RedisManager" init-method="init"></bean>
+	      
+	      
+</beans>
