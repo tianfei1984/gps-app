@@ -87,7 +87,7 @@ function doSearch(type,content){
 	$('#vehicleList').empty();
 	$.ajax({
 	       type: 'post',
-	       url: '/hypt_bos/ws/0.1/monitor/allVehicles',
+	       url: '/gps_bos/ws/0.1/monitor/allVehicles',
 	       async: false,
 	       data: JSON.stringify({licensePlate:content}),
 	       dataType : 'JSON',
@@ -149,7 +149,7 @@ function startRealPosition(vehicleId) {
         // test跟踪
         var opts = {
             ajaxOpts: {
-                url: '/hypt/ws/0.1/monitor/location',
+                url: '/gps_bos/ws/0.1/monitor/location',
                 async: true,
                 dataType : 'JSON',
                 cache: false,
