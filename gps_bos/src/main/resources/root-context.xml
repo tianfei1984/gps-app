@@ -11,25 +11,30 @@
 	<!-- Shiro Filter -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/login" />
+		<!-- <property name="loginUrl" value="/login" />
 		<property name="successUrl" value="/user/list" />
-		<property name="unauthorizedUrl" value="/login" />
+		<property name="unauthorizedUrl" value="/login" /> -->
 		<property name="filterChainDefinitions">
 			<value>
-				/ login = anon
-				/user/** = authc
+				/ws/0.1/login/** = anon
+				/css/** = anon
+				/js/** = anon
+				/image/** = anon
+				/easyui/** = anon
+				<!--  /user/** = authc
 				/role/edit/* = perms[role:edit]
 				/role/ save = perms
 				[role:edit]
-				/role/ list = perms [role:view]
-				/** =
-				authc
+				/role/ list = perms [role:view]-->
+				/** = authc
 			</value>
 		</property>
 	</bean>
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="myRealm" />
+		<property name="realm" ref="userRealm" />
 	</bean>
+	
+	<bean id="userRealm" class="cn.com.gps169.bos.shiro.UserRealm"></bean>
 
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 </beans>  

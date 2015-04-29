@@ -1,13 +1,3 @@
-/**
- *
- * @author zhouminghua
- * @title ajax二次封装，将shangcheng-ws sc-euc-ws sc-loctrace-wc统一更换为shangcheng
- *
- */
-/**
-  * 获取企业代码
-  * @returns
-  */
 function getOrganizationAbbrev() {
 	var url = window.location.href;
 	if (url.indexOf("backurl=") != -1) {
@@ -17,7 +7,6 @@ function getOrganizationAbbrev() {
 	url.match(regex);
 	return RegExp.$1;
 }
-
 var cookie = {
 	set : function(name, value, expireDays){
 		var days = expireDays == null ? 30 : expireDays;// 过期天数，默认30天
@@ -71,10 +60,6 @@ var index = {
 			return;
 		}
 		index.loginCount++;
-//        if (abbrev == "") {
-//            $('#codeerror').html("请输入机构码").show();
-//            return;
-//        }
 		if (captcha == "" && index.loginCount > 3) {
 			url = "/gps_bos/ws/0.1/login/login";
 			$('#captchaerror').html("验证码不能为空").show();
@@ -95,42 +80,35 @@ var index = {
 			type: "POST",
 			data: $.toJSON(loginData),
 			success: function(data) {
-				//cookie.set('username', account, 365);
-				/*var _password = cookie.get(account);
-				var confirmFlag = false;
-				if(_password == undefined || _password != password) {
-				   confirmFlag = true;
-				}*/
-				var indexUrl = "main.jsp";
-				if(!!window.localStorage) {
-					window.localStorage.setItem('loginHTML', window.location.href);
-					// 超时退出后，登陆调到退出前页面
-					var hash = localStorage.getItem('sc-login-hash');
-					if(hash != undefined && 'string' == typeof hash && hash !== '') {
-						hash.indexOf('#') == -1 && (hash = '#' + hash);
-						indexUrl += hash;
+				if(data.code == 1){
+					var indexUrl = "main.jsp";
+					if(!!window.localStorage) {
+						window.localStorage.setItem('loginHTML', window.location.href);
+						// 超时退出后，登陆调到退出前页面
+						var hash = localStorage.getItem('sc-login-hash');
+						if(hash != undefined && 'string' == typeof hash && hash !== '') {
+							hash.indexOf('#') == -1 && (hash = '#' + hash);
+							indexUrl += hash;
+						}
+						localStorage.removeItem('sc-login-hash');
 					}
-					localStorage.removeItem('sc-login-hash');
+					window.location = indexUrl;
+				} else {
+					if (index.loginCount == 3) {
+						$(".check-code-box").show();
+					}
+					var responseText = data.msg;
+					$('#errorInfo').html(responseText).show();
+					try {
+						if (index.loginCount == 3) {
+							self.refreshCaptchaImg("captchimg");
+						}
+					} catch(e) {
+					}
 				}
-				window.location = indexUrl;
 			},
 			error: function(xhr) {
-				if (index.loginCount == 3) {
-					$(".check-code-box").show();
-				}
-				var responseText = eval(xhr.responseText);
-				var code = responseText[0].code;
-				if (responseText.length > 0 && responseText[0].code == 'captcha') {
-					$('#' + code + "error").html("验证码不正确").show();
-				} else {
-					$('#errorInfo').html(responseText[0].message).show();
-				}
-				try {
-					if (index.loginCount == 3) {
-						self.refreshCaptchaImg("captchimg");
-					}
-				} catch(e) {
-				}
+				alert("登陆异常！");
 			}
 		});
 
@@ -138,29 +116,19 @@ var index = {
 	/**
 	 *退出登录。
 	 */
-	logOut: function() {
+	logout: function() {
 		$.ajax({
-			url: '/sc-euc-ws/ws/0.1/login/logout',
+			url: '/gps_bos/ws/0.1/login/logout',
 			async: false,
-			success: function(loginUrl) {
+			dataType: "json",
+			success: function(data) {
+				alert(data);
 				if(window.sessionStorage) {
 					sessionStorage.clear();
 				}
-				if(!!window.localStorage) {
-					// 超时退出后，登陆调到退出前页面
-					var hash = window.location.hash;
-					!!hash && hash !== '' && hash != '#' && localStorage.setItem('sc-login-hash', hash);
-				}
-				if(!!loginUrl) {
-					window.location = loginUrl;
-				} else {
-					if(!!window.localStorage && !!localStorage.getItem('loginHTML')) {
-						window.location.href = localStorage.getItem('loginHTML');
-						localStorage.removeItem('loginHTML');
-					} else {
-						window.location = "login.html";
-					}
-				}
+				window.location = "/gps_bos/login.jsp";
+			},error: function(xhr) {
+				alert("退出异常！");
 			}
 		});
 	},
