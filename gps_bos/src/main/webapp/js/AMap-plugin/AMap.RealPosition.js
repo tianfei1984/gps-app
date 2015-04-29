@@ -45,6 +45,9 @@
 				if (a.autoRotation != undefined) {
 					b.set('autoRotation', a.autoRotation); !! !a.autoRotation && b.setAngle(0);
 				}
+				if(a.icon != undefined) {
+					b.setIcon(a.icon);
+				}
 			}
 			if (d._pass.length == 0) {
 				d._pass.push(b.getPosition());

@@ -86,7 +86,7 @@ public class VehicleMonitorResource {
 	@RequestMapping(value = "location",method=RequestMethod.GET)
 	public @ResponseBody String getVehicleGps(@RequestParam("vid")int vehicleId,@RequestParam("updated") long updated){
 		JSONObject result = vehicleMonitorService.queryRealLocation(vehicleId, updated);
-		
+		System.out.print(".");
 		return result.toString();
 	}
 	

@@ -45,10 +45,6 @@ body {
 			<!-- 分页控件 -->
 		</div>
 		<div data-options="region:'center'" title="地图">
-			 <div>
-		        <input type="button" value="开始跟踪" id="start">
-		        <input type="button" value="停止跟踪" id="stop">
-		    </div>
 			<div id="container"></div>
 		</div>
 	</div>
@@ -98,7 +94,9 @@ function doSearch(type,content){
 	    		   vehicleArr[item.vid] = item;
 	    		  // 构建车辆列表
 	    		  var v = '<li>'+item.licensePlate+' <div style="display: inline;"> <a href="javascript:vehLocation('+item.vid+');" alt="车辆定位" title="车辆定位"><img src="<c:url value="/images/3.png"  />" style="height:16px;weight:16px;"></a>'
-	    		  v += ' <a href="javascript:startRealPosition('+item.vid+');" alt="车辆跟踪" title="车辆跟踪"><img src="<c:url value="/images/car_03.png"  />" style="height:16px;weight:16px;"></a></div></li>';
+	    		  v += ' <a id="start'+item.vid+'" href="javascript:startRealPosition('+item.vid+');" alt="车辆跟踪" title="车辆跟踪"><img src="<c:url value="/images/car_03.png"  />" style="height:16px;weight:16px;"></a>';
+	    		  v+='<a id="stop'+item.vid+'" href="javascript:stopRealPosition();" style="display:none;">停止跟踪</a>';
+	    		  v+='</div></li>';
 	    		  $('#vehicleList').append(v);
 	              var marker = new AMap.Marker(
 	                  {
@@ -108,16 +106,21 @@ function doSearch(type,content){
 	                      icon : "http://webapi.amap.com/images/3.png"
 	                  });
 	               marker.setMap(mapObj);
-	               var info = [];                 
+	               var info = [];  
+	               info.push('<div class="easyui-tabs" style="width:60px;height:80px"><div title="位置信息" style="padding:10px">');
 	               info.push("<b> 车辆信息</b>");                 
 	               info.push("  车牌 :  "+item.licensePlate); 
-	               info.push("  车速 : "+item.velocity);
-	               info.push("  油量 : "+item.gas);
-	               info.push("  里程 : "+item.mileage);
-	               info.push("  地址 : 北京市望京阜通东大街方恒国际中心A座16层");
+	               info.push("  车速 : "+item.speed+" km");
+	               info.push("  经纬度 : "+item.longitude+":"+item.latitude);
+	               info.push("  定位时间  : "+item.sendTime);
+	               info.push("  地址 : ***");
+	               info.push('</div><div title="车辆信息" style="padding:10px">');
+	               info.push('aabbb</div></div>');
 	               var inforWindow = new AMap.InfoWindow({                 
-	                    offset:new AMap.Pixel(0,-23),                 
-	                    content:info.join("<br>")                 
+	                    offset:new AMap.Pixel(0,-23),
+	                    autoMove:true,
+	                    content:info.join(""),
+	                    isCustom:true
 	                  });  
 	              AMap.event.addListener(marker,"click",function(e){                 
 	                    inforWindow.open(mapObj,marker.getPosition());                 
@@ -145,6 +148,10 @@ function vehLocation(vid){
 function startRealPosition(vehicleId) {
 	intervalVehicleId = vehicleId;
     data = vehicleArr[vehicleId];
+    vehLocation(vehicleId);//车辆定位
+    // 显示、隐藏跟踪按钮
+    $('#start'+vehicleId).hide();
+    $('#stop'+vehicleId).show();
     // test跟踪
         // test跟踪
         var opts = {
@@ -181,6 +188,7 @@ function startRealPosition(vehicleId) {
             id: vehicleId,
             marker: markers[vehicleId],
             markerOpts: {
+            	icon : "http://code.mapabc.com/images/car_03.png",
                 //markerContent: '<div class="map-marker-licensePlate"><div class="car"></div></div>',
                 // offset: new AMap.Pixel(-35, -16),
                 autoRotation: true
@@ -188,7 +196,10 @@ function startRealPosition(vehicleId) {
             timeout:3000,
             autoPan: true,
             recover: function(vehicleMarker) {
-            	alert('recover');
+            	// 显示、隐藏跟踪按钮
+           	   $('#start'+vehicleId).show();
+          	   $('#stop'+vehicleId).hide();
+          	 	vehicleMarker.setIcon('http://webapi.amap.com/images/3.png');
             }
         };
         realPosition = new AMap.RealPosition(mapObj, opts);
