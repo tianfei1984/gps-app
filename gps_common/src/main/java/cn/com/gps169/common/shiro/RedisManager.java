@@ -1,7 +1,10 @@
 package cn.com.gps169.common.shiro;
 
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Set;
 
+import cn.com.gps169.common.tool.ConfigUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -32,6 +35,20 @@ public class RedisManager {
 	 */
 	public void init(){
 		if(jedisPool == null){
+		    try {
+                Properties properties = ConfigUtil.getConfigReader().getResourceAsProperties("redis.cfg");
+                String host = properties.getProperty("redis.hosts");
+                String str[] = host.split(":");
+                if(str.length == 2){
+                    this.host = str[0];
+                    this.port = Integer.parseInt(str[1]);
+                } else if(str.length == 3){
+                    this.host = str[0];
+                    this.port = Integer.parseInt(str[1]);
+                    this.password = str[2];
+                }
+            } catch (IOException e) {
+            }
 			if(password != null && !"".equals(password)){
 				jedisPool = new JedisPool(new JedisPoolConfig(), host, port, timeout, password);
 			}else if(timeout != 0){

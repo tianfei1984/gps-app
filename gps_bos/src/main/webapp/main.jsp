@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>GPS车辆监控系统</title>
+    <title>AnyTimeAnyWhere</title>
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/default.css" />" />
 
     <link rel="stylesheet" type="text/css" href="<c:url value="/easyui/themes/default/easyui.css" />" />
@@ -120,7 +120,7 @@
         line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
         <span style="float:right; padding-right:20px;" class="head">欢迎 <shiro:principal></shiro:principal> <a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a></span>
         <span style="padding-left:10px; font-size: 16px; ">
-        <img src="images/blocks.gif" width="20" height="20" align="absmiddle" /> GPS车辆监控系统</span>
+         AnyTimeAnyWhere
     </div>
     <!-- 底部区域 -->
     <div region="south" split="false" style="height: 30px; background: #D2E0F2; ">

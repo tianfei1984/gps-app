@@ -103,24 +103,21 @@ function doSearch(type,content){
 	                      position : new AMap.LngLat(item.longitude, item.latitude),//基点位置                 
 	                      offset : new AMap.Pixel(-14, -34),//相对于基点的偏移位置                 
 	                     // icon : "http://code.mapabc.com/images/car_03.png"
-	                      icon : "http://webapi.amap.com/images/3.png"
+	                      icon : "http://webapi.amap.com/images/3.png",
+	                      title : item.licensePlate
 	                  });
 	               marker.setMap(mapObj);
 	               var info = [];  
-	               info.push('<div class="easyui-tabs" style="width:60px;height:80px"><div title="位置信息" style="padding:10px">');
 	               info.push("<b> 车辆信息</b>");                 
 	               info.push("  车牌 :  "+item.licensePlate); 
-	               info.push("  车速 : "+item.speed+" km");
+	               info.push("  车速 : "+item.speed+" km/h");
 	               info.push("  经纬度 : "+item.longitude+":"+item.latitude);
 	               info.push("  定位时间  : "+item.sendTime);
 	               info.push("  地址 : ***");
-	               info.push('</div><div title="车辆信息" style="padding:10px">');
-	               info.push('aabbb</div></div>');
 	               var inforWindow = new AMap.InfoWindow({                 
 	                    offset:new AMap.Pixel(0,-23),
 	                    autoMove:true,
-	                    content:info.join(""),
-	                    isCustom:true
+	                    content:info.join("<br>")
 	                  });  
 	              AMap.event.addListener(marker,"click",function(e){                 
 	                    inforWindow.open(mapObj,marker.getPosition());                 
