@@ -97,8 +97,7 @@ public class RunningStatusRedisImpl implements IRunningStatusCacheManager {
 		} catch (JedisConnectionException e) {
 			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
 			shardedJedis = null;
-			String errorMsg = "查询车辆最新running_state数据时无法链接到Redis服务器！vehicleId="
-					+ vehicleId;
+			String errorMsg = "查询车辆最新running_state数据时无法链接到Redis服务器！vehicleId=" + vehicleId;
 			logger.error(errorMsg, e);
 		} finally {
 			ShardedJedisPoolFactory.returnResource(shardedJedis);

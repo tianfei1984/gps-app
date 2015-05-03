@@ -43,7 +43,7 @@ public class GenerateTripJob {
 	 * 执行轨迹生成
 	 */
 	public void execute() {
-		Date occurTime = DateUtil.addDate(DateUtil.formatDate(new Date()), -1);
+		Date occurTime = DateUtil.addDate(DateUtil.formatDate(new Date()), -0);
 		int occurDay = Integer.parseInt(DateUtil.DATEFORMATER().format(occurTime));
 		List<Integer> list = vehicleCacheManager.findAllVehicleIds();
 		for(Integer vehicleId : list){
@@ -86,7 +86,7 @@ public class GenerateTripJob {
 				tripMapper.deleteByExample(example);
 				//保存轨迹信息
 				tripMapper.insertSelective(gpsTrip);
-				tripCacheManager.deleteGpsTrip(vehicleId,occurDay);
+				//tripCacheManager.deleteGpsTrip(vehicleId,occurDay);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}

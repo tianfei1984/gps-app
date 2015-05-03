@@ -31,7 +31,7 @@ var _menus = {
 				"menuid": "21",
 				"menuname": "车辆列表",
 				"icon": "icon-nav",
-				"url": "demo.html"
+				"url": "./views/mnt/vehicle.jsp"
 			},
 			{
 				"menuid": "22",

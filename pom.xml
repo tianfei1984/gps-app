@@ -148,5 +148,6 @@
 		<module>gps_common</module>
 		<module>gps_bos</module>
 		<module>gps_server</module>
+		<module>mybatis-page-plugin</module>
 	</modules>
 </project>

@@ -33,10 +33,11 @@ public class JT0100Handler extends IJt808Handler {
 		} else {
 			// 查询终端关系是否已经绑定
 			TerminalVehicle tv = tmnlVehicleCacheManager.findCurBindRelationsByTerminalId(tmnl.getTerminalId());
-			if(tv != null){
-				logger.info("终端注册失败，终端已经注册："+tv.getTerminalId());
+			if(tv == null){
+				logger.info("终端注册失败，终端、车辆没有注册："+tv.getTerminalId());
 				optResult = JT808Constants.TERMINAL_REGISTER_VEHICLE_HAD_EXIST;
-			} else {
+			} 
+//			else {
 				//这里不进行终端绑定处理，业务逻辑放在业务系统处理
 //				JT0100 body = (JT0100) msg.getBody();
 //				//查询 车辆信息
@@ -63,7 +64,7 @@ public class JT0100Handler extends IJt808Handler {
 //					logger.info("终端注册失败，车辆不存在："+body.getLicensePlate());
 //					optResult = JT808Constants.TERMINAL_REGISTER_VEHICLE_NOT_EXIST;
 //				}
-			}
+//			}
 		}
 		
 		// 消息回复

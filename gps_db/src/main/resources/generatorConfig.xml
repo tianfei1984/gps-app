@@ -3,44 +3,40 @@
   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-<!-- Êý¾Ý¿âÇý¶¯-->
+<!-- æ•°æ®åº“é©±åŠ¨-->
 	<classPathEntry	location="mysql-connector-java-5.1.13.jar"/>
 	<context id="DB2Tables"	targetRuntime="MyBatis3">
 		<commentGenerator>
 			<property name="suppressDate" value="true"/>
-			<!-- ÊÇ·ñÈ¥³ý×Ô¶¯Éú³ÉµÄ×¢ÊÍ true£ºÊÇ £º false:·ñ -->
+			<!-- æ˜¯å¦åŽ»é™¤è‡ªåŠ¨ç”Ÿæˆçš„æ³¨é‡Š trueï¼šæ˜¯ ï¼š false:å¦ -->
 			<property name="suppressAllComments" value="true"/>
 		</commentGenerator>
-		<!--Êý¾Ý¿âÁ´½ÓURL£¬ÓÃ»§Ãû¡¢ÃÜÂë -->
-		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost/gps" userId="root" password="root">
+		<!--æ•°æ®åº“é“¾æŽ¥URLï¼Œç”¨æˆ·åã€å¯†ç  -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/hypt" userId="root" password="root">
 		</jdbcConnection>
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false"/>
 		</javaTypeResolver>
-		<!-- Éú³ÉÄ£ÐÍµÄ°üÃûºÍÎ»ÖÃ-->
-		<javaModelGenerator targetPackage="cn.com.gps169.db.model" targetProject="gps_db">
+		<!-- ç”Ÿæˆæ¨¡åž‹çš„åŒ…åå’Œä½ç½®-->
+		<javaModelGenerator targetPackage="cn.com.hypt.db.model" targetProject="hypt_db">
 			<property name="enableSubPackages" value="true"/>
 			<property name="trimStrings" value="true"/>
 		</javaModelGenerator>
-		<!-- Éú³ÉÓ³ÉäÎÄ¼þµÄ°üÃûºÍÎ»ÖÃ-->
-		<sqlMapGenerator targetPackage="cn.com.gps169.db.mapping" targetProject="gps_db">
+		<!-- ç”Ÿæˆæ˜ å°„æ–‡ä»¶çš„åŒ…åå’Œä½ç½®-->
+		<sqlMapGenerator targetPackage="cn.com.hypt.db.mapping" targetProject="hypt_db">
 			<property name="enableSubPackages" value="true"/>
 		</sqlMapGenerator>
-		<!-- Éú³ÉDAOµÄ°üÃûºÍÎ»ÖÃ-->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="cn.com.gps169.db.dao" targetProject="gps_db">
+		<!-- ç”ŸæˆDAOçš„åŒ…åå’Œä½ç½®-->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="cn.com.hypt.db.dao" targetProject="hypt_db">
 			<property name="enableSubPackages" value="true"/>
 		</javaClientGenerator>
-		<!-- ÒªÉú³ÉÄÄÐ©±í-->
-		<table tableName="gps_daily_stat" domainObjectName="DailyStatDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_menu" domainObjectName="MenuDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_refuel" domainObjectName="RefuelDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_role" domainObjectName="RoleDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_role_menu" domainObjectName="RoleMenuDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_terminal" domainObjectName="TerminalDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_terminal_vehicles" domainObjectName="TerminalTehicleDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_trip" domainObjectName="TripDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_user" domainObjectName="UserDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_user_role" domainObjectName="UserRoleDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_vehicle" domainObjectName="VehicleDto" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>	
+		<!-- è¦ç”Ÿæˆå“ªäº›è¡¨-->
+		<table tableName="jt_vehicle" domainObjectName="Vehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="jt_terminal" domainObjectName="Terminal" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="jt_terminal_vehicles" domainObjectName="TerminalVehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="jt_refuel" domainObjectName="Refuel" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="jt_daily_stat" domainObjectName="DailyStat" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="jt_monthly_stat" domainObjectName="MonthlyStat" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="jt_trip" domainObjectName="Trip" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
 	</context>
 </generatorConfiguration>

@@ -100,7 +100,7 @@ body {
 		$(document).ready(function(){
 			$.ajax({
 			       type: 'get',
-			       url: '/hypt_bos/ws/0.1/monitor/track',
+			       url: '/gps_bos/ws/0.1/monitor/track',
 			       async: false,
 			       dataType : 'JSON',
 			       cache: false,
@@ -125,7 +125,7 @@ body {
 		function completeEventHandler(tripId) {
 			$.ajax({
 		        type: 'get',
-		        url: '/hypt_bos/ws/0.1/monitor/trip?tripId='+tripId,
+		        url: '/gps_bos/ws/0.1/monitor/trip?tripId='+tripId,
 		        async: false,
 		        dataType : 'JSON',
 		        cache: false,

@@ -75,6 +75,7 @@ public class GenerateDailyStatJob {
 		//查询车辆运行状态集合
 		RunningState stat = runningStatusCacheManager.findLatestRunningState(vehicleId, occurTime);
 		if(stat == null){
+			logger.info("没有车辆运行状态数据");
 			return;
 		}
 		BigDecimal fuelIncount = new BigDecimal(0);
