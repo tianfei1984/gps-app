@@ -16,7 +16,7 @@
 	<!-- 数据表 -->
 	<table id="dataGrid" class="easyui-datagrid" title="车辆列表" style="width:100%;height:450px;margin-left: 4px;" 
 			data-options="rownumbers:true,singleSelect:true,url:'/gps_bos/ws/0.1/vehicle/page',method:'get',toolbar:'#tb',footer:'#ft',pagination:true,
-				pageSize:10">
+				pageSize:10" >
 		<thead>
 			<tr>
 				<th data-options="field:'vid',width:80">车辆ID</th>
@@ -38,17 +38,30 @@
 			<div data-options="name:'2'">停用</div>
 		</div>
 		<br>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加车辆</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改车辆</a>
+		<a href="javascript:addVehicle();" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加车辆</a>
+		<a href="javascript:update();" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改车辆</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除车辆</a>
 	</div>
 	<script type="text/javascript">
+	function update(){
+		var data = $('#dataGrid').datagrid('getSelected');
+		if(data){
+			alert(data.licesePlate);
+		}
+	}
 	//r搜索
 	function doSearch(value,name){
 		$('#dataGrid').datagrid("load",{
-			status:value,
-			licensePlate:name
+			licensePlate:value,
+			status:name
 		});
+	}
+	//添加车辆
+	function addVehicle(){
+		$('#veh').window("open");
+	}
+	function closeForm(){
+		$('#veh').window('close');
 	}
 	$.fn.datebox.defaults.formatter = function(date){
 		var y = date.getFullYear();
@@ -57,5 +70,45 @@
 		return y+'-'+m+'-'+d;
 	}
 	</script>
+	<div id="veh" class="easyui-window"" title="增加车辆" closed="true" modal="true" 
+		shadow="true" collapsible="false" minimizable="false"  maximizable="false"  style="width:500px;height:300px; background: #fafafa;"">
+		<div class="easyui-layout" fit="true" align="center">
+	    <form id="ff" method="post">
+	    	<table cellpadding="5">
+	    		<tr>
+	    			<td>Name:</td>
+	    			<td><input class="easyui-textbox" type="text" name="name" data-options="required:true"></input></td>
+	    			<td>Name:</td>
+	    			<td><input class="easyui-textbox" type="text" name="name" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>Email:</td>
+	    			<td><input class="easyui-textbox" type="text" name="email" data-options="required:true,validType:'email'"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>Subject:</td>
+	    			<td><input class="easyui-textbox" type="text" name="subject" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>Message:</td>
+	    			<td><input class="easyui-textbox" name="message" data-options="multiline:true" style="height:60px"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>车辆型号:</td>
+	    			<td>
+	    				<select class="easyui-combobox" name="language">
+	    				<option value="vi">Vietnamese</option>
+	    				</select>
+	    			</td>
+	    		</tr>
+	    	</table>
+	    </form>
+	    <div style="text-align:center;padding:5px">
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">保存</a>
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeForm()">取消</a>
+	    </div>
+	    </div>
+	</div>
+	
 </body>
 </html>
