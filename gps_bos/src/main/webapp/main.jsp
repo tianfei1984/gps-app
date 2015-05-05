@@ -34,8 +34,6 @@
             $('#w').window('close');
         }
 
-        
-
         //修改密码
         function serverLogin() {
             var $newpass = $('#txtNewPass');

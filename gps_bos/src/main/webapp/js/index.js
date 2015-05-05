@@ -26,18 +26,18 @@ var _menus = {
 		{
 			"menuid": "8",
 			"icon": "icon-sys",
-			"menuname": "车辆管理",
+			"menuname": "运营管理",
 			"menus": [{
 				"menuid": "21",
-				"menuname": "车辆列表",
+				"menuname": "车辆信息管理",
 				"icon": "icon-nav",
 				"url": "./views/mnt/vehicle.jsp"
 			},
 			{
 				"menuid": "22",
-				"menuname": "终端列表",
+				"menuname": "终端设备管理",
 				"icon": "icon-nav",
-				"url": "demo1.html"
+				"url": "./views/mnt/terminal.jsp"
 			}]
 		},
 		{

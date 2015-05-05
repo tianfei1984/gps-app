@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.gps169.db.sql.CustomSqlMapper">
+
+	<!-- 查询款绑定的终端设备 -->
+	<select id="listUnbindTmnl" resultType="java.util.HashMap">
+		SELECT terminal_id as terminalId,imei FROM gps_terminal WHERE  terminal_id NOT IN (SELECT terminal_id FROM gps_terminal_vehicles) AND working_status =1 
+	</select>
+	
+</mapper>

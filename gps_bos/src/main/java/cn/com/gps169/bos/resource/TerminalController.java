@@ -1,10 +1,7 @@
 package cn.com.gps169.bos.resource;
 
 import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import cn.com.gps169.bos.service.IVehicleService;
-import cn.com.gps169.db.model.Vehicle;
+import cn.com.gps169.bos.service.ITerminalService;
+import cn.com.gps169.db.model.Terminal;
 
 /**
  * 终端控制器
@@ -23,40 +19,50 @@ import cn.com.gps169.db.model.Vehicle;
  *
  */
 @Controller
-@RequestMapping("vehicle")
-public class VehicleController {
+@RequestMapping("terminal")
+public class TerminalController {
 	
 	@Autowired
-	private IVehicleService vehicleService;
+	private ITerminalService terminalService;
 	
 	/**
-	 * 分页查询车辆信息
+	 * 分页查询终端信息
 	 * @return
 	 */
 	@RequestMapping("page")
 	@ResponseBody
-	public String vehiclePage(HttpServletRequest request){
+	public String page(HttpServletRequest request){
 		int pageNum = Integer.parseInt(request.getParameter("page"));
 		int pageRows = Integer.parseInt(request.getParameter("rows"));
 		String sStatus = request.getParameter("status");
 		int status = StringUtils.isNotBlank(sStatus) ? Integer.parseInt(sStatus) : 0;
 		String licensePlate = request.getParameter("licensePlate");
-		JSONObject result = vehicleService.queryVehicle((pageNum-1)*pageRows, pageRows,status,licensePlate);
+		JSONObject result = terminalService.queryTerminal((pageNum-1)*pageRows, pageRows,status,licensePlate);
 		
 		return result.toString();
 	}
 	
 	/**
-	 * 查询车辆信息
+	 * 查询未绑定的车辆信息
+	 * @return
+	 */
+	@RequestMapping("unbindTmnl")
+	@ResponseBody
+	public String getUnbindTmnl(){
+	    return null;
+	}
+	
+	/**
+	 * 查询终端信息
 	 * @param vid
 	 * @return
 	 */
 	@RequestMapping("get")
 	@ResponseBody
-	public String getVehicle(@RequestParam("vid") int vid){
-	    Vehicle vehicle = vehicleService.queryVehicleById(vid);
-	    if(vehicle != null){
-	        return JSONObject.fromObject(vehicle).toString();
+	public String getVehicle(@RequestParam("tid") int tid){
+	    Terminal terminal = terminalService.queryTerminalById(tid);
+	    if(terminal != null){
+	        return JSONObject.fromObject(terminal).toString();
 	    }
 	    return null;
 	}
@@ -68,35 +74,19 @@ public class VehicleController {
 	 */
 	@RequestMapping(value="add",method=RequestMethod.POST,consumes="application/json")
 	@ResponseBody
-	public String addVehicle(@RequestBody Vehicle vehicle){
+	public String addVehicle(@RequestBody Terminal terminal){
 	    JSONObject result = new JSONObject();
 	    result.put("flag", "fail");
-	    if(StringUtils.isBlank(vehicle.getLicensePlate())){
-	        result.put("msg", "车牌号不能为空");
+	    if(StringUtils.isBlank(terminal.getImei())){
+	        result.put("msg", "终端识别码不能为空");
 	        return result.toString();
 	    }
-	    if(StringUtils.isBlank(vehicle.getEin())){
-	        result.put("msg", "车辆发动机号不能为空");
-	        return result.toString();
-	    }
-	    String opt = vehicleService.addOrUpdateVehicle(vehicle); 
+	    String opt = terminalService.addOrUpdateVehicle(terminal); 
 	    if(StringUtils.isBlank(opt)){
 	        result.put("flag", "success");
 	    } else {
 	        result.put("msg", opt);
 	    }
-	    
-	    return result.toString();
-	}
-	
-	/**
-	 * 查询未绑定的车辆信息
-	 * @return
-	 */
-	@RequestMapping("unbindVeh")
-	@ResponseBody
-	public String getUnbindVeh(){
-	    JSONArray result = vehicleService.queryUnbindVeh();
 	    
 	    return result.toString();
 	}

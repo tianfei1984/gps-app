@@ -1,4 +1,4 @@
-package cn.com.gps169.bos.resource;
+package cn.com.gps169.bos.tools;
 
 import java.awt.Color;
 import java.awt.Font;
