@@ -41,6 +41,7 @@
 		&nbsp;&nbsp;&nbsp;
 		<a href="javascript:openForm();" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加终端设备</a>
 		<a href="javascript:update();" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改终端设备</a>
+		<a href="javascript:unbind();" class="easyui-linkbutton" iconCls="icon-remove" plain="true">解除车辆、终端绑定</a>
 	</div>
 	<!-- 增加终端页面 -->
     <div id="tmnl" class="easyui-window"" title="增加终端设备" closed="true" modal="true" 
@@ -77,6 +78,7 @@
                         </select>
                     </td>
                 </tr>
+                <input name="terminalId" id="terminalId" type="hidden">
             </table>
         </form>
         <div style="text-align:center;padding:20px">
@@ -93,6 +95,20 @@
 			openForm();
 		}
 	}
+	//解除车辆、终端关系
+	function unbind(){
+		var data = $('#dataGrid').datagrid('getSelected');
+		if(data){
+			if(data.vid == 0){
+				$.messager.alert('解除绑定','终端没有绑定车辆','warning');
+				return;
+			}
+			$.get('/gps_bos/ws/0.1/terminal/unbind',{vid:data.vid,tid:data.tid},function(result){
+				$.messager.alert('解除绑定',"终端、车辆解除绑定成功",'info');
+				$('#dataGrid').datagrid("reload");
+			});
+		}
+	}
 	//r搜索
 	function doSearch(value,name){
 		$('#dataGrid').datagrid("load",{
@@ -106,6 +122,7 @@
 		$('#tmnl').window("open");
 	}
 	function closeForm(){
+		$('#dataGrid').datagrid("reload");
 		$('#tmnl').window('close');
 	}
 	function submitForm(){
@@ -115,6 +132,7 @@
 		$.each(data,function(){
 			d[this.name] = this.value;
 		});
+		alert(JSON.stringify(d));
 		$.ajax({
 	           type: 'post',
 	           url: '/gps_bos/ws/0.1/terminal/add',

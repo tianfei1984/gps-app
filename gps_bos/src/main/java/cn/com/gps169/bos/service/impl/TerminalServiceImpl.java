@@ -14,6 +14,7 @@ import cn.com.gps169.bos.model.TerminalVo;
 import cn.com.gps169.bos.service.ITerminalService;
 import cn.com.gps169.common.cache.ITerminalCacheManager;
 import cn.com.gps169.common.cache.ITmnlVehiCacheManager;
+import cn.com.gps169.common.cache.IVehicleCacheManager;
 import cn.com.gps169.db.dao.TerminalMapper;
 import cn.com.gps169.db.dao.TerminalVehicleMapper;
 import cn.com.gps169.db.dao.VehicleMapper;
@@ -44,6 +45,9 @@ public class TerminalServiceImpl implements ITerminalService {
     
     @Autowired
     private VehicleMapper vehicleMapper;
+    
+    @Autowired
+    private IVehicleCacheManager vehicleCacheManager;
 
     /* (non-Javadoc)
      * @see cn.com.gps169.bos.service.ITermialService#queryTerminal(int, int, int, java.lang.String)
@@ -64,15 +68,22 @@ public class TerminalServiceImpl implements ITerminalService {
         List<Terminal> list = terminalMapper.selectByExample(example);
         JSONObject json = null;
         JSONArray result = new JSONArray();
-        for(Terminal v : list){
-            json = new JSONObject();
-            json.put("tid", v.getTerminalId());
-            json.put("imei", v.getImei());
-            json.put("imsi", v.getImsi());
-            json.put("bindStatus", v.getBindTime() == null ? "未绑定": "已绑定");
-            json.put("type", v.getTerminalStyle());
-            json.put("status", v.getWorkingStatus() == 1 ? "正常":"停用");
-            json.put("created", v.getBindTime());
+        for(Terminal t : list){
+        	json = new JSONObject();
+        	int vid = 0;
+        	TerminalVehicle tv = tmnlVehCacheManager.findCurBindRelationsByTerminalId(t.getTerminalId());
+        	if(tv != null && tv.getVehicleId() != null){
+        		Vehicle v = vehicleCacheManager.findVehicleById(tv.getVehicleId());
+        		vid = v.getVehicleId();
+        	}
+        	json.put("vid", vid);
+            json.put("tid", t.getTerminalId());
+            json.put("imei", t.getImei());
+            json.put("imsi", t.getImsi());
+            json.put("bindStatus", t.getBindTime() == null ? "未绑定": "已绑定");
+            json.put("type", t.getTerminalStyle());
+            json.put("status", t.getWorkingStatus() == 1 ? "正常":"停用");
+            json.put("created", t.getBindTime());
             result.add(json);
         }
         JSONObject vehicles = new JSONObject();
@@ -171,5 +182,25 @@ public class TerminalServiceImpl implements ITerminalService {
         
         return null;
     }
+
+	@Override
+	public String unbind(int vid, int tid) {
+		//删除车辆
+		TerminalVehicleExample e = new TerminalVehicleExample();
+		e.or().andTerminalIdEqualTo(tid).andVehicleIdEqualTo(vid);
+		terminalVehicleMapper.deleteByExample(e);
+		//更新车辆、终端信息
+		Vehicle v = vehicleMapper.selectByPrimaryKey(vid);
+		v.setTerminalId(null);
+		v.setUpdated(new Date());
+		vehicleMapper.updateByPrimaryKey(v);
+		Terminal t = terminalMapper.selectByPrimaryKey(tid);
+		t.setBindTime(null);
+		terminalMapper.updateByPrimaryKey(t);
+		//删除缓存
+		tmnlVehCacheManager.removeBindRelation(vid, tid);
+		
+		return null;
+	}
 
 }

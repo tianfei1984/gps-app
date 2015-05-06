@@ -35,4 +35,11 @@ public interface ITmnlVehiCacheManager {
 	 * @return
 	 */
 	TerminalVehicle findCurBindRelationsByTerminalId(int terminalId);
+	
+	/**
+	 * 删除车辆绑定关系
+	 * @param vehicleId
+	 */
+	void removeBindRelation(int vehicleId,int terminalId);
+	
 }

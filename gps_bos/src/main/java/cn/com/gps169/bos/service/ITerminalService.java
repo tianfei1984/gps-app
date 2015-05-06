@@ -37,5 +37,13 @@ public interface ITerminalService {
 	 * @return
 	 */
 	JSONArray getUnbindTmnl();
+	
+	/**
+	 * 终端、车辆解绑
+	 * @param vid
+	 * @param tid
+	 * @return
+	 */
+	String unbind(int vid,int tid);
 
 }

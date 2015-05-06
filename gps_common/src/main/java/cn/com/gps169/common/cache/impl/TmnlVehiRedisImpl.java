@@ -1,6 +1,8 @@
 package cn.com.gps169.common.cache.impl;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.json.JSONObject;
 
@@ -15,6 +17,7 @@ import cn.com.gps169.common.tool.ShardedJedisPoolFactory;
 import cn.com.gps169.db.dao.TerminalVehicleMapper;
 import cn.com.gps169.db.model.TerminalVehicle;
 import cn.com.gps169.db.model.TerminalVehicleExample;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ShardedJedis;
 
 @Component
@@ -159,12 +162,31 @@ public class TmnlVehiRedisImpl implements ITmnlVehiCacheManager {
 			shardedJedis.set(TVR_VID_TID_CACHE_PREFIX + r.getVehicleId(),
 					String.valueOf(r.getTerminalId()));
 		} catch (Exception e) {
+			LOGGER.error("增加车辆、终端绑定关系失败，错误信息："+e.getMessage());
 			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
 		} finally {
 			ShardedJedisPoolFactory.returnResource(shardedJedis);
 		}
 
 		return r;
+	}
+
+	@Override
+	public void removeBindRelation(int vehicleId,int terminalId) {
+		ShardedJedis shardedJedis = null;
+		try {
+			shardedJedis = ShardedJedisPoolFactory.getResource();
+			Collection<Jedis> list = shardedJedis.getAllShards();
+			for(Jedis j : list){
+				j.del(TVR_TID_RELATION_CACHE_PREFIX + terminalId);
+				j.del(TVR_VID_TID_CACHE_PREFIX + vehicleId);
+			}
+		} catch (Exception e) {
+			LOGGER.error("删除车辆、终端绑定关系失败，异常信息："+e.getMessage());
+			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
+		} finally {
+			ShardedJedisPoolFactory.returnResource(shardedJedis);
+		}
 	}
 
 }

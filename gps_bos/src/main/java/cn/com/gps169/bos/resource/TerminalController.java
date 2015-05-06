@@ -95,4 +95,16 @@ public class TerminalController {
 	    return result.toString();
 	}
 	
+	/**
+	 * 终端、车辆解绑 
+	 * @return
+	 */
+	@RequestMapping("unbind")
+	@ResponseBody
+	public String unbind(@RequestParam("vid")int vehicleId,@RequestParam("tid")int tid){
+		terminalService.unbind(vehicleId, tid);
+		
+		return "sucess";
+	}
+	
 }
