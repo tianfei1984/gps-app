@@ -42,6 +42,49 @@
 		<a href="javascript:openForm();" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加终端设备</a>
 		<a href="javascript:update();" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改终端设备</a>
 	</div>
+	<!-- 增加终端页面 -->
+    <div id="tmnl" class="easyui-window"" title="增加终端设备" closed="true" modal="true" 
+        shadow="true" collapsible="false" minimizable="false"  maximizable="false"  style="width:550px;height:300px; background: #fafafa;"">
+        <div class="easyui-layout" fit="true" align="center">
+        <form id="ff" method="post" >
+            <table cellpadding="5">
+                <tr>
+                    <td>终端识别码:</td>
+                    <td><input class="easyui-textbox" type="text" name="imei" data-options="required:true,missingMessage:'终端实别码不能为空'"></input></td>
+                    <td>终端手机号:</td>
+                    <td><input class="easyui-textbox" type="text" name="imsi" data-options="required:true,missingMessage:'终端手机号不能为空'"></input></td>
+                </tr>
+                <tr>
+                    <td>终端类型:</td>
+                    <td>
+                        <select class="easyui-combobox" name="terminalStyle">
+                        <option value="1">808终端</option>
+                        </select>
+                    </td>
+                    <td>终端状态:</td>
+                    <td>
+                        <select class="easyui-combobox" name="workingStatus">
+                        <option value="1">正常</option>
+                        <option value="2">停用</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>绑定车辆:</td>
+                    <td>
+                        <select class="easyui-combobox" name="vid" id="vehSelect" data-options="url:'/gps_bos/ws/0.1/vehicle/unbindVeh',method:'get',valueField:'vid', textField:'licensePlate', panelHeight:'auto'">
+                            <option value="0">请选择绑定车辆</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div style="text-align:center;padding:20px">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">保存</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeForm()">取消</a>
+        </div>
+        </div>
+    </div>
 	<script type="text/javascript">
 	function update(){
 		var data = $('#dataGrid').datagrid('getSelected');
@@ -59,25 +102,8 @@
 	}
 	//添加车辆
 	function openForm(){
-		$.ajax({
-            type: 'get',
-            url: '/gps_bos/ws/0.1/vehicle/unbindVeh',
-            async: false,
-            dataType : 'JSON',
-            cache: false,
-            contentType: 'application/json;charset=utf-8',
-            success: function(result) {
-                $.each(result,function(i,item){
-                	var o = "<option value='"+item.vid+"' >"+item.licensePlate+"</option>";
-                	$('#vehSelect').append(o);
-                	alert(o);
-                });
-				$('#tmnl').window("open");
-            },
-            error:function(e){
-                $.messager.alert('增加终端',"系统错误，请与管理员联系",'error');
-            }
-     });
+		$('#ff').form("clear");
+		$('#tmnl').window("open");
 	}
 	function closeForm(){
 		$('#tmnl').window('close');
@@ -111,48 +137,6 @@
 		});
 	}
 	</script>
-	<div id="tmnl" class="easyui-window"" title="增加终端设备" closed="true" modal="true" 
-		shadow="true" collapsible="false" minimizable="false"  maximizable="false"  style="width:550px;height:300px; background: #fafafa;"">
-		<div class="easyui-layout" fit="true" align="center">
-	    <form id="ff" method="post" >
-	    	<table cellpadding="5">
-	    		<tr>
-	    			<td>终端识别码:</td>
-	    			<td><input class="easyui-textbox" type="text" name="imei" data-options="required:true,missingMessage:'终端实别码不能为空'"></input></td>
-	    			<td>终端手机号:</td>
-	    			<td><input class="easyui-textbox" type="text" name="imsi" data-options="required:true,missingMessage:'终端手机号不能为空'"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>终端类型:</td>
-                    <td>
-                        <select class="easyui-combobox" name="terminalStyle">
-                        <option value="1">808终端</option>
-                        </select>
-                    </td>
-                    <td>终端状态:</td>
-                    <td>
-                        <select class="easyui-combobox" name="workingStatus">
-                        <option value="1">正常</option>
-                        <option value="2">停用</option>
-                        </select>
-                    </td>
-	    		</tr>
-	    		<tr>
-                    <td>绑定车辆:</td>
-                    <td>
-                        <select class="easyui-combobox" name="terminalStyle" id="vehSelect">
-                        <option value="0" selected="selected">请选择绑定车辆</option>
-                        </select>
-                    </td>
-                </tr>
-	    	</table>
-	    </form>
-	    <div style="text-align:center;padding:20px">
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">保存</a>
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeForm()">取消</a>
-	    </div>
-	    </div>
-	</div>
 	
 	<script type="text/javascript" src="<c:url value="/easyui/jquery.easyui.min.js" />"></script>
 </body>

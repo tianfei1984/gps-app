@@ -1,5 +1,6 @@
 package cn.com.gps169.bos.service;
 
+import cn.com.gps169.bos.model.TerminalVo;
 import cn.com.gps169.db.model.Terminal;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -22,7 +23,7 @@ public interface ITerminalService {
 	 * 增加终端
 	 * @param vehicle
 	 */
-	String addOrUpdateVehicle(Terminal terminal);
+	String addOrUpdateVehicle(TerminalVo terminal);
 	
 	/**
 	 * 根据车辆id查询车辆信息

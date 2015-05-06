@@ -42,16 +42,38 @@
 		</javaClientGenerator>
 
 		<!-- 要生成哪些表-->
-		<table tableName="gps_daily_stat" domainObjectName="DailyStat" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_menu" domainObjectName="Menu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_refuel" domainObjectName="Refuel" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_role" domainObjectName="Role" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_role_menu" domainObjectName="RoleMenu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_terminal" domainObjectName="Terminal" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_terminal_vehicles" domainObjectName="TerminalVehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_trip" domainObjectName="Trip" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_user" domainObjectName="User" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_user_role" domainObjectName="UserRole" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-		<table tableName="gps_vehicle" domainObjectName="Vehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>	
+		<table tableName="gps_daily_stat" domainObjectName="DailyStat" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="daily_stat_id" sqlStatement="SELECT LAST_INSERT_ID()"/>  
+		</table>
+		<table tableName="gps_menu" domainObjectName="Menu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="menu_id" sqlStatement="SELECT LAST_INSERT_ID()"/>  
+		</table>
+		<table tableName="gps_refuel" domainObjectName="Refuel" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="refuel_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
+		<table tableName="gps_role" domainObjectName="Role" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="role_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
+		<table tableName="gps_role_menu" domainObjectName="RoleMenu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="role_menu_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
+		<table tableName="gps_terminal" domainObjectName="Terminal" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="terminal_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
+		<table tableName="gps_terminal_vehicles" domainObjectName="TerminalVehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="terminal_vehicles_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
+		<table tableName="gps_trip" domainObjectName="Trip" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="trip_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
+		<table tableName="gps_user" domainObjectName="User" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="user_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
+		<table tableName="gps_user_role" domainObjectName="UserRole" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="user_role_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
+		<table tableName="gps_vehicle" domainObjectName="Vehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="vehicle_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>	
 	</context>
 </generatorConfiguration>

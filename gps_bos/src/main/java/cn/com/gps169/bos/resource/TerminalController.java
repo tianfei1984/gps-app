@@ -1,7 +1,9 @@
 package cn.com.gps169.bos.resource;
 
 import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.com.gps169.bos.model.TerminalVo;
 import cn.com.gps169.bos.service.ITerminalService;
 import cn.com.gps169.db.model.Terminal;
 
@@ -74,7 +78,7 @@ public class TerminalController {
 	 */
 	@RequestMapping(value="add",method=RequestMethod.POST,consumes="application/json")
 	@ResponseBody
-	public String addVehicle(@RequestBody Terminal terminal){
+	public String addVehicle(@RequestBody TerminalVo terminal){
 	    JSONObject result = new JSONObject();
 	    result.put("flag", "fail");
 	    if(StringUtils.isBlank(terminal.getImei())){

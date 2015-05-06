@@ -4,20 +4,25 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import cn.com.gps169.bos.model.TerminalVo;
 import cn.com.gps169.bos.service.ITerminalService;
 import cn.com.gps169.common.cache.ITerminalCacheManager;
+import cn.com.gps169.common.cache.ITmnlVehiCacheManager;
 import cn.com.gps169.db.dao.TerminalMapper;
+import cn.com.gps169.db.dao.TerminalVehicleMapper;
+import cn.com.gps169.db.dao.VehicleMapper;
 import cn.com.gps169.db.model.Terminal;
 import cn.com.gps169.db.model.TerminalExample;
 import cn.com.gps169.db.model.TerminalExample.Criteria;
+import cn.com.gps169.db.model.TerminalVehicle;
+import cn.com.gps169.db.model.TerminalVehicleExample;
+import cn.com.gps169.db.model.Vehicle;
 
 @Service
 public class TerminalServiceImpl implements ITerminalService {
@@ -29,7 +34,16 @@ public class TerminalServiceImpl implements ITerminalService {
     private ITerminalCacheManager terminalCacheManager;
     
     @Autowired
+    private TerminalVehicleMapper terminalVehicleMapper;
+    
+    @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
+    
+    @Autowired
+    private ITmnlVehiCacheManager tmnlVehCacheManager; 
+    
+    @Autowired
+    private VehicleMapper vehicleMapper;
 
     /* (non-Javadoc)
      * @see cn.com.gps169.bos.service.ITermialService#queryTerminal(int, int, int, java.lang.String)
@@ -72,7 +86,7 @@ public class TerminalServiceImpl implements ITerminalService {
      * @see cn.com.gps169.bos.service.ITermialService#addOrUpdateVehicle(cn.com.gps169.db.model.Terminal)
      */
     @Override
-    public String addOrUpdateVehicle(Terminal terminal) {
+    public String addOrUpdateVehicle(TerminalVo terminal) {
         Integer tid = terminal.getTerminalId();
         //判断终端有限性
         TerminalExample example = new TerminalExample();
@@ -98,12 +112,43 @@ public class TerminalServiceImpl implements ITerminalService {
         if(tid == null){
             terminal.setHandleTime(new Date());
             terminalMapper.insert(terminal);
+            tid = terminal.getTerminalId();
         } else {
             terminal.setHandleTime(new Date());
             terminalMapper.updateByPrimaryKeySelective(terminal);
         }
         // 更新缓存信息
         terminalCacheManager.addOrUpdateTerminal(terminal);
+        // 判断是否与车辆关联
+        Integer vid = terminal.getVid();
+        if(vid != null && StringUtils.isNumeric(vid+"") && vid != 0){
+            //判断车辆是否已经关联
+            TerminalVehicleExample e = new TerminalVehicleExample();
+            e.or().andVehicleIdEqualTo(vid).andTerminalIdEqualTo(tid);
+            int i = terminalVehicleMapper.countByExample(e);
+            if(i <= 0){
+                e.clear();
+                e.or().andVehicleIdEqualTo(vid);
+                i = terminalVehicleMapper.countByExample(e);
+                if(i > 0){
+                    return "车辆已经绑定";
+                }
+                //增加车辆、终端关系 
+                TerminalVehicle tv = new TerminalVehicle();
+                tv.setTerminalId(tid);
+                tv.setVehicleId(vid);
+                terminalVehicleMapper.insert(tv);
+                tmnlVehCacheManager.addBindRelation(tv);
+                //更新
+                terminal.setBindTime(new Date());
+                terminalMapper.updateByPrimaryKey(terminal);
+                Vehicle v = vehicleMapper.selectByPrimaryKey(vid);
+                v.setTerminalId(tid);
+                v.setUpdated(new Date());
+                vehicleMapper.updateByPrimaryKey(v);
+            }
+        }
+        
         return null;
     }
 
@@ -112,7 +157,9 @@ public class TerminalServiceImpl implements ITerminalService {
      */
     @Override
     public Terminal queryTerminalById(int tid) {
-        return terminalMapper.selectByPrimaryKey(tid);
+        Terminal tmnl = terminalMapper.selectByPrimaryKey(tid);
+        
+        return tmnl;
     }
 
     /* (non-Javadoc)
