@@ -149,5 +149,6 @@
 		<module>gps_bos</module>
 		<module>gps_server</module>
 		<module>mybatis-page-plugin</module>
+		<module>gps808</module>
 	</modules>
 </project>
