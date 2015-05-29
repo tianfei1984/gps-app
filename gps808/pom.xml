@@ -7,11 +7,26 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>gps808</artifactId>
+	<packaging>war</packaging>
 	<dependencies>
+		<!-- db -->
+		<dependency>
+			<groupId>cn.com.gps169</groupId>
+			<artifactId>gps_db</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- common -->
+		<dependency>
+			<groupId>cn.com.gps169</groupId>
+			<artifactId>gps_common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- netty -->
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
 			<version>5.0.0.Alpha2</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
