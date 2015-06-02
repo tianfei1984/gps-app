@@ -10,10 +10,10 @@ import cn.com.gps169.jt808.protocol.MessageBody;
 import cn.com.gps169.jt808.protocol.MessageHead;
 import static cn.com.gps169.jt808.tool.JT808Constants.*;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.util.ReferenceCountUtil;
 
 /**
  * @author tianfei
@@ -23,22 +23,19 @@ public class DecodeMessageHandler extends ByteToMessageDecoder {
     
     private transient static Logger logger = LoggerFactory.getLogger(DecodeMessageHandler.class); 
     
-    private byte DELIMITER = 0x7e;
-    private int count = 0;
 
     /* (non-Javadoc)
      * @see io.netty.handler.codec.ByteToMessageDecoder#decode(io.netty.channel.ChannelHandlerContext, io.netty.buffer.ByteBuf, java.util.List)
      */
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        System.out.println(ByteBufUtil.hexDump(in));
         //解决TCP粘包、拆包
         if(in.readableBytes() <= 0){
             return;
         }
         in.markReaderIndex();
         int length = 0;
-        if(in.readByte() != DELIMITER || (length = in.bytesBefore(DELIMITER)) == -1){
+        if(in.readByte() != PROTOCOL_0x7E || (length = in.bytesBefore(PROTOCOL_0x7E)) == -1){
             in.resetReaderIndex();
             return;
         }
@@ -47,14 +44,18 @@ public class DecodeMessageHandler extends ByteToMessageDecoder {
         ByteBuf message = Unpooled.buffer(length+2);
         in.readBytes(message);
         out.add(parseMessage(message));
+        in.discardReadBytes();
     }
     
     /**
      * 解析消息体
      * @param buf
      * @return
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
+     * @throws ClassNotFoundException 
      */
-    private Message parseMessage(ByteBuf buf){
+    private Message parseMessage(ByteBuf buf) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
         Message msg = new Message();
         //消息还原
         byte[] b = buf.array();
@@ -87,6 +88,9 @@ public class DecodeMessageHandler extends ByteToMessageDecoder {
             logger.error("消息解析失败，校验码不正确");
             return null;
         }
+        //解析消息体
+        msg.setHead(head);
+        parseBody(msg);
         
         return msg;
     }
@@ -125,9 +129,17 @@ public class DecodeMessageHandler extends ByteToMessageDecoder {
     /**
      * 解析消息体
      * @return
+     * @throws ClassNotFoundException 
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
      */
-    private MessageBody parseBody(){
-        return null;
+    private void parseBody(Message msg) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+        Class<MessageBody> bodyClass = (Class<MessageBody>) Class.forName("cn.com.gps169.jt808.protocol.impl.JT"+msg.getMessageID());
+        MessageBody body = bodyClass.newInstance();
+        if(msg.getHead().getBody() != null && msg.getHead().getBody().hasRemaining()){
+            body.decodeBody(msg.getHead().getBody());
+            msg.setBody(body);
+        }
     }
 
 }

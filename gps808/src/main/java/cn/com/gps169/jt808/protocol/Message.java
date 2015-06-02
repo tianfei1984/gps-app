@@ -1,6 +1,7 @@
 package cn.com.gps169.jt808.protocol;
 
 import java.nio.ByteBuffer;
+import cn.com.gps169.jt808.tool.Tools;
 
 /**
  * JT808消息体
@@ -25,6 +26,9 @@ public class Message {
 		this.head = new MessageHead(buff);
 	}
 	
+	public String getMessageID(){
+        return Tools.ToHexString4Short((short) head.getMessageId());
+    }
 	
 	/**
 	 * 查询 SIM卡号
