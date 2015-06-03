@@ -44,8 +44,14 @@ body {
 			</ul>
 			<!-- 分页控件 -->
 		</div>
-		<div data-options="region:'center'" title="地图">
-			<div id="container"></div>
+		<div data-options="region:'center'" style="width:100%;height:100%; ">
+			<div class="easyui-layout" data-options="fit:true,border:false" >
+	            <div data-options="region:'center',border:false" title="车辆监控">
+			       <div id="container"></div>
+	            </div>
+	            <div data-options="region:'south',border:false" title="车辆操作" style="width:200px;height: 200px;">
+	            sub center1</div>
+	        </div>
 		</div>
 	</div>
 </body>
