@@ -1,19 +1,17 @@
 package cn.com.gps169.jt808.handler;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import cn.com.gps169.jt808.protocol.Message;
 import cn.com.gps169.jt808.protocol.MessageBody;
 import cn.com.gps169.jt808.protocol.MessageHead;
 import static cn.com.gps169.jt808.tool.JT808Constants.*;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import io.netty.util.ReferenceCountUtil;
 
 /**
  * @author tianfei
@@ -40,11 +38,11 @@ public class DecodeMessageHandler extends ByteToMessageDecoder {
             return;
         }
         in.resetReaderIndex();
+        logger.info("accept msg >> " + ByteBufUtil.hexDump(in));
         // 解析消息
         ByteBuf message = Unpooled.buffer(length+2);
         in.readBytes(message);
         out.add(parseMessage(message));
-        in.discardReadBytes();
     }
     
     /**

@@ -2,7 +2,6 @@ package cn.com.gps169.jt808.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import cn.com.gps169.jt808.protocol.Message;
 import cn.com.gps169.jt808.tool.JT808Constants;
 import io.netty.buffer.ByteBuf;
@@ -10,7 +9,6 @@ import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import io.netty.util.ReferenceCountUtil;
 
 /**
  * 编码处理器
@@ -28,6 +26,7 @@ public class EncodeMessageHandler extends MessageToByteEncoder<Message> {
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out)
             throws Exception {
         ByteBuf temp = Unpooled.buffer(100);
+        ByteBuf resp = Unpooled.buffer(100);
         //组装消息体
         temp.writeBytes(msg.getHead().getByteBuffer());
         temp.writeBytes(msg.getBody().encodeBody());
@@ -40,24 +39,22 @@ public class EncodeMessageHandler extends MessageToByteEncoder<Message> {
         temp.writeByte(validCode);
         temp.resetReaderIndex();
         //编译
-        out.writeByte(JT808Constants.PROTOCOL_0x7E);
+        resp.writeByte(JT808Constants.PROTOCOL_0x7E);
         while(temp.isReadable()){
             byte  b = temp.readByte();
             if(b == JT808Constants.PROTOCOL_0x7E){
-                out.writeByte(JT808Constants.PROTOCOL_0x7D);
-                out.writeByte(JT808Constants.PROTOCOL_0x02);
+                resp.writeByte(JT808Constants.PROTOCOL_0x7D);
+                resp.writeByte(JT808Constants.PROTOCOL_0x02);
             } else if(b == JT808Constants.PROTOCOL_0x7D){
-                out.writeByte(JT808Constants.PROTOCOL_0x7D);
-                out.writeByte(JT808Constants.PROTOCOL_0x01);
+                resp.writeByte(JT808Constants.PROTOCOL_0x7D);
+                resp.writeByte(JT808Constants.PROTOCOL_0x01);
             } else {
-                out.writeByte(b);
+                resp.writeByte(b);
             }
         }
-        out.writeByte(JT808Constants.PROTOCOL_0x7E);
-        logger.info(ByteBufUtil.hexDump(out));
-        ReferenceCountUtil.retain(out);
-        out.discardReadBytes();
-        ctx.writeAndFlush(out);
+        resp.writeByte(JT808Constants.PROTOCOL_0x7E);
+        logger.info("send msg >> " + ByteBufUtil.hexDump(resp));
+        ctx.writeAndFlush(resp);
     }
 
 }
