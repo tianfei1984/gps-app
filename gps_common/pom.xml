@@ -129,5 +129,12 @@
 			<artifactId>shiro-spring</artifactId>
 			<version>1.2.1</version>
 		</dependency>
+		
+		<!-- kafka -->
+		<dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.9.2</artifactId>
+            <version>0.8.1</version>
+        </dependency>
 	</dependencies>
 </project>
