@@ -68,6 +68,7 @@ public class KafkaConsumer {
         return consumer;
     }
 
+    
     protected static class FetchMessageThread extends Thread {
         private ConsumerConnector consumer;
         private String topic;
