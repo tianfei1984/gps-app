@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import cn.com.gps169.common.cache.ITerminalCacheManager;
-import cn.com.gps169.common.cache.ITmnlVehiCacheManager;
 import cn.com.gps169.common.cache.IVehicleCacheManager;
 
 /**
@@ -43,12 +41,8 @@ public class ServerLister implements ServletContextListener {
 	 */
 	private void initCache(){
 		//初始化终端缓存数据
-		ITerminalCacheManager terminalCacheManager = (ITerminalCacheManager) app.getBean("terminalRedisImpl");
-		terminalCacheManager.initCache();
 		IVehicleCacheManager vehicleCacheManager = (IVehicleCacheManager) app.getBean("vehicleRedisImpl");
 		vehicleCacheManager.initCache();
-		ITmnlVehiCacheManager tmnlVehiCacheManager = (ITmnlVehiCacheManager) app.getBean("tmnlVehiRedisImpl");
-		tmnlVehiCacheManager.initCache();
 	}
 	
 	/**

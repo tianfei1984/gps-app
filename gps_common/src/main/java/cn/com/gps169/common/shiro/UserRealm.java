@@ -64,7 +64,7 @@ public class UserRealm extends AuthorizingRealm  {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = (String) token.getPrincipal();
         UserExample example = new UserExample();
-        example.or().andAccountEqualTo(username).andStatusEqualTo(1);
+        example.or().andAccountEqualTo(username).andStatusEqualTo((byte) 0);
         List<User> users = userMapper.selectByExample(example);
         
         if(users==null || users.isEmpty()){

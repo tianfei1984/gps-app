@@ -1,8 +1,8 @@
 package cn.com.gps169.common.cache;
 
 import java.util.List;
+import cn.com.gps169.common.model.VehicleVo;
 
-import cn.com.gps169.db.model.Vehicle;
 
 /**
  * 车辆缓存
@@ -17,25 +17,32 @@ public interface IVehicleCacheManager {
 	void initCache();
 	
 	/**
+	 * 根据SIM卡号查询车辆信息
+	 * @param simnNo
+	 * @return
+	 */
+	VehicleVo findVehicleBySim(String simnNo);
+	
+	/**
 	 * 根据车辆ID查询车辆信息
 	 * @param vehicleId
 	 * @return
 	 */
-	Vehicle findVehicleById(int vehicleId);
+	VehicleVo findVehicleById(int vehicleId);
 	
 	/**
 	 * 增加车辆缓存
 	 * @param v
 	 * @return
 	 */
-	Vehicle addVehicle(Vehicle v);
+	VehicleVo addVehicle(VehicleVo v);
 	
 	/**
 	 *根据车牌查询车辆信息
 	 * @param licensePlate
 	 * @return
 	 */
-	Vehicle findVehicleByPlate(String licensePlate);
+	VehicleVo findVehicleByPlate(String licensePlate);
 	
 	/**
 	 * 查询所有车辆信息

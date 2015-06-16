@@ -3,8 +3,8 @@ package cn.com.gps169.jt808.proc.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import cn.com.gps169.db.model.Terminal;
-import cn.com.gps169.db.model.TerminalVehicle;
+
+import cn.com.gps169.common.model.VehicleVo;
 import cn.com.gps169.jt808.proc.Proc;
 import cn.com.gps169.jt808.protocol.Message;
 import cn.com.gps169.jt808.protocol.MessageHead;
@@ -25,17 +25,17 @@ public class P0100 extends Proc {
 		optResult = JT808Constants.TERMINAL_REGISTER_SUCCESS;
 		logger.info("终端注册操作！"+msg.getBody().toString());
 		String simNo = msg.getSimNo();
-		Terminal tmnl = terminalCacheManager.getTerminalBySimNo(simNo);
-		if(tmnl == null){
+		VehicleVo vehicle = vehicleCacheManager.findVehicleBySim(simNo);
+		if(vehicle == null){
 			logger.info("终端注册失败，终端不存在 ："+ simNo);
 			optResult = JT808Constants.TERMINAL_REGISTER_TERMINAL_NOT_EXIST;
 		} else {
 			// 查询终端关系是否已经绑定
-			TerminalVehicle tv = tmnlVehicleCacheManager.findCurBindRelationsByTerminalId(tmnl.getTerminalId());
-			if(tv == null){
-				logger.info("终端注册失败，终端、车辆没有注册："+tv.getTerminalId());
-				optResult = JT808Constants.TERMINAL_REGISTER_VEHICLE_HAD_EXIST;
-			} 
+//			TerminalVehicle tv = tmnlVehicleCacheManager.findCurBindRelationsByTerminalId(tmnl.getTerminalId());
+//			if(tv == null){
+//				logger.info("终端注册失败，终端、车辆没有注册："+tv.getTerminalId());
+//				optResult = JT808Constants.TERMINAL_REGISTER_VEHICLE_HAD_EXIST;
+//			} 
 //			else {
 				//这里不进行终端绑定处理，业务逻辑放在业务系统处理
 //				JT0100 body = (JT0100) msg.getBody();

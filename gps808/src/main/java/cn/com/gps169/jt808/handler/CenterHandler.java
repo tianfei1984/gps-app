@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import cn.com.gps169.jt808.proc.Proc;
 import cn.com.gps169.jt808.protocol.EMsgAck;
 import cn.com.gps169.jt808.protocol.Message;
@@ -34,7 +32,14 @@ public class CenterHandler extends ChannelHandlerAdapter {
      * 平台通用响应列表
      */
     private List<String> platformCommReponse = new ArrayList<String>();
-
+    
+    private static int nThreads = Runtime.getRuntime().availableProcessors() * 1;//处理的线程数
+    private static int MAX_QUEUQ_SIZE = 100;
+    
+    // 线程池
+//    private ExecutorService executorService = new ThreadPoolExecutor(nThreads, nThreads, 1, TimeUnit.HOURS, new ArrayBlockingQueue<Runnable>(MAX_QUEUQ_SIZE),
+//            new MyThreadFactory("sc-eventalert-acceptor"),new ThreadPoolExecutor.CallerRunsPolicy());
+    
     /* (non-Javadoc)
      * @see io.netty.channel.ChannelHandlerAdapter#channelRead(io.netty.channel.ChannelHandlerContext, java.lang.Object)
      */
