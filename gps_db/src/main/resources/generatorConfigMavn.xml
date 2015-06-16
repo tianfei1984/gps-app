@@ -23,7 +23,7 @@
 			<property name="suppressDate" value="true" />
 		</commentGenerator>
 
-		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost/gps?useUnicode=true&amp;characterEncoding=UTF-8" userId="root" password="root" />
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://123.57.145.30/gps_app?useUnicode=true&amp;characterEncoding=UTF-8" userId="root" password="9ce9023d80" />
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />											<!-- 类型解析器 -->
 		</javaTypeResolver>
@@ -42,38 +42,32 @@
 		</javaClientGenerator>
 
 		<!-- 要生成哪些表-->
-		<table tableName="gps_daily_stat" domainObjectName="DailyStat" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-		  <generatedKey column="daily_stat_id" sqlStatement="SELECT LAST_INSERT_ID()"/>  
-		</table>
-		<table tableName="gps_menu" domainObjectName="Menu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		<table tableName="menu" domainObjectName="Menu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
 		  <generatedKey column="menu_id" sqlStatement="SELECT LAST_INSERT_ID()"/>  
 		</table>
-		<table tableName="gps_refuel" domainObjectName="Refuel" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-		  <generatedKey column="refuel_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		<table tableName="role" domainObjectName="Role" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="role_id" sqlStatement="SELECT LAST_INSERT_ID()"/>  
 		</table>
-		<table tableName="gps_role" domainObjectName="Role" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-		  <generatedKey column="role_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		<table tableName="role_menu" domainObjectName="RoleMenu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()"/>
 		</table>
-		<table tableName="gps_role_menu" domainObjectName="RoleMenu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-		  <generatedKey column="role_menu_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		<table tableName="suggestion" domainObjectName="Suggestion" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()"/>
 		</table>
-		<table tableName="gps_terminal" domainObjectName="Terminal" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-		  <generatedKey column="terminal_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
-		</table>
-		<table tableName="gps_terminal_vehicles" domainObjectName="TerminalVehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-		  <generatedKey column="terminal_vehicles_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
-		</table>
-		<table tableName="gps_trip" domainObjectName="Trip" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-		  <generatedKey column="trip_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
-		</table>
-		<table tableName="gps_user" domainObjectName="User" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		<table tableName="user" domainObjectName="User" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
 		  <generatedKey column="user_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
 		</table>
-		<table tableName="gps_user_role" domainObjectName="UserRole" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-		  <generatedKey column="user_role_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		<table tableName="user_vehicle" domainObjectName="UserVehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()"/>
 		</table>
-		<table tableName="gps_vehicle" domainObjectName="Vehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		<table tableName="vehicle" domainObjectName="Vehicle" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
 		  <generatedKey column="vehicle_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
-		</table>	
+		</table>
+		<table tableName="vehicle_illegal" domainObjectName="VehicleIllegal" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="illegal_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
+		<table tableName="vehicle_task" domainObjectName="VehicleTask" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+		  <generatedKey column="task_id" sqlStatement="SELECT LAST_INSERT_ID()"/>
+		</table>
 	</context>
 </generatorConfiguration>
