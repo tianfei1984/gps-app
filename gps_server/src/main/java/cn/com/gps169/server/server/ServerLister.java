@@ -10,7 +10,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cn.com.gps169.common.cache.ITerminalCacheManager;
 import cn.com.gps169.common.cache.ITmnlVehiCacheManager;
-import cn.com.gps169.common.cache.IVehicleCacheManager;
+import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.server.handler.DownDataHandler;
 import cn.com.gps169.server.handler.GpsHandler;
 import cn.com.gps169.server.handler.RunningStatusHandler;
@@ -67,7 +67,7 @@ public class ServerLister implements ServletContextListener {
 		//初始化终端缓存数据
 		ITerminalCacheManager terminalCacheManager = (ITerminalCacheManager) app.getBean("terminalRedisImpl");
 		terminalCacheManager.initCache();
-		IVehicleCacheManager vehicleCacheManager = (IVehicleCacheManager) app.getBean("vehicleRedisImpl");
+		ICacheManager vehicleCacheManager = (ICacheManager) app.getBean("vehicleRedisImpl");
 		vehicleCacheManager.initCache();
 		ITmnlVehiCacheManager tmnlVehiCacheManager = (ITmnlVehiCacheManager) app.getBean("tmnlVehiRedisImpl");
 		tmnlVehiCacheManager.initCache();

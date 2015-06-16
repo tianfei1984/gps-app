@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -55,20 +55,26 @@ body {
 	margin-right: 10px;
 }
 </style>
-	<link rel="stylesheet" type="text/css" href="<c:url value="/easyui/themes/default/easyui.css" />">
-	<link rel="stylesheet" type="text/css" href="<c:url value="/easyui/themes/icon.css" /> ">
-	<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=d05cbaac9f35812b93de8ab502c65e35"></script>
-	<script type="text/javascript" src="<c:url value="/js/jquery-2.1.3.min.js" /> "></script>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/easyui/themes/default/easyui.css" />">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/easyui/themes/icon.css" /> ">
+<script type="text/javascript"
+	src="http://webapi.amap.com/maps?v=1.3&key=d05cbaac9f35812b93de8ab502c65e35"></script>
+<script type="text/javascript"
+	src="<c:url value="/js/jquery-2.1.3.min.js" /> "></script>
 </head>
 <body>
-	<div style="margin:2px 0;"></div>
-	<div class="easyui-layout" style="width:100%;height:100%; margin-left: 4px;">
-		<div id="p" data-options="region:'west'" title="车辆列表" style="width:20%;padding:10px">
-		
-		<div style="margin:2px;"></div>
-		<!-- 行程列表 -->
-		<div class="easyui-accordion" style="width:200px;" id="track">
-		</div>
+	<div style="margin: 2px 0;"></div>
+	<div class="easyui-layout"
+		style="width: 100%; height: 100%; margin-left: 4px;">
+		<div id="p" data-options="region:'west'" title="车辆列表"
+			style="width: 20%; padding: 10px">
+
+			<div style="margin: 2px;"></div>
+			<!-- 行程列表 -->
+			<div class="easyui-accordion" style="width: 200px;" id="track">
+			</div>
 		</div>
 		<div data-options="region:'center'" title="地图">
 			<div id="mapContainer"></div>
@@ -79,7 +85,7 @@ body {
 		</div>
 	</div>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 		//初始化地图对象，加载地图
 		var map = new AMap.Map("mapContainer", {
 			resizeEnable : true,
@@ -175,7 +181,8 @@ body {
 			marker.stopMove();
 		}
 	</script>
-<script type="text/javascript" src="<c:url value="/easyui/jquery.easyui.min.js" />"></script>
+	<script type="text/javascript"
+		src="<c:url value="/easyui/jquery.easyui.min.js" />"></script>
 </body>
 </html>
 

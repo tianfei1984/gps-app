@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import cn.com.gps169.bos.service.IVehicleService;
-import cn.com.gps169.common.cache.IVehicleCacheManager;
+import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.db.dao.VehicleMapper;
 import cn.com.gps169.db.model.Vehicle;
 import cn.com.gps169.db.model.VehicleExample;
@@ -23,7 +23,7 @@ public class VehicleServiceImpl implements IVehicleService {
 	private VehicleMapper vehicleMapper;
 	
 	@Autowired
-	private IVehicleCacheManager vehicleCacheManager;
+	private ICacheManager vehicleCacheManager;
 
 	@Override
 	public JSONObject queryVehicle(int pageNum, int pageRows,int status,String licensePlate) {

@@ -2,7 +2,7 @@ package cn.com.gps169.jt808.proc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import cn.com.gps169.common.cache.IVehicleCacheManager;
+import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.jt808.protocol.EMsgAck;
 import cn.com.gps169.jt808.protocol.Message;
 
@@ -20,7 +20,7 @@ public abstract class  Proc {
 	protected byte optResult = EMsgAck.SUCESS.value();
 	
 	@Autowired
-	protected IVehicleCacheManager vehicleCacheManager;
+	protected ICacheManager vehicleCacheManager;
 	
 	
 	/**

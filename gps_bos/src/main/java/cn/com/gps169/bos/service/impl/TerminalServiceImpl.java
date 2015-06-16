@@ -14,7 +14,7 @@ import cn.com.gps169.bos.model.TerminalVo;
 import cn.com.gps169.bos.service.ITerminalService;
 import cn.com.gps169.common.cache.ITerminalCacheManager;
 import cn.com.gps169.common.cache.ITmnlVehiCacheManager;
-import cn.com.gps169.common.cache.IVehicleCacheManager;
+import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.db.dao.TerminalMapper;
 import cn.com.gps169.db.dao.TerminalVehicleMapper;
 import cn.com.gps169.db.dao.VehicleMapper;
@@ -47,7 +47,7 @@ public class TerminalServiceImpl implements ITerminalService {
     private VehicleMapper vehicleMapper;
     
     @Autowired
-    private IVehicleCacheManager vehicleCacheManager;
+    private ICacheManager vehicleCacheManager;
 
     /* (non-Javadoc)
      * @see cn.com.gps169.bos.service.ITermialService#queryTerminal(int, int, int, java.lang.String)

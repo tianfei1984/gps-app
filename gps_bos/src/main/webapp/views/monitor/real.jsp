@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -19,39 +20,49 @@ body {
 	height: 100%
 }
 </style>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>仓库管理系统</title>
-	<link rel="stylesheet" type="text/css" href="<c:url value="/easyui/themes/default/easyui.css" />">
-	<link rel="stylesheet" type="text/css" href="<c:url value="/easyui/themes/icon.css" /> ">
-	<script type="text/javascript" src="<c:url value="/js/jquery-2.1.3.min.js" /> "></script>
-	<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=d05cbaac9f35812b93de8ab502c65e35"></script>
-	<script type="text/javascript" src="<c:url value="/js/AMap-plugin/AMap.RealPosition.js" />"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>仓库管理系统</title>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/easyui/themes/default/easyui.css" />">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/easyui/themes/icon.css" /> ">
+<script type="text/javascript"
+	src="<c:url value="/js/jquery-2.1.3.min.js" /> "></script>
+<script type="text/javascript"
+	src="http://webapi.amap.com/maps?v=1.3&key=d05cbaac9f35812b93de8ab502c65e35"></script>
+<script type="text/javascript"
+	src="<c:url value="/js/AMap-plugin/AMap.RealPosition.js" />"></script>
 </head>
 <body>
-	<div style="margin:2px 0;"></div>
-	<div class="easyui-layout" style="width:100%;height:100%; margin-left: 4px;">
-		<div id="p" data-options="region:'west'" title="车辆列表" style="width:20%;padding:10px">
+	<div style="margin: 2px 0;"></div>
+	<div class="easyui-layout"
+		style="width: 100%; height: 100%; margin-left: 4px;">
+		<div id="p" data-options="region:'west'" title="车辆列表"
+			style="width: 20%; padding: 10px">
 			<!-- 搜索条件 -->
-			<input class="easyui-searchbox" data-options="prompt:'请输入车牌',menu:'#mm',searcher:doSearch" style="width:200px"></input>
-		    <div id="mm">
-		        <div data-options="name:'0',iconCls:'icon-ok'">全部</div>
-		        <div data-options="name:'1'">在线</div>
-		        <div data-options="name:'2'">离线</div>
-		    </div>
-		    <!-- 车辆列表 -->
-		    <div style="margin:4px 0;"></div>
-			<ul class="easyui-datalist" lines="true" style="width:200px;" id="vehicleList">
+			<input class="easyui-searchbox"
+				data-options="prompt:'请输入车牌',menu:'#mm',searcher:doSearch"
+				style="width: 200px"></input>
+			<div id="mm">
+				<div data-options="name:'0',iconCls:'icon-ok'">全部</div>
+				<div data-options="name:'1'">在线</div>
+				<div data-options="name:'2'">离线</div>
+			</div>
+			<!-- 车辆列表 -->
+			<div style="margin: 4px 0;"></div>
+			<ul class="easyui-datalist" lines="true" style="width: 200px;"
+				id="vehicleList">
 			</ul>
 			<!-- 分页控件 -->
 		</div>
-		<div data-options="region:'center'" style="width:100%;height:100%; ">
-			<div class="easyui-layout" data-options="fit:true,border:false" >
-	            <div data-options="region:'center',border:false" title="车辆监控">
-			       <div id="container"></div>
-	            </div>
-	            <div data-options="region:'south',border:false" title="车辆操作" style="width:200px;height: 200px;">
-	            sub center1</div>
-	        </div>
+		<div data-options="region:'center'" style="width: 100%; height: 100%;">
+			<div class="easyui-layout" data-options="fit:true,border:false">
+				<div data-options="region:'center',border:false" title="车辆监控">
+					<div id="container"></div>
+				</div>
+				<div data-options="region:'south',border:false" title="车辆操作"
+					style="width: 200px; height: 200px;">sub center1</div>
+			</div>
 		</div>
 	</div>
 </body>
@@ -220,5 +231,6 @@ function stopRealPosition() {
 };
 
 </script>
-<script type="text/javascript" src="<c:url value="/easyui/jquery.easyui.min.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/easyui/jquery.easyui.min.js" />"></script>
 </html>

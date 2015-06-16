@@ -16,7 +16,7 @@ import cn.com.gps169.common.cache.IRunningStatusCacheManager;
 import cn.com.gps169.common.cache.ITerminalCacheManager;
 import cn.com.gps169.common.cache.ITmnlVehiCacheManager;
 import cn.com.gps169.common.cache.ITripCacheManager;
-import cn.com.gps169.common.cache.IVehicleCacheManager;
+import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.common.model.RunningState;
 import cn.com.gps169.common.tool.DateUtil;
 import cn.com.gps169.db.dao.TripMapper;
@@ -43,7 +43,7 @@ public class VehicleMonitorResource {
 	private ITerminalCacheManager terminalCacheManager;
 	
 	@Autowired
-	private IVehicleCacheManager vehicleCacheManager;
+	private ICacheManager vehicleCacheManager;
 	
 	@Autowired
 	private ITmnlVehiCacheManager tmnlVehCacheManager;

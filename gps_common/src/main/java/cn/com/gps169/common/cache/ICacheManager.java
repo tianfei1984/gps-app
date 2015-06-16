@@ -9,7 +9,7 @@ import cn.com.gps169.common.model.VehicleVo;
  * @author tianfei
  *
  */
-public interface IVehicleCacheManager {
+public interface ICacheManager {
 	
 	/**
 	 * 初始化缓存
@@ -45,9 +45,24 @@ public interface IVehicleCacheManager {
 	VehicleVo findVehicleByPlate(String licensePlate);
 	
 	/**
-	 * 查询所有车辆信息
+	 * 根据用户ID查询用户下车辆集合
+	 * @param userId
 	 * @return
 	 */
-	List<Integer> findAllVehicleIds();
+	List<VehicleVo> findVehiclesByUserId(int userId);
+	
+	/**
+	 * 更新车辆静态数据缓存信息
+	 * @param vehicleVo
+	 * @return
+	 */
+	VehicleVo updateVehicle(VehicleVo vehicleVo);
+	
+	/**
+	 * 更新车辆动态数据缓存信息
+	 * @param vehicleVo
+	 * @return
+	 */
+	VehicleVo updateVehicleLocation(VehicleVo vehicleVo);
 
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import cn.com.gps169.common.cache.IDataAcquireCacheManager;
 import cn.com.gps169.common.cache.ITerminalCacheManager;
 import cn.com.gps169.common.cache.ITmnlVehiCacheManager;
-import cn.com.gps169.common.cache.IVehicleCacheManager;
+import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.server.protocol.EMsgAck;
 import cn.com.gps169.server.protocol.Jt808Message;
 
@@ -30,7 +30,7 @@ public abstract class  IJt808Handler {
 	protected ITmnlVehiCacheManager tmnlVehicleCacheManager;
 	
 	@Autowired
-	protected IVehicleCacheManager vehicleCacheManager;
+	protected ICacheManager vehicleCacheManager;
 	
 	@Autowired
 	protected IDataAcquireCacheManager dataAcquireCacheManager;

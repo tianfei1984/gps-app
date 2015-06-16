@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import cn.com.gps169.bos.service.IVehicleMonitorService;
 import cn.com.gps169.common.cache.IDataAcquireCacheManager;
-import cn.com.gps169.common.cache.IVehicleCacheManager;
+import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.db.dao.TripMapper;
 import cn.com.gps169.db.dao.VehicleMapper;
 import cn.com.gps169.db.model.Trip;
@@ -30,7 +30,7 @@ public class VehicleMonitorServiceImpl implements IVehicleMonitorService {
 	
 	//车辆缓存
 	@Autowired
-	private IVehicleCacheManager vehicleCacheManager;
+	private ICacheManager vehicleCacheManager;
 	
 	@Autowired
 	private IDataAcquireCacheManager dataAcquireCacheManager;

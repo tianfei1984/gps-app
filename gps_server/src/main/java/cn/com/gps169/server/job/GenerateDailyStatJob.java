@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.com.gps169.common.cache.IRunningStatusCacheManager;
-import cn.com.gps169.common.cache.IVehicleCacheManager;
+import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.common.model.RunningState;
 import cn.com.gps169.common.tool.DateUtil;
 import cn.com.gps169.db.dao.DailyStatMapper;
@@ -36,7 +36,7 @@ public class GenerateDailyStatJob {
 			.getLogger(GenerateDailyStatJob.class);
 
 	@Autowired
-	private IVehicleCacheManager vehicleCacheManager;
+	private ICacheManager vehicleCacheManager;
 
 	@Autowired
 	private IRunningStatusCacheManager runningStatusCacheManager;

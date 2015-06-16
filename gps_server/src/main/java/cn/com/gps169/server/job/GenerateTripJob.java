@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.com.gps169.common.cache.ITripCacheManager;
-import cn.com.gps169.common.cache.IVehicleCacheManager;
+import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.common.tool.DateUtil;
 import cn.com.gps169.db.dao.TripMapper;
 import cn.com.gps169.db.model.Trip;
@@ -37,7 +37,7 @@ public class GenerateTripJob {
 	private TripMapper tripMapper;
 	
 	@Autowired
-	private IVehicleCacheManager vehicleCacheManager;
+	private ICacheManager vehicleCacheManager;
 
 	/**
 	 * 执行轨迹生成

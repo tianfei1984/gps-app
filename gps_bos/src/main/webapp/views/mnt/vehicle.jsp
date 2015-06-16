@@ -1,22 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>仓库管理系统</title>
-	<link rel="stylesheet" type="text/css" href="<c:url value="/easyui/themes/default/easyui.css" />">
-	<link rel="stylesheet" type="text/css" href="<c:url value="/easyui/themes/icon.css" /> ">
-	<script type="text/javascript" src="<c:url value="/js/jquery-2.1.3.min.js" /> "></script>
-	<script type="text/javascript" src="<c:url value="/easyui/jquery.easyui.min.js" />"></script>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/easyui/themes/default/easyui.css" />">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/easyui/themes/icon.css" /> ">
+<script type="text/javascript"
+	src="<c:url value="/js/jquery-2.1.3.min.js" /> "></script>
+<script type="text/javascript"
+	src="<c:url value="/easyui/jquery.easyui.min.js" />"></script>
 </head>
 <body>
-	<div style="margin:2px 0;"></div>
+	<div style="margin: 2px 0;"></div>
 	<!-- 数据表 -->
-	<table id="dataGrid" class="easyui-datagrid" title="车辆列表" style="width:100%;height:450px;margin-left: 4px;" 
-			data-options="rownumbers:true,singleSelect:true,url:'/gps_bos/ws/0.1/vehicle/page',method:'get',toolbar:'#tb',footer:'#ft',pagination:true,
-				pageSize:10" >
+	<table id="dataGrid" class="easyui-datagrid" title="车辆列表"
+		style="width: 100%; height: 450px; margin-left: 4px;"
+		data-options="rownumbers:true,singleSelect:true,url:'/gps_bos/ws/0.1/vehicle/page',method:'get',toolbar:'#tb',footer:'#ft',pagination:true,
+				pageSize:10">
 		<thead>
 			<tr>
 				<th data-options="field:'vid',width:80,align:'center'">车辆ID</th>
@@ -31,17 +37,19 @@
 		</thead>
 	</table>
 	<!-- 搜索信息 -->
-	<div id="tb" style="padding:2px 5px;">
-		车辆状态: 
-		<input class="easyui-searchbox" data-options="prompt:'请输入车牌号',menu:'#mm',searcher:doSearch" style="width:300px"></input>
+	<div id="tb" style="padding: 2px 5px;">
+		车辆状态: <input class="easyui-searchbox"
+			data-options="prompt:'请输入车牌号',menu:'#mm',searcher:doSearch"
+			style="width: 300px"></input>
 		<div id="mm">
 			<div data-options="name:'0',iconCls:'icon-ok'">全部</div>
 			<div data-options="name:'1'">正常</div>
 			<div data-options="name:'2'">停用</div>
 		</div>
-		&nbsp;&nbsp;&nbsp;
-		<a href="javascript:openForm();" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加车辆</a>
-		<a href="javascript:update();" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改车辆</a>
+		&nbsp;&nbsp;&nbsp; <a href="javascript:openForm();"
+			class="easyui-linkbutton" iconCls="icon-add" plain="true">增加车辆</a> <a
+			href="javascript:update();" class="easyui-linkbutton"
+			iconCls="icon-edit" plain="true">修改车辆</a>
 	</div>
 	<script type="text/javascript">
 	function update(){
@@ -100,64 +108,60 @@
 		});
 	}
 	</script>
-	<div id="veh" class="easyui-window"" title="增加车辆" closed="true" modal="true" 
-		shadow="true" collapsible="false" minimizable="false"  maximizable="false"  style="width:550px;height:300px; background: #fafafa;"">
+	<div id="veh" class="easyui-window" " title="增加车辆" closed="true"
+		modal="true" shadow="true" collapsible="false" minimizable="false"
+		maximizable="false"
+		style="width: 550px; height: 300px; background: #fafafa;"">
 		<div class="easyui-layout" fit="true" align="center">
-	    <form id="ff" method="post" >
-	    	<table cellpadding="5">
-	    		<tr>
-	    			<td>车牌号码:</td>
-	    			<td><input class="easyui-textbox" type="text" name="licensePlate" data-options="required:true,missingMessage:'车辆号码不能为空'"></input></td>
-	    			<td>发动机号:</td>
-	    			<td><input class="easyui-textbox" type="text" name="ein" data-options="required:true,missingMessage:'发动机号不能为空'"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>车架号码:</td>
-	    			<td><input class="easyui-textbox" type="text" name="vin"></input></td>
-	    			<td>品牌:</td>
-                    <td>
-                        <select class="easyui-combobox" name="styleId">
-                        <option value="0">请选择</option>
-                        </select>
-                    </td>
-	    		</tr>
-	    		<tr>
-	    			<td>车型:</td>
-                    <td>
-                        <select class="easyui-combobox" name="modelId">
-                        <option value="0">请选择</option>
-                        </select>
-                    </td>
-                    <td>年款:</td>
-                    <td>
-                        <select class="easyui-combobox" name="brandId">
-                        <option value="0">请选择</option>
-                        </select>
-                    </td>
-	    		</tr>
-	    		<tr>
-	    		     <td>车辆类型:</td>
-                    <td>
-                        <select class="easyui-combobox" name="type">
-                        <option value="1">货运车辆</option>
-                        </select>
-                    </td>
-                     <td>车辆状态:</td>
-                    <td>
-                        <select class="easyui-combobox" name="status">
-                        <option value="1">正常</option>
-                        <option value="2">停用</option>
-                        </select>
-                    </td>
-	    		</tr>
-	    	</table>
-	    </form>
-	    <div style="text-align:center;padding:20px">
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">保存</a>
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeForm()">取消</a>
-	    </div>
-	    </div>
+			<form id="ff" method="post">
+				<table cellpadding="5">
+					<tr>
+						<td>车牌号码:</td>
+						<td><input class="easyui-textbox" type="text"
+							name="licensePlate"
+							data-options="required:true,missingMessage:'车辆号码不能为空'"></input></td>
+						<td>发动机号:</td>
+						<td><input class="easyui-textbox" type="text" name="ein"
+							data-options="required:true,missingMessage:'发动机号不能为空'"></input></td>
+					</tr>
+					<tr>
+						<td>车架号码:</td>
+						<td><input class="easyui-textbox" type="text" name="vin"></input></td>
+						<td>品牌:</td>
+						<td><select class="easyui-combobox" name="styleId">
+								<option value="0">请选择</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>车型:</td>
+						<td><select class="easyui-combobox" name="modelId">
+								<option value="0">请选择</option>
+						</select></td>
+						<td>年款:</td>
+						<td><select class="easyui-combobox" name="brandId">
+								<option value="0">请选择</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>车辆类型:</td>
+						<td><select class="easyui-combobox" name="type">
+								<option value="1">货运车辆</option>
+						</select></td>
+						<td>车辆状态:</td>
+						<td><select class="easyui-combobox" name="status">
+								<option value="1">正常</option>
+								<option value="2">停用</option>
+						</select></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align: center; padding: 20px">
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					onclick="submitForm()">保存</a> <a href="javascript:void(0)"
+					class="easyui-linkbutton" onclick="closeForm()">取消</a>
+			</div>
+		</div>
 	</div>
-	
+
 </body>
 </html>
