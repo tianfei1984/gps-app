@@ -1,0 +1,31 @@
+option java_package = "cn.com.gps169.common.pb";
+
+// 车辆实体
+message Vehicle {
+    required int32 vehicleId = 1; //车辆ID
+    required string plateNo = 2;//车牌号
+    required string vin = 3;//车辆识别号
+    required string ein = 4;//发动机号
+    required string simNo = 5;//终端SIM
+    required string terminalNo = 6;//终端唯一编号
+    required int32 terminalFlag = 7;//终端标识 1：出售终端  2：自有终端
+    required int32 terminal_status = 8;//终端连接状态  1:连接  2：断开
+    required string serviceStartTime = 9;//服务开始时间
+    required string serviceEndTime = 10;//服务结束时间
+    required int32 fleeStatus = 11;//车辆缴费状态 1：待缴费  2：已缴费（正常）  3：欠费
+    required int32 movingStatus = 12;//车辆运行状态  1：运行  2：停止
+    required int32 vehicleStatus = 13;//车辆状态  1:正常  2：停用
+    required string createdTime = 14;//创建时间
+    optional Location location = 15; //车辆当前位置
+    required int32 userId = 16; //车主ID
+}
+
+//位置实体
+message Location{
+    required string longitude = 1; //经度
+    required string latitude = 2; //纬度
+    required string address = 3; //地址
+    required float altitude = 4; //海拔
+    required float speed = 5; //车辆速度
+    required string lastUploadTime = 6; //最新上传时间
+}
