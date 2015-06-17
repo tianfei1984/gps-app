@@ -1,19 +1,13 @@
 package cn.com.gps169.common.model;
 
-import java.util.Date;
-
 /**
  * GPS历史数据,保存GPS上传的实时定位信息，状态信息等
  * 
  */
 
 public class GpsInfo {
-	private int commandId;// 数据所来自的命令包的ID号
-	private int vid;
-	private int tid;
-	private String simNo;// 车终端卡号
-	private String plateNo;// 车牌号
-	private Date sendTime;// 发送时间
+    private String simNo;   //SIM
+    private String plateNo; //车牌号
 	private double longitude;// 经度
 	private double latitude;// 纬度
 	private double speed;// 速度
@@ -21,60 +15,26 @@ public class GpsInfo {
 	private int direction;// 方向,0～359，正北为0，顺时针
 	private String alarmStatus;// 报警位状态
 	private double mileage;// 里程
-	private double fuel;// 油量
-	private double recordSpeed;// 行驶记录仪速度
+	private double oilNum;// 油量
 	private double altitude;// 海拔
-	private boolean valid;// GPS的定位状态，false代表没有定位,被屏蔽或找不到卫星
-	private String runStatus;// 车辆行驶状态: 停止,运行
 	private String status;// 状态
+	private String sendTime;// 发送时间
 	 
-	public final int getCommandId() {
-		return commandId;
-	}
+	/**
+     * @return the simNo
+     */
+    public String getSimNo() {
+        return simNo;
+    }
 
-	public final void setCommandId(int value) {
-		commandId = value;
-	}
-	public int getVid() {
-		return vid;
-	}
+    /**
+     * @param simNo the simNo to set
+     */
+    public void setSimNo(String simNo) {
+        this.simNo = simNo;
+    }
 
-	public void setVid(int vid) {
-		this.vid = vid;
-	}
-
-	public int getTid() {
-		return tid;
-	}
-
-	public void setTid(int tid) {
-		this.tid = tid;
-	}
-	public final String getSimNo() {
-		return simNo;
-	}
-
-	public final void setSimNo(String value) {
-		simNo = value;
-	}
-
-	public final String getPlateNo() {
-		return plateNo;
-	}
-
-	public final void setPlateNo(String value) {
-		plateNo = value;
-	}
-
-	public final Date getSendTime() {
-		return sendTime;
-	}
-
-	public final void setSendTime(Date value) {
-		sendTime = value;
-	}
-
-	public final double getLongitude() {
+    public final double getLongitude() {
 		return longitude;
 	}
 
@@ -138,22 +98,6 @@ public class GpsInfo {
 		mileage = value;
 	}
 
-	public double getFuel() {
-		return fuel;
-	}
-
-	public void setFuel(double fuel) {
-		this.fuel = fuel;
-	}
-
-	public double getRecordSpeed() {
-		return recordSpeed;
-	}
-
-	public void setRecordSpeed(double recordSpeed) {
-		this.recordSpeed = recordSpeed;
-	}
-
 	public double getAltitude() {
 		return altitude;
 	}
@@ -162,20 +106,45 @@ public class GpsInfo {
 		this.altitude = altitude;
 	}
 
-	public boolean isValid() {
-		return valid;
-	}
+    /**
+     * @return the oilNum
+     */
+    public double getOilNum() {
+        return oilNum;
+    }
 
-	public void setValid(boolean valid) {
-		this.valid = valid;
-	}
+    /**
+     * @param oilNum the oilNum to set
+     */
+    public void setOilNum(double oilNum) {
+        this.oilNum = oilNum;
+    }
 
-	public String getRunStatus() {
-		return runStatus;
-	}
+    /**
+     * @return the sendTime
+     */
+    public String getSendTime() {
+        return sendTime;
+    }
 
-	public void setRunStatus(String runStatus) {
-		this.runStatus = runStatus;
-	}
+    /**
+     * @param sendTime the sendTime to set
+     */
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
+    }
 
+    /**
+     * @return the plateNo
+     */
+    public String getPlateNo() {
+        return plateNo;
+    }
+
+    /**
+     * @param plateNo the plateNo to set
+     */
+    public void setPlateNo(String plateNo) {
+        this.plateNo = plateNo;
+    }
 }

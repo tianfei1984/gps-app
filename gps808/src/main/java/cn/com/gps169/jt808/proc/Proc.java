@@ -20,7 +20,7 @@ public abstract class  Proc {
 	protected byte optResult = EMsgAck.SUCESS.value();
 	
 	@Autowired
-	protected ICacheManager vehicleCacheManager;
+	protected ICacheManager cacheManager;
 	
 	
 	/**

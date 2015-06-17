@@ -16,16 +16,20 @@ message Vehicle {
     required int32 movingStatus = 12;//车辆运行状态  1：运行  2：停止
     required int32 vehicleStatus = 13;//车辆状态  1:正常  2：停用
     required string createdTime = 14;//创建时间
-    optional Location location = 15; //车辆当前位置
-    required int32 userId = 16; //车主ID
+    optional int32 userId = 15; //车主ID
 }
 
 //位置实体
-message Location{
-    required string longitude = 1; //经度
-    required string latitude = 2; //纬度
-    required string address = 3; //地址
-    required float altitude = 4; //海拔
-    required float speed = 5; //车辆速度
-    required string lastUploadTime = 6; //最新上传时间
+message Gps{
+    required double longitude = 1; //经度
+    required double latitude = 2; //纬度
+    optional string location = 3; //地址
+    required double altitude = 4; //海拔
+    required double speed = 5; //车辆速度
+    required string sendTime = 6; //最新上传时间
+    optional int32 direction = 7; //方向
+    optional string alarmStatus = 8; //告警状态
+    optional double mileage = 9; //里程
+    optional double oilNum = 10; //油量
+    optional string status = 11; //状态位
 }

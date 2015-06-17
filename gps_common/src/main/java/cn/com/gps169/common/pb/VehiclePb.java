@@ -133,22 +133,14 @@ public final class VehiclePb {
     public boolean hasCreatedTime() { return hasCreatedTime; }
     public java.lang.String getCreatedTime() { return createdTime_; }
     
-    // optional .Location location = 15;
-    public static final int LOCATION_FIELD_NUMBER = 15;
-    private boolean hasLocation;
-    private cn.com.gps169.common.pb.VehiclePb.Location location_;
-    public boolean hasLocation() { return hasLocation; }
-    public cn.com.gps169.common.pb.VehiclePb.Location getLocation() { return location_; }
-    
-    // required int32 userId = 16;
-    public static final int USERID_FIELD_NUMBER = 16;
+    // optional int32 userId = 15;
+    public static final int USERID_FIELD_NUMBER = 15;
     private boolean hasUserId;
     private int userId_ = 0;
     public boolean hasUserId() { return hasUserId; }
     public int getUserId() { return userId_; }
     
     private void initFields() {
-      location_ = cn.com.gps169.common.pb.VehiclePb.Location.getDefaultInstance();
     }
     public final boolean isInitialized() {
       if (!hasVehicleId) return false;
@@ -165,10 +157,6 @@ public final class VehiclePb {
       if (!hasMovingStatus) return false;
       if (!hasVehicleStatus) return false;
       if (!hasCreatedTime) return false;
-      if (!hasUserId) return false;
-      if (hasLocation()) {
-        if (!getLocation().isInitialized()) return false;
-      }
       return true;
     }
     
@@ -217,11 +205,8 @@ public final class VehiclePb {
       if (hasCreatedTime()) {
         output.writeString(14, getCreatedTime());
       }
-      if (hasLocation()) {
-        output.writeMessage(15, getLocation());
-      }
       if (hasUserId()) {
-        output.writeInt32(16, getUserId());
+        output.writeInt32(15, getUserId());
       }
       getUnknownFields().writeTo(output);
     }
@@ -288,13 +273,9 @@ public final class VehiclePb {
         size += com.google.protobuf.CodedOutputStream
           .computeStringSize(14, getCreatedTime());
       }
-      if (hasLocation()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(15, getLocation());
-      }
       if (hasUserId()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(16, getUserId());
+          .computeInt32Size(15, getUserId());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -496,9 +477,6 @@ public final class VehiclePb {
         if (other.hasCreatedTime()) {
           setCreatedTime(other.getCreatedTime());
         }
-        if (other.hasLocation()) {
-          mergeLocation(other.getLocation());
-        }
         if (other.hasUserId()) {
           setUserId(other.getUserId());
         }
@@ -583,16 +561,7 @@ public final class VehiclePb {
               setCreatedTime(input.readString());
               break;
             }
-            case 122: {
-              cn.com.gps169.common.pb.VehiclePb.Location.Builder subBuilder = cn.com.gps169.common.pb.VehiclePb.Location.newBuilder();
-              if (hasLocation()) {
-                subBuilder.mergeFrom(getLocation());
-              }
-              input.readMessage(subBuilder, extensionRegistry);
-              setLocation(subBuilder.buildPartial());
-              break;
-            }
-            case 128: {
+            case 120: {
               setUserId(input.readInt32());
               break;
             }
@@ -877,44 +846,7 @@ public final class VehiclePb {
         return this;
       }
       
-      // optional .Location location = 15;
-      public boolean hasLocation() {
-        return result.hasLocation();
-      }
-      public cn.com.gps169.common.pb.VehiclePb.Location getLocation() {
-        return result.getLocation();
-      }
-      public Builder setLocation(cn.com.gps169.common.pb.VehiclePb.Location value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        result.hasLocation = true;
-        result.location_ = value;
-        return this;
-      }
-      public Builder setLocation(cn.com.gps169.common.pb.VehiclePb.Location.Builder builderForValue) {
-        result.hasLocation = true;
-        result.location_ = builderForValue.build();
-        return this;
-      }
-      public Builder mergeLocation(cn.com.gps169.common.pb.VehiclePb.Location value) {
-        if (result.hasLocation() &&
-            result.location_ != cn.com.gps169.common.pb.VehiclePb.Location.getDefaultInstance()) {
-          result.location_ =
-            cn.com.gps169.common.pb.VehiclePb.Location.newBuilder(result.location_).mergeFrom(value).buildPartial();
-        } else {
-          result.location_ = value;
-        }
-        result.hasLocation = true;
-        return this;
-      }
-      public Builder clearLocation() {
-        result.hasLocation = false;
-        result.location_ = cn.com.gps169.common.pb.VehiclePb.Location.getDefaultInstance();
-        return this;
-      }
-      
-      // required int32 userId = 16;
+      // optional int32 userId = 15;
       public boolean hasUserId() {
         return result.hasUserId();
       }
@@ -944,84 +876,118 @@ public final class VehiclePb {
     // @@protoc_insertion_point(class_scope:Vehicle)
   }
   
-  public static final class Location extends
+  public static final class Gps extends
       com.google.protobuf.GeneratedMessage {
-    // Use Location.newBuilder() to construct.
-    private Location() {
+    // Use Gps.newBuilder() to construct.
+    private Gps() {
       initFields();
     }
-    private Location(boolean noInit) {}
+    private Gps(boolean noInit) {}
     
-    private static final Location defaultInstance;
-    public static Location getDefaultInstance() {
+    private static final Gps defaultInstance;
+    public static Gps getDefaultInstance() {
       return defaultInstance;
     }
     
-    public Location getDefaultInstanceForType() {
+    public Gps getDefaultInstanceForType() {
       return defaultInstance;
     }
     
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return cn.com.gps169.common.pb.VehiclePb.internal_static_Location_descriptor;
+      return cn.com.gps169.common.pb.VehiclePb.internal_static_Gps_descriptor;
     }
     
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return cn.com.gps169.common.pb.VehiclePb.internal_static_Location_fieldAccessorTable;
+      return cn.com.gps169.common.pb.VehiclePb.internal_static_Gps_fieldAccessorTable;
     }
     
-    // required string longitude = 1;
+    // required double longitude = 1;
     public static final int LONGITUDE_FIELD_NUMBER = 1;
     private boolean hasLongitude;
-    private java.lang.String longitude_ = "";
+    private double longitude_ = 0D;
     public boolean hasLongitude() { return hasLongitude; }
-    public java.lang.String getLongitude() { return longitude_; }
+    public double getLongitude() { return longitude_; }
     
-    // required string latitude = 2;
+    // required double latitude = 2;
     public static final int LATITUDE_FIELD_NUMBER = 2;
     private boolean hasLatitude;
-    private java.lang.String latitude_ = "";
+    private double latitude_ = 0D;
     public boolean hasLatitude() { return hasLatitude; }
-    public java.lang.String getLatitude() { return latitude_; }
+    public double getLatitude() { return latitude_; }
     
-    // required string address = 3;
-    public static final int ADDRESS_FIELD_NUMBER = 3;
-    private boolean hasAddress;
-    private java.lang.String address_ = "";
-    public boolean hasAddress() { return hasAddress; }
-    public java.lang.String getAddress() { return address_; }
+    // optional string location = 3;
+    public static final int LOCATION_FIELD_NUMBER = 3;
+    private boolean hasLocation;
+    private java.lang.String location_ = "";
+    public boolean hasLocation() { return hasLocation; }
+    public java.lang.String getLocation() { return location_; }
     
-    // required float altitude = 4;
+    // required double altitude = 4;
     public static final int ALTITUDE_FIELD_NUMBER = 4;
     private boolean hasAltitude;
-    private float altitude_ = 0F;
+    private double altitude_ = 0D;
     public boolean hasAltitude() { return hasAltitude; }
-    public float getAltitude() { return altitude_; }
+    public double getAltitude() { return altitude_; }
     
-    // required float speed = 5;
+    // required double speed = 5;
     public static final int SPEED_FIELD_NUMBER = 5;
     private boolean hasSpeed;
-    private float speed_ = 0F;
+    private double speed_ = 0D;
     public boolean hasSpeed() { return hasSpeed; }
-    public float getSpeed() { return speed_; }
+    public double getSpeed() { return speed_; }
     
-    // required string lastUploadTime = 6;
-    public static final int LASTUPLOADTIME_FIELD_NUMBER = 6;
-    private boolean hasLastUploadTime;
-    private java.lang.String lastUploadTime_ = "";
-    public boolean hasLastUploadTime() { return hasLastUploadTime; }
-    public java.lang.String getLastUploadTime() { return lastUploadTime_; }
+    // required string sendTime = 6;
+    public static final int SENDTIME_FIELD_NUMBER = 6;
+    private boolean hasSendTime;
+    private java.lang.String sendTime_ = "";
+    public boolean hasSendTime() { return hasSendTime; }
+    public java.lang.String getSendTime() { return sendTime_; }
+    
+    // optional int32 direction = 7;
+    public static final int DIRECTION_FIELD_NUMBER = 7;
+    private boolean hasDirection;
+    private int direction_ = 0;
+    public boolean hasDirection() { return hasDirection; }
+    public int getDirection() { return direction_; }
+    
+    // optional string alarmStatus = 8;
+    public static final int ALARMSTATUS_FIELD_NUMBER = 8;
+    private boolean hasAlarmStatus;
+    private java.lang.String alarmStatus_ = "";
+    public boolean hasAlarmStatus() { return hasAlarmStatus; }
+    public java.lang.String getAlarmStatus() { return alarmStatus_; }
+    
+    // optional double mileage = 9;
+    public static final int MILEAGE_FIELD_NUMBER = 9;
+    private boolean hasMileage;
+    private double mileage_ = 0D;
+    public boolean hasMileage() { return hasMileage; }
+    public double getMileage() { return mileage_; }
+    
+    // optional double oilNum = 10;
+    public static final int OILNUM_FIELD_NUMBER = 10;
+    private boolean hasOilNum;
+    private double oilNum_ = 0D;
+    public boolean hasOilNum() { return hasOilNum; }
+    public double getOilNum() { return oilNum_; }
+    
+    // optional string status = 11;
+    public static final int STATUS_FIELD_NUMBER = 11;
+    private boolean hasStatus;
+    private java.lang.String status_ = "";
+    public boolean hasStatus() { return hasStatus; }
+    public java.lang.String getStatus() { return status_; }
     
     private void initFields() {
     }
     public final boolean isInitialized() {
       if (!hasLongitude) return false;
       if (!hasLatitude) return false;
-      if (!hasAddress) return false;
       if (!hasAltitude) return false;
       if (!hasSpeed) return false;
-      if (!hasLastUploadTime) return false;
+      if (!hasSendTime) return false;
       return true;
     }
     
@@ -1029,22 +995,37 @@ public final class VehiclePb {
                         throws java.io.IOException {
       getSerializedSize();
       if (hasLongitude()) {
-        output.writeString(1, getLongitude());
+        output.writeDouble(1, getLongitude());
       }
       if (hasLatitude()) {
-        output.writeString(2, getLatitude());
+        output.writeDouble(2, getLatitude());
       }
-      if (hasAddress()) {
-        output.writeString(3, getAddress());
+      if (hasLocation()) {
+        output.writeString(3, getLocation());
       }
       if (hasAltitude()) {
-        output.writeFloat(4, getAltitude());
+        output.writeDouble(4, getAltitude());
       }
       if (hasSpeed()) {
-        output.writeFloat(5, getSpeed());
+        output.writeDouble(5, getSpeed());
       }
-      if (hasLastUploadTime()) {
-        output.writeString(6, getLastUploadTime());
+      if (hasSendTime()) {
+        output.writeString(6, getSendTime());
+      }
+      if (hasDirection()) {
+        output.writeInt32(7, getDirection());
+      }
+      if (hasAlarmStatus()) {
+        output.writeString(8, getAlarmStatus());
+      }
+      if (hasMileage()) {
+        output.writeDouble(9, getMileage());
+      }
+      if (hasOilNum()) {
+        output.writeDouble(10, getOilNum());
+      }
+      if (hasStatus()) {
+        output.writeString(11, getStatus());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1057,68 +1038,88 @@ public final class VehiclePb {
       size = 0;
       if (hasLongitude()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeStringSize(1, getLongitude());
+          .computeDoubleSize(1, getLongitude());
       }
       if (hasLatitude()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeStringSize(2, getLatitude());
+          .computeDoubleSize(2, getLatitude());
       }
-      if (hasAddress()) {
+      if (hasLocation()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeStringSize(3, getAddress());
+          .computeStringSize(3, getLocation());
       }
       if (hasAltitude()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(4, getAltitude());
+          .computeDoubleSize(4, getAltitude());
       }
       if (hasSpeed()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(5, getSpeed());
+          .computeDoubleSize(5, getSpeed());
       }
-      if (hasLastUploadTime()) {
+      if (hasSendTime()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeStringSize(6, getLastUploadTime());
+          .computeStringSize(6, getSendTime());
+      }
+      if (hasDirection()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, getDirection());
+      }
+      if (hasAlarmStatus()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeStringSize(8, getAlarmStatus());
+      }
+      if (hasMileage()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(9, getMileage());
+      }
+      if (hasOilNum()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(10, getOilNum());
+      }
+      if (hasStatus()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeStringSize(11, getStatus());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
     
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseFrom(
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return newBuilder().mergeFrom(data).buildParsed();
     }
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseFrom(
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return newBuilder().mergeFrom(data, extensionRegistry)
                .buildParsed();
     }
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseFrom(byte[] data)
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return newBuilder().mergeFrom(data).buildParsed();
     }
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseFrom(
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return newBuilder().mergeFrom(data, extensionRegistry)
                .buildParsed();
     }
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseFrom(java.io.InputStream input)
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return newBuilder().mergeFrom(input).buildParsed();
     }
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseFrom(
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return newBuilder().mergeFrom(input, extensionRegistry)
                .buildParsed();
     }
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseDelimitedFrom(java.io.InputStream input)
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       Builder builder = newBuilder();
       if (builder.mergeDelimitedFrom(input)) {
@@ -1127,7 +1128,7 @@ public final class VehiclePb {
         return null;
       }
     }
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseDelimitedFrom(
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1138,12 +1139,12 @@ public final class VehiclePb {
         return null;
       }
     }
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseFrom(
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return newBuilder().mergeFrom(input).buildParsed();
     }
-    public static cn.com.gps169.common.pb.VehiclePb.Location parseFrom(
+    public static cn.com.gps169.common.pb.VehiclePb.Gps parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1153,25 +1154,25 @@ public final class VehiclePb {
     
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(cn.com.gps169.common.pb.VehiclePb.Location prototype) {
+    public static Builder newBuilder(cn.com.gps169.common.pb.VehiclePb.Gps prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
     
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> {
-      private cn.com.gps169.common.pb.VehiclePb.Location result;
+      private cn.com.gps169.common.pb.VehiclePb.Gps result;
       
-      // Construct using cn.com.gps169.common.pb.VehiclePb.Location.newBuilder()
+      // Construct using cn.com.gps169.common.pb.VehiclePb.Gps.newBuilder()
       private Builder() {}
       
       private static Builder create() {
         Builder builder = new Builder();
-        builder.result = new cn.com.gps169.common.pb.VehiclePb.Location();
+        builder.result = new cn.com.gps169.common.pb.VehiclePb.Gps();
         return builder;
       }
       
-      protected cn.com.gps169.common.pb.VehiclePb.Location internalGetResult() {
+      protected cn.com.gps169.common.pb.VehiclePb.Gps internalGetResult() {
         return result;
       }
       
@@ -1180,7 +1181,7 @@ public final class VehiclePb {
           throw new IllegalStateException(
             "Cannot call clear() after build().");
         }
-        result = new cn.com.gps169.common.pb.VehiclePb.Location();
+        result = new cn.com.gps169.common.pb.VehiclePb.Gps();
         return this;
       }
       
@@ -1190,24 +1191,24 @@ public final class VehiclePb {
       
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return cn.com.gps169.common.pb.VehiclePb.Location.getDescriptor();
+        return cn.com.gps169.common.pb.VehiclePb.Gps.getDescriptor();
       }
       
-      public cn.com.gps169.common.pb.VehiclePb.Location getDefaultInstanceForType() {
-        return cn.com.gps169.common.pb.VehiclePb.Location.getDefaultInstance();
+      public cn.com.gps169.common.pb.VehiclePb.Gps getDefaultInstanceForType() {
+        return cn.com.gps169.common.pb.VehiclePb.Gps.getDefaultInstance();
       }
       
       public boolean isInitialized() {
         return result.isInitialized();
       }
-      public cn.com.gps169.common.pb.VehiclePb.Location build() {
+      public cn.com.gps169.common.pb.VehiclePb.Gps build() {
         if (result != null && !isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return buildPartial();
       }
       
-      private cn.com.gps169.common.pb.VehiclePb.Location buildParsed()
+      private cn.com.gps169.common.pb.VehiclePb.Gps buildParsed()
           throws com.google.protobuf.InvalidProtocolBufferException {
         if (!isInitialized()) {
           throw newUninitializedMessageException(
@@ -1216,35 +1217,35 @@ public final class VehiclePb {
         return buildPartial();
       }
       
-      public cn.com.gps169.common.pb.VehiclePb.Location buildPartial() {
+      public cn.com.gps169.common.pb.VehiclePb.Gps buildPartial() {
         if (result == null) {
           throw new IllegalStateException(
             "build() has already been called on this Builder.");
         }
-        cn.com.gps169.common.pb.VehiclePb.Location returnMe = result;
+        cn.com.gps169.common.pb.VehiclePb.Gps returnMe = result;
         result = null;
         return returnMe;
       }
       
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof cn.com.gps169.common.pb.VehiclePb.Location) {
-          return mergeFrom((cn.com.gps169.common.pb.VehiclePb.Location)other);
+        if (other instanceof cn.com.gps169.common.pb.VehiclePb.Gps) {
+          return mergeFrom((cn.com.gps169.common.pb.VehiclePb.Gps)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
       
-      public Builder mergeFrom(cn.com.gps169.common.pb.VehiclePb.Location other) {
-        if (other == cn.com.gps169.common.pb.VehiclePb.Location.getDefaultInstance()) return this;
+      public Builder mergeFrom(cn.com.gps169.common.pb.VehiclePb.Gps other) {
+        if (other == cn.com.gps169.common.pb.VehiclePb.Gps.getDefaultInstance()) return this;
         if (other.hasLongitude()) {
           setLongitude(other.getLongitude());
         }
         if (other.hasLatitude()) {
           setLatitude(other.getLatitude());
         }
-        if (other.hasAddress()) {
-          setAddress(other.getAddress());
+        if (other.hasLocation()) {
+          setLocation(other.getLocation());
         }
         if (other.hasAltitude()) {
           setAltitude(other.getAltitude());
@@ -1252,8 +1253,23 @@ public final class VehiclePb {
         if (other.hasSpeed()) {
           setSpeed(other.getSpeed());
         }
-        if (other.hasLastUploadTime()) {
-          setLastUploadTime(other.getLastUploadTime());
+        if (other.hasSendTime()) {
+          setSendTime(other.getSendTime());
+        }
+        if (other.hasDirection()) {
+          setDirection(other.getDirection());
+        }
+        if (other.hasAlarmStatus()) {
+          setAlarmStatus(other.getAlarmStatus());
+        }
+        if (other.hasMileage()) {
+          setMileage(other.getMileage());
+        }
+        if (other.hasOilNum()) {
+          setOilNum(other.getOilNum());
+        }
+        if (other.hasStatus()) {
+          setStatus(other.getStatus());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1280,28 +1296,48 @@ public final class VehiclePb {
               }
               break;
             }
-            case 10: {
-              setLongitude(input.readString());
+            case 9: {
+              setLongitude(input.readDouble());
               break;
             }
-            case 18: {
-              setLatitude(input.readString());
+            case 17: {
+              setLatitude(input.readDouble());
               break;
             }
             case 26: {
-              setAddress(input.readString());
+              setLocation(input.readString());
               break;
             }
-            case 37: {
-              setAltitude(input.readFloat());
+            case 33: {
+              setAltitude(input.readDouble());
               break;
             }
-            case 45: {
-              setSpeed(input.readFloat());
+            case 41: {
+              setSpeed(input.readDouble());
               break;
             }
             case 50: {
-              setLastUploadTime(input.readString());
+              setSendTime(input.readString());
+              break;
+            }
+            case 56: {
+              setDirection(input.readInt32());
+              break;
+            }
+            case 66: {
+              setAlarmStatus(input.readString());
+              break;
+            }
+            case 73: {
+              setMileage(input.readDouble());
+              break;
+            }
+            case 81: {
+              setOilNum(input.readDouble());
+              break;
+            }
+            case 90: {
+              setStatus(input.readString());
               break;
             }
           }
@@ -1309,136 +1345,226 @@ public final class VehiclePb {
       }
       
       
-      // required string longitude = 1;
+      // required double longitude = 1;
       public boolean hasLongitude() {
         return result.hasLongitude();
       }
-      public java.lang.String getLongitude() {
+      public double getLongitude() {
         return result.getLongitude();
       }
-      public Builder setLongitude(java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  result.hasLongitude = true;
+      public Builder setLongitude(double value) {
+        result.hasLongitude = true;
         result.longitude_ = value;
         return this;
       }
       public Builder clearLongitude() {
         result.hasLongitude = false;
-        result.longitude_ = getDefaultInstance().getLongitude();
+        result.longitude_ = 0D;
         return this;
       }
       
-      // required string latitude = 2;
+      // required double latitude = 2;
       public boolean hasLatitude() {
         return result.hasLatitude();
       }
-      public java.lang.String getLatitude() {
+      public double getLatitude() {
         return result.getLatitude();
       }
-      public Builder setLatitude(java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  result.hasLatitude = true;
+      public Builder setLatitude(double value) {
+        result.hasLatitude = true;
         result.latitude_ = value;
         return this;
       }
       public Builder clearLatitude() {
         result.hasLatitude = false;
-        result.latitude_ = getDefaultInstance().getLatitude();
+        result.latitude_ = 0D;
         return this;
       }
       
-      // required string address = 3;
-      public boolean hasAddress() {
-        return result.hasAddress();
+      // optional string location = 3;
+      public boolean hasLocation() {
+        return result.hasLocation();
       }
-      public java.lang.String getAddress() {
-        return result.getAddress();
+      public java.lang.String getLocation() {
+        return result.getLocation();
       }
-      public Builder setAddress(java.lang.String value) {
+      public Builder setLocation(java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  result.hasAddress = true;
-        result.address_ = value;
+  result.hasLocation = true;
+        result.location_ = value;
         return this;
       }
-      public Builder clearAddress() {
-        result.hasAddress = false;
-        result.address_ = getDefaultInstance().getAddress();
+      public Builder clearLocation() {
+        result.hasLocation = false;
+        result.location_ = getDefaultInstance().getLocation();
         return this;
       }
       
-      // required float altitude = 4;
+      // required double altitude = 4;
       public boolean hasAltitude() {
         return result.hasAltitude();
       }
-      public float getAltitude() {
+      public double getAltitude() {
         return result.getAltitude();
       }
-      public Builder setAltitude(float value) {
+      public Builder setAltitude(double value) {
         result.hasAltitude = true;
         result.altitude_ = value;
         return this;
       }
       public Builder clearAltitude() {
         result.hasAltitude = false;
-        result.altitude_ = 0F;
+        result.altitude_ = 0D;
         return this;
       }
       
-      // required float speed = 5;
+      // required double speed = 5;
       public boolean hasSpeed() {
         return result.hasSpeed();
       }
-      public float getSpeed() {
+      public double getSpeed() {
         return result.getSpeed();
       }
-      public Builder setSpeed(float value) {
+      public Builder setSpeed(double value) {
         result.hasSpeed = true;
         result.speed_ = value;
         return this;
       }
       public Builder clearSpeed() {
         result.hasSpeed = false;
-        result.speed_ = 0F;
+        result.speed_ = 0D;
         return this;
       }
       
-      // required string lastUploadTime = 6;
-      public boolean hasLastUploadTime() {
-        return result.hasLastUploadTime();
+      // required string sendTime = 6;
+      public boolean hasSendTime() {
+        return result.hasSendTime();
       }
-      public java.lang.String getLastUploadTime() {
-        return result.getLastUploadTime();
+      public java.lang.String getSendTime() {
+        return result.getSendTime();
       }
-      public Builder setLastUploadTime(java.lang.String value) {
+      public Builder setSendTime(java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  result.hasLastUploadTime = true;
-        result.lastUploadTime_ = value;
+  result.hasSendTime = true;
+        result.sendTime_ = value;
         return this;
       }
-      public Builder clearLastUploadTime() {
-        result.hasLastUploadTime = false;
-        result.lastUploadTime_ = getDefaultInstance().getLastUploadTime();
+      public Builder clearSendTime() {
+        result.hasSendTime = false;
+        result.sendTime_ = getDefaultInstance().getSendTime();
         return this;
       }
       
-      // @@protoc_insertion_point(builder_scope:Location)
+      // optional int32 direction = 7;
+      public boolean hasDirection() {
+        return result.hasDirection();
+      }
+      public int getDirection() {
+        return result.getDirection();
+      }
+      public Builder setDirection(int value) {
+        result.hasDirection = true;
+        result.direction_ = value;
+        return this;
+      }
+      public Builder clearDirection() {
+        result.hasDirection = false;
+        result.direction_ = 0;
+        return this;
+      }
+      
+      // optional string alarmStatus = 8;
+      public boolean hasAlarmStatus() {
+        return result.hasAlarmStatus();
+      }
+      public java.lang.String getAlarmStatus() {
+        return result.getAlarmStatus();
+      }
+      public Builder setAlarmStatus(java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  result.hasAlarmStatus = true;
+        result.alarmStatus_ = value;
+        return this;
+      }
+      public Builder clearAlarmStatus() {
+        result.hasAlarmStatus = false;
+        result.alarmStatus_ = getDefaultInstance().getAlarmStatus();
+        return this;
+      }
+      
+      // optional double mileage = 9;
+      public boolean hasMileage() {
+        return result.hasMileage();
+      }
+      public double getMileage() {
+        return result.getMileage();
+      }
+      public Builder setMileage(double value) {
+        result.hasMileage = true;
+        result.mileage_ = value;
+        return this;
+      }
+      public Builder clearMileage() {
+        result.hasMileage = false;
+        result.mileage_ = 0D;
+        return this;
+      }
+      
+      // optional double oilNum = 10;
+      public boolean hasOilNum() {
+        return result.hasOilNum();
+      }
+      public double getOilNum() {
+        return result.getOilNum();
+      }
+      public Builder setOilNum(double value) {
+        result.hasOilNum = true;
+        result.oilNum_ = value;
+        return this;
+      }
+      public Builder clearOilNum() {
+        result.hasOilNum = false;
+        result.oilNum_ = 0D;
+        return this;
+      }
+      
+      // optional string status = 11;
+      public boolean hasStatus() {
+        return result.hasStatus();
+      }
+      public java.lang.String getStatus() {
+        return result.getStatus();
+      }
+      public Builder setStatus(java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  result.hasStatus = true;
+        result.status_ = value;
+        return this;
+      }
+      public Builder clearStatus() {
+        result.hasStatus = false;
+        result.status_ = getDefaultInstance().getStatus();
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:Gps)
     }
     
     static {
-      defaultInstance = new Location(true);
+      defaultInstance = new Gps(true);
       cn.com.gps169.common.pb.VehiclePb.internalForceInit();
       defaultInstance.initFields();
     }
     
-    // @@protoc_insertion_point(class_scope:Location)
+    // @@protoc_insertion_point(class_scope:Gps)
   }
   
   private static com.google.protobuf.Descriptors.Descriptor
@@ -1447,10 +1573,10 @@ public final class VehiclePb {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Vehicle_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_Location_descriptor;
+    internal_static_Gps_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Location_fieldAccessorTable;
+      internal_static_Gps_fieldAccessorTable;
   
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1460,19 +1586,21 @@ public final class VehiclePb {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026protos/vehiclePb.proto\"\316\002\n\007Vehicle\022\021\n\t" +
+      "\n\026protos/vehiclePb.proto\"\261\002\n\007Vehicle\022\021\n\t" +
       "vehicleId\030\001 \002(\005\022\017\n\007plateNo\030\002 \002(\t\022\013\n\003vin\030" +
       "\003 \002(\t\022\013\n\003ein\030\004 \002(\t\022\r\n\005simNo\030\005 \002(\t\022\022\n\nter" +
       "minalNo\030\006 \002(\t\022\024\n\014terminalFlag\030\007 \002(\005\022\027\n\017t" +
       "erminal_status\030\010 \002(\005\022\030\n\020serviceStartTime" +
       "\030\t \002(\t\022\026\n\016serviceEndTime\030\n \002(\t\022\022\n\nfleeSt" +
       "atus\030\013 \002(\005\022\024\n\014movingStatus\030\014 \002(\005\022\025\n\rvehi" +
-      "cleStatus\030\r \002(\005\022\023\n\013createdTime\030\016 \002(\t\022\033\n\010" +
-      "location\030\017 \001(\0132\t.Location\022\016\n\006userId\030\020 \002(" +
-      "\005\"y\n\010Location\022\021\n\tlongitude\030\001 \002(\t\022\020\n\010lati",
-      "tude\030\002 \002(\t\022\017\n\007address\030\003 \002(\t\022\020\n\010altitude\030" +
-      "\004 \002(\002\022\r\n\005speed\030\005 \002(\002\022\026\n\016lastUploadTime\030\006" +
-      " \002(\tB\031\n\027cn.com.gps169.common.pb"
+      "cleStatus\030\r \002(\005\022\023\n\013createdTime\030\016 \002(\t\022\016\n\006" +
+      "userId\030\017 \001(\005\"\310\001\n\003Gps\022\021\n\tlongitude\030\001 \002(\001\022" +
+      "\020\n\010latitude\030\002 \002(\001\022\020\n\010location\030\003 \001(\t\022\020\n\010a",
+      "ltitude\030\004 \002(\001\022\r\n\005speed\030\005 \002(\001\022\020\n\010sendTime" +
+      "\030\006 \002(\t\022\021\n\tdirection\030\007 \001(\005\022\023\n\013alarmStatus" +
+      "\030\010 \001(\t\022\017\n\007mileage\030\t \001(\001\022\016\n\006oilNum\030\n \001(\001\022" +
+      "\016\n\006status\030\013 \001(\tB\031\n\027cn.com.gps169.common." +
+      "pb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1484,17 +1612,17 @@ public final class VehiclePb {
           internal_static_Vehicle_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Vehicle_descriptor,
-              new java.lang.String[] { "VehicleId", "PlateNo", "Vin", "Ein", "SimNo", "TerminalNo", "TerminalFlag", "TerminalStatus", "ServiceStartTime", "ServiceEndTime", "FleeStatus", "MovingStatus", "VehicleStatus", "CreatedTime", "Location", "UserId", },
+              new java.lang.String[] { "VehicleId", "PlateNo", "Vin", "Ein", "SimNo", "TerminalNo", "TerminalFlag", "TerminalStatus", "ServiceStartTime", "ServiceEndTime", "FleeStatus", "MovingStatus", "VehicleStatus", "CreatedTime", "UserId", },
               cn.com.gps169.common.pb.VehiclePb.Vehicle.class,
               cn.com.gps169.common.pb.VehiclePb.Vehicle.Builder.class);
-          internal_static_Location_descriptor =
+          internal_static_Gps_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_Location_fieldAccessorTable = new
+          internal_static_Gps_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_Location_descriptor,
-              new java.lang.String[] { "Longitude", "Latitude", "Address", "Altitude", "Speed", "LastUploadTime", },
-              cn.com.gps169.common.pb.VehiclePb.Location.class,
-              cn.com.gps169.common.pb.VehiclePb.Location.Builder.class);
+              internal_static_Gps_descriptor,
+              new java.lang.String[] { "Longitude", "Latitude", "Location", "Altitude", "Speed", "SendTime", "Direction", "AlarmStatus", "Mileage", "OilNum", "Status", },
+              cn.com.gps169.common.pb.VehiclePb.Gps.class,
+              cn.com.gps169.common.pb.VehiclePb.Gps.Builder.class);
           return null;
         }
       };

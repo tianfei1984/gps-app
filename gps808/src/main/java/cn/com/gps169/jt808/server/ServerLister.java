@@ -33,6 +33,10 @@ public class ServerLister implements ServletContextListener {
 		JT808Server minaServer = (JT808Server) app.getBean("jt808Server");
 		minaServer.start();
 		LOGGER.info("启动JT808服务结束....");
+		LOGGER.info("启动GPS服务开始...");
+		GpsServer gpsServer = (GpsServer) app.getBean("gpsServer");
+		gpsServer.start();
+		LOGGER.info("启动GPS服务完成...");
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class LocationTool {
 			return json;
 		}
 		
-		return json;
+		return null;
 	}
 	
 	public static void main(String[] args){

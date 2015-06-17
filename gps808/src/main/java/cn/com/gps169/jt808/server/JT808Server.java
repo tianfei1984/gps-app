@@ -1,15 +1,20 @@
 package cn.com.gps169.jt808.server;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cn.com.gps169.common.cache.ICacheManager;
+import cn.com.gps169.common.model.VehicleVo;
 import cn.com.gps169.jt808.handler.CenterHandler;
 import cn.com.gps169.jt808.handler.DecodeMessageHandler;
 import cn.com.gps169.jt808.handler.EncodeMessageHandler;
 import cn.com.gps169.jt808.handler.HeartbeatHandler;
 import cn.com.gps169.jt808.handler.LoginHandler;
+import cn.com.gps169.jt808.tool.JT808Constants;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -27,9 +32,12 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.ReadTimeoutException;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 /**
+ * JT808服务器
  * @author tianfei
  *
  */
@@ -37,13 +45,34 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 public class JT808Server {
     
     private transient static Logger logger = LoggerFactory.getLogger(JT808Server.class);
-    
+    /**
+     * 通道集合
+     */
     private ChannelGroup allChannels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     
+    /**
+     * 端口号
+     */
     private static final int SERVER_PORT = 9991;
     
     @Autowired
     private CenterHandler centerHandler;
+    
+    @Autowired
+    private LoginHandler loginHandler;
+    
+    @Autowired
+    private ICacheManager cacheManager;
+    
+    /**
+     * 客户端连接状态,KEY:SIM; VALUE:CHANNELID
+     */
+    private ConcurrentHashMap<String, ChannelId> channelConnections = new ConcurrentHashMap<String, ChannelId>();
+    
+    /**
+     * 客户端连接关系; KEY:channelId,VALUE:sim
+     */
+    private ConcurrentHashMap<String, String> channels = new ConcurrentHashMap<String, String>();
 
     /**
      * 启动服务
@@ -64,8 +93,12 @@ public class JT808Server {
                     // 定义职责链
                     ch.pipeline().addLast(new DecodeMessageHandler());
                     ch.pipeline().addLast(new EncodeMessageHandler());
+                    //超时处理
+                    ch.pipeline().addLast("readTimeoutHandler",new ReadTimeoutHandler(30, TimeUnit.SECONDS));
                     ch.pipeline().addLast(new JT808Server.ConnectionHandler());
-                    ch.pipeline().addLast(new LoginHandler()).addLast(new HeartbeatHandler()).addLast(centerHandler);
+                    ch.pipeline().addLast(loginHandler)
+                        .addLast(new HeartbeatHandler())
+                        .addLast(centerHandler);
                 }
             });
         try {
@@ -122,8 +155,12 @@ public class JT808Server {
          */
         @Override
         public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-            allChannels.remove(ctx.channel());
             logger.info("客户端与服务器断开连接");
+            String channelId = ctx.channel().id().asShortText();
+            if(channels.contains(channelId)){
+            	setOffline(channelId);
+            }
+            allChannels.remove(ctx.channel());
             super.channelInactive(ctx);
         }
 
@@ -133,19 +170,59 @@ public class JT808Server {
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
                 throws Exception {
+        	// 心跳超时断开连接
+        	if(cause instanceof ReadTimeoutException){
+        		String channelId = ctx.channel().id().asShortText();
+                if(channels.contains(channelId)){
+                	setOffline(channelId);
+                }	
+        	}
             ctx.close();
             cause.printStackTrace();
         }
+        
+        /**
+         * 设置车辆终端离线
+         * @param channelId
+         */
+        private void setOffline(String channelId){
+        	String sim = channels.get(channelId);
+        	// 设置车辆终端为离线状态
+        	VehicleVo vehicle = cacheManager.findVehicleBySim(sim);
+        	vehicle.setTerminalStatus(JT808Constants.VEHICLE_TERMINAL_ONLINE_OFFLINE);
+        	cacheManager.updateVehicle(vehicle);
+        	channels.remove(channelId);
+        	channelConnections.remove(sim);
+        }
     }
+    
     
     /**
      * 根据channelId查询channel
      * @param channelId
      * @return
      */
-    public Channel getChannel(ChannelId channelId){
+    public Channel getChannel(String simNo){
+        ChannelId channelId = this.channelConnections.get(simNo);
         
         return allChannels.find(channelId);
     }
 
+    /**
+     * 判断是否已经连接
+     * @param simNo
+     * @return
+     */
+    public boolean isConnectioned(String simNo) {
+        return this.channelConnections.containsKey(simNo);
+    }
+    
+
+    /**
+     * @param channelConnections the channelConnections to set
+     */
+    public void setChannel(String simNo,ChannelId channelId) {
+        this.channelConnections.put(simNo, channelId);
+        this.channels.put(channelId.asShortText(), simNo);
+    }
 }

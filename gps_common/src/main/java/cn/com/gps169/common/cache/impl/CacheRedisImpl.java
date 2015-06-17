@@ -1,15 +1,21 @@
 package cn.com.gps169.common.cache.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.sun.jersey.core.util.Base64;
+
 import cn.com.gps169.common.cache.ICacheManager;
+import cn.com.gps169.common.model.GpsInfo;
 import cn.com.gps169.common.model.VehicleVo;
 import cn.com.gps169.common.pb.VehiclePb;
 import cn.com.gps169.common.tool.DateUtil;
@@ -38,8 +44,12 @@ public class CacheRedisImpl implements ICacheManager {
 	private static final String VEHICLE_PLATE_NO_CACHE_PREFIX = "com:gps808:app:vehicle:plateno:";
 	//用户与车辆关系 ； KEY:USERID; VALUE:VEHICLE(set)
 	private static final String USER_VEHICLE_CACHE_PREFIX = "com:gps808:app:user:vehicle:userId:";
+	//车辆GPS信息，KEY:SIM；Value:gpsinfo
+	private static final String VEHICLE_GPS_CACHE_PREFIX = "com:gps808:app:gps:sim:";
 	//缓存标识符
 	private static final String CACHE_FLAG = "com:gps808:app:cache:flag";
+	//车辆轨迹
+	private static final String VEHICLE_TRACK_CACHE_PREFIX = "com:gps808:app:track:";
 
 	@Autowired
 	private VehicleMapper vehicleMapper;
@@ -92,7 +102,7 @@ public class CacheRedisImpl implements ICacheManager {
 			if (shardedJedis.exists(key)) {
 				String value = shardedJedis.get(key);
 				key = VEHICLE_SIM_NO_CACHE_PREFIX + value;
-				return convert2Veh(shardedJedis.get(key));
+				vehicleVo = decodeVehicle(shardedJedis.get(key));
 			} else {
 				Vehicle vehicle = null;
 				VehicleExample example = new VehicleExample();
@@ -110,6 +120,7 @@ public class CacheRedisImpl implements ICacheManager {
 				addUserVehicle(vehicleVo.getVehicleId());
 			}
 		} catch (Exception e) {
+		    LOGGER.error("查询车辆缓存异常，异常信息："+e.getMessage());
 			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
 		} finally {
 			ShardedJedisPoolFactory.returnResource(shardedJedis);
@@ -123,11 +134,10 @@ public class CacheRedisImpl implements ICacheManager {
 		if (v.getVehicleId() == null) {
 			LOGGER.error("增加车辆信息到缓存中时车辆id不能为空！");
 		}
-		String str = convert2Pb(v);
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = ShardedJedisPoolFactory.getResource();
-			shardedJedis.set(VEHICLE_SIM_NO_CACHE_PREFIX + v.getSimNo(), str);
+			shardedJedis.set(VEHICLE_SIM_NO_CACHE_PREFIX + v.getSimNo(), encodeVehicle(v));
 			shardedJedis.set(VEHICLE_VID_CACHE_PREFIX + v.getVehicleId(), v.getSimNo());
 			shardedJedis.set(VEHICLE_PLATE_NO_CACHE_PREFIX + v.getPlateNo(), v.getSimNo());
 			if(v.getUserId() > 0){
@@ -135,6 +145,7 @@ public class CacheRedisImpl implements ICacheManager {
 			    shardedJedis.sadd(USER_VEHICLE_CACHE_PREFIX + v.getUserId(), String.valueOf(v.getVehicleId()));
 			}
 		} catch (Exception e) {
+		    LOGGER.error("增加车辆缓存异常，异常信息："+e.getMessage());
 			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
 		} finally {
 			ShardedJedisPoolFactory.returnResource(shardedJedis);
@@ -153,7 +164,7 @@ public class CacheRedisImpl implements ICacheManager {
 			if (shardedJedis.exists(key)) {
 				String sim = shardedJedis.get(key);
 				key = VEHICLE_SIM_NO_CACHE_PREFIX + sim;
-				vehicleVo = convert2Veh(shardedJedis.get(key));
+				vehicleVo = decodeVehicle(shardedJedis.get(key));
 			} else {
 				Vehicle vehicle = null;
 				VehicleExample example = new VehicleExample();
@@ -171,6 +182,7 @@ public class CacheRedisImpl implements ICacheManager {
 				addUserVehicle(vehicleVo.getVehicleId());
 			}
 		} catch (Exception e) {
+		    LOGGER.error("查询车辆缓存异常，异常信息："+e.getMessage());
 			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
 		} finally {
 			ShardedJedisPoolFactory.returnResource(shardedJedis);
@@ -184,7 +196,7 @@ public class CacheRedisImpl implements ICacheManager {
 	 * @param v
 	 * @return
 	 */
-	private String convert2Pb(VehicleVo v){
+	private String encodeVehicle(VehicleVo v){
 	    VehiclePb.Vehicle.Builder vehiclePb = VehiclePb.Vehicle.newBuilder();
 	    vehiclePb.setVehicleId(v.getVehicleId());
 	    vehiclePb.setPlateNo(v.getPlateNo());
@@ -198,15 +210,8 @@ public class CacheRedisImpl implements ICacheManager {
 	    vehiclePb.setServiceStartTime(DateUtil.TIMEFORMATER1().format(v.getServiceStartTime()));
 	    vehiclePb.setVehicleStatus(v.getVehicleStatus());
 	    vehiclePb.setCreatedTime(DateUtil.TIMEFORMATER1().format(v.getCreatedTime()));
-	    //位置信息
-	    VehiclePb.Location.Builder location = VehiclePb.Location.newBuilder();
-	    location.setLongitude(v.getLongitude());
-	    location.setLatitude(v.getLatitude());
-	    location.setAddress(v.getAddress());
-	    location.setAltitude(v.getAltitude());
-	    location.setSpeed(v.getSpeed());
-	    location.setLastUploadTime(v.getLastUploadTime());
-	    vehiclePb.setLocation(location);
+	    vehiclePb.setMovingStatus(v.getMovingStatus());
+	    vehiclePb.setFleeStatus(v.getMovingStatus());
 	    
 	    return new String(Base64.encode(vehiclePb.build().toByteArray()));
 	}
@@ -216,7 +221,7 @@ public class CacheRedisImpl implements ICacheManager {
 	 * @param vehicleVo
 	 * @return
 	 */
-	private VehicleVo convert2Veh(String str){
+	private VehicleVo decodeVehicle(String str){
 		VehicleVo vehicleVo = new VehicleVo();
 	    try {
             VehiclePb.Vehicle vehiclePb = VehiclePb.Vehicle.parseFrom(Base64.decode(str.getBytes()));
@@ -232,20 +237,53 @@ public class CacheRedisImpl implements ICacheManager {
             vehicleVo.setServiceStartTime(DateUtil.TIMEFORMATER1().parse(vehiclePb.getServiceStartTime()));
             vehicleVo.setVehicleStatus((byte)vehiclePb.getVehicleStatus());
             vehicleVo.setCreatedTime(DateUtil.TIMEFORMATER1().parse(vehiclePb.getCreatedTime()));
-            //位置信息
-            VehiclePb.Location location = vehiclePb.getLocation();
-            vehicleVo.setLongitude(location.getLongitude());
-            vehicleVo.setLatitude(location.getLatitude());
-            vehicleVo.setAddress(location.getAddress());
-            vehicleVo.setAltitude(location.getAltitude());
-            vehicleVo.setSpeed(location.getSpeed());
-            vehicleVo.setLastUploadTime(location.getLastUploadTime());
         } catch (Exception e) {
         	LOGGER.error("解析车辆信息失败，错误信息："+e.getMessage());
         	return null;
 		}
 	    
 	    return vehicleVo;
+	}
+	
+	/**
+	 * 编码GPS信息
+	 * @param gps
+	 * @return
+	 */
+	private String encodeGps(GpsInfo gps){
+	    //位置信息
+        VehiclePb.Gps.Builder location = VehiclePb.Gps.newBuilder();
+        location.setLongitude(gps.getLongitude());
+        location.setLatitude(gps.getLatitude());
+        location.setLocation(gps.getLocation());
+        location.setAltitude(gps.getAltitude());
+        location.setSpeed(gps.getSpeed());
+        location.setSendTime(gps.getSendTime());
+        
+	    return new String(Base64.encode(location.build().toByteArray()));
+	}
+	
+	/**
+	 * 解析GPS信息
+	 * @param str
+	 * @return
+	 */
+	private GpsInfo decodeGps(String str) {
+        try {
+            VehiclePb.Gps gpsPb = VehiclePb.Gps.parseFrom(Base64.decode(str.getBytes()));
+            GpsInfo gpsInfo = new GpsInfo();
+            gpsInfo.setLongitude(gpsPb.getLongitude());
+            gpsInfo.setLatitude(gpsPb.getLatitude());
+            gpsInfo.setLocation(gpsPb.getLocation());
+            gpsInfo.setAltitude(gpsPb.getAltitude());
+            gpsInfo.setSpeed(gpsPb.getSpeed());
+            gpsInfo.setSendTime(gpsPb.getSendTime());
+            return gpsInfo;
+        } catch (InvalidProtocolBufferException e) {
+            LOGGER.error("解析车辆位置信息异常，异常信息:"+e.getMessage());
+        }
+	    
+	    return null;
 	}
 	
 	/**
@@ -278,6 +316,7 @@ public class CacheRedisImpl implements ICacheManager {
             // 缓存用户与车辆关系
             shardedJedis.sadd(USER_VEHICLE_CACHE_PREFIX +userId, String.valueOf(vehicleId));
         } catch (Exception e) {
+            LOGGER.error("增加用户、车辆缓存异常，异常信息："+e.getMessage());
             ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
         } finally {
             ShardedJedisPoolFactory.returnResource(shardedJedis);
@@ -295,7 +334,7 @@ public class CacheRedisImpl implements ICacheManager {
 			shardedJedis = ShardedJedisPoolFactory.getResource();
 			String key = VEHICLE_SIM_NO_CACHE_PREFIX + simnNo;
 			if (shardedJedis.exists(key)) {
-				return convert2Veh(shardedJedis.get(key));
+				return decodeVehicle(shardedJedis.get(key));
 			} else {
 				Vehicle vehicle = null;
 				VehicleExample example = new VehicleExample();
@@ -313,6 +352,7 @@ public class CacheRedisImpl implements ICacheManager {
 				addUserVehicle(vehicleVo.getVehicleId());
 			}
 		} catch (Exception e) {
+		    LOGGER.error("查询车辆缓存异常，异常信息："+e.getMessage());
 			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
 		} finally {
 			ShardedJedisPoolFactory.returnResource(shardedJedis);
@@ -332,9 +372,10 @@ public class CacheRedisImpl implements ICacheManager {
 			String sim;
 			for(String vehicleId : set){
 				sim = shardedJedis.get(VEHICLE_VID_CACHE_PREFIX + vehicleId);
-				list.add(convert2Veh(shardedJedis.get(VEHICLE_SIM_NO_CACHE_PREFIX + sim)));
+				list.add(decodeVehicle(shardedJedis.get(VEHICLE_SIM_NO_CACHE_PREFIX + sim)));
 			}
 		} catch (Exception e) {
+		    LOGGER.error("增加用户车辆缓存异常，异常信息："+e.getMessage());
 			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
 		} finally {
 			ShardedJedisPoolFactory.returnResource(shardedJedis);
@@ -348,22 +389,12 @@ public class CacheRedisImpl implements ICacheManager {
 		try {
 			shardedJedis = ShardedJedisPoolFactory.getResource();
 			String key = VEHICLE_SIM_NO_CACHE_PREFIX + vehicleVo.getSimNo();
-			VehicleVo rVehicleVo = convert2Veh(shardedJedis.get(key));
-			rVehicleVo.setVehicleId(vehicleVo.getVehicleId());
-			rVehicleVo.setPlateNo(vehicleVo.getPlateNo());
-			rVehicleVo.setVin(vehicleVo.getVin());
-			rVehicleVo.setEin(vehicleVo.getEin());
-			rVehicleVo.setSimNo(vehicleVo.getSimNo());
-			rVehicleVo.setTerminalNo(vehicleVo.getTerminalNo());
-			rVehicleVo.setTerminalFlag((byte)vehicleVo.getTerminalFlag());
-			rVehicleVo.setTerminalStatus((byte)vehicleVo.getTerminalStatus());
-			rVehicleVo.setServiceEndTime(vehicleVo.getServiceEndTime());
-			rVehicleVo.setServiceStartTime(vehicleVo.getServiceStartTime());
-			rVehicleVo.setVehicleStatus((byte)vehicleVo.getVehicleStatus());
-			rVehicleVo.setCreatedTime(vehicleVo.getCreatedTime());
+			VehicleVo rVehicleVo = decodeVehicle(shardedJedis.get(key));
+			BeanUtils.copyProperties(rVehicleVo, vehicleVo);
 			//更新
-			shardedJedis.set(key, convert2Pb(rVehicleVo));
+			shardedJedis.set(key, encodeVehicle(rVehicleVo));
 		} catch (Exception e) {
+		    LOGGER.error("更新车辆缓存异常，异常信息："+e.getMessage());
 			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
 		} finally {
 			ShardedJedisPoolFactory.returnResource(shardedJedis);
@@ -372,28 +403,96 @@ public class CacheRedisImpl implements ICacheManager {
 		return vehicleVo;
 	}
 
+    /* (non-Javadoc)
+     * @see cn.com.gps169.common.cache.ICacheManager#findGpsInfoBySim(java.lang.String)
+     */
+    @Override
+    public GpsInfo findGpsInfoBySim(String simNo) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = ShardedJedisPoolFactory.getResource();
+            String key = VEHICLE_GPS_CACHE_PREFIX + simNo;
+            if(shardedJedis.exists(key)){
+                return decodeGps(shardedJedis.get(key));
+            }
+        } catch (Exception e) {
+            LOGGER.error("增加车辆位置缓存异常，异常信息："+e.getMessage());
+            ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
+        } finally {
+            ShardedJedisPoolFactory.returnResource(shardedJedis);
+        }
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see cn.com.gps169.common.cache.ICacheManager#addGpsInfo(cn.com.gps169.common.model.GpsInfo)
+     */
+    @Override
+    public GpsInfo addGpsInfo(GpsInfo gpsInfo) {
+        ShardedJedis shardedJedis = null;
+        try {
+            shardedJedis = ShardedJedisPoolFactory.getResource();
+            String key = VEHICLE_GPS_CACHE_PREFIX + gpsInfo.getSimNo();
+            shardedJedis.set(key, encodeGps(gpsInfo));
+        } catch (Exception e) {
+            LOGGER.error("增加车辆位置缓存异常，异常信息："+e.getMessage());
+            ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
+        } finally {
+            ShardedJedisPoolFactory.returnResource(shardedJedis);
+        }
+        return gpsInfo;
+    }
+
 	@Override
-	public VehicleVo updateVehicleLocation(VehicleVo vehicleVo) {
+	public void addVehicleTrack(GpsInfo gpsInfo) {
 		ShardedJedis shardedJedis = null;
-		try {
+		try{
 			shardedJedis = ShardedJedisPoolFactory.getResource();
-			String key = VEHICLE_SIM_NO_CACHE_PREFIX + vehicleVo.getSimNo();
-			VehicleVo rVehicleVo = convert2Veh(shardedJedis.get(key));
-			rVehicleVo.setLongitude(vehicleVo.getLongitude());
-			rVehicleVo.setLatitude(vehicleVo.getLatitude());
-			rVehicleVo.setAddress(vehicleVo.getAddress());
-			rVehicleVo.setAltitude(vehicleVo.getAltitude());
-			rVehicleVo.setSpeed(vehicleVo.getSpeed());
-			rVehicleVo.setLastUploadTime(vehicleVo.getLastUploadTime());
-			//更新
-			shardedJedis.set(key, convert2Pb(rVehicleVo));
+			String key = VEHICLE_TRACK_CACHE_PREFIX + gpsInfo.getSimNo() +":" + DateUtil.DATEFORMATER().parse(gpsInfo.getSendTime()).getTime();
+			shardedJedis.append(key, encodeGps(gpsInfo));
 		} catch (Exception e) {
-			ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
-		} finally {
-			ShardedJedisPoolFactory.returnResource(shardedJedis);
-		}
+            LOGGER.error("增加车辆轨迹点缓存异常，异常信息："+e.getMessage());
+            ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
+        } finally {
+            ShardedJedisPoolFactory.returnResource(shardedJedis);
+        }
 		
-		return vehicleVo;
+	}
+
+	@Override
+	public List<GpsInfo> findVehicleTrip(int simNo, long recvDay) {
+		List<GpsInfo> list = new LinkedList<GpsInfo>();
+		ShardedJedis shardedJedis = null;
+		try{
+			shardedJedis = ShardedJedisPoolFactory.getResource();
+			String key = VEHICLE_TRACK_CACHE_PREFIX + simNo +":" + recvDay;
+			Set<String> set = shardedJedis.smembers(key);
+			for(String str : set){
+				list.add(decodeGps(str));
+			}
+		}  catch (Exception e) {
+            LOGGER.error("查询车辆轨迹点缓存异常，异常信息："+e.getMessage());
+            ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
+        } finally {
+            ShardedJedisPoolFactory.returnResource(shardedJedis);
+        }
+		
+		return list;
+	}
+
+	@Override
+	public void deleteVehicleTrip(int simNo, long recvDay) {
+		ShardedJedis shardedJedis = null;
+		try{
+			shardedJedis = ShardedJedisPoolFactory.getResource();
+			String key = VEHICLE_TRACK_CACHE_PREFIX + simNo +":" + recvDay;
+			shardedJedis.del(key);
+		} catch (Exception e) {
+            LOGGER.error("删除车辆轨迹点缓存异常，异常信息："+e.getMessage());
+            ShardedJedisPoolFactory.returnBrokenResource(shardedJedis);
+        } finally {
+            ShardedJedisPoolFactory.returnResource(shardedJedis);
+        }
 	}
 	
 }

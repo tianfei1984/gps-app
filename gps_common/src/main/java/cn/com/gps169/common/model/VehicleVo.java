@@ -10,12 +10,7 @@ import cn.com.gps169.db.model.Vehicle;
 public class VehicleVo extends Vehicle {
     
     private int userId;			//用户ID
-    private String longitude; //经度
-    private String latitude; //纬度
-    private String address; //地址
-    private float altitude; //海拔
-    private float speed; //车辆速度
-    private String lastUploadTime; //最新上传时间
+    private GpsInfo gpsInfo;
     
     /**
      * @return the userId
@@ -31,51 +26,18 @@ public class VehicleVo extends Vehicle {
         this.userId = userId;
     }
 
-	public String getLongitude() {
-		return longitude;
-	}
+    /**
+     * @return the gpsInfo
+     */
+    public GpsInfo getGpsInfo() {
+        return gpsInfo;
+    }
 
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
-	}
-
-	public String getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public float getAltitude() {
-		return altitude;
-	}
-
-	public void setAltitude(float altitude) {
-		this.altitude = altitude;
-	}
-
-	public float getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(float speed) {
-		this.speed = speed;
-	}
-
-	public String getLastUploadTime() {
-		return lastUploadTime;
-	}
-
-	public void setLastUploadTime(String lastUploadTime) {
-		this.lastUploadTime = lastUploadTime;
-	}
+    /**
+     * @param gpsInfo the gpsInfo to set
+     */
+    public void setGpsInfo(GpsInfo gpsInfo) {
+        this.gpsInfo = gpsInfo;
+    }
+	
 }

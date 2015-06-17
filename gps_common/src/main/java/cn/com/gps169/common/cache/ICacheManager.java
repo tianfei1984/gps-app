@@ -1,6 +1,7 @@
 package cn.com.gps169.common.cache;
 
 import java.util.List;
+import cn.com.gps169.common.model.GpsInfo;
 import cn.com.gps169.common.model.VehicleVo;
 
 
@@ -21,7 +22,7 @@ public interface ICacheManager {
 	 * @param simnNo
 	 * @return
 	 */
-	VehicleVo findVehicleBySim(String simnNo);
+	VehicleVo findVehicleBySim(String simNo);
 	
 	/**
 	 * 根据车辆ID查询车辆信息
@@ -59,10 +60,38 @@ public interface ICacheManager {
 	VehicleVo updateVehicle(VehicleVo vehicleVo);
 	
 	/**
-	 * 更新车辆动态数据缓存信息
-	 * @param vehicleVo
+	 * 根据SIM查询车辆当前GPS位置信息
+	 * @param simNo
 	 * @return
 	 */
-	VehicleVo updateVehicleLocation(VehicleVo vehicleVo);
+	GpsInfo findGpsInfoBySim(String simNo);
+	
+	/**
+	 * 
+	 * @param gpsInfo
+	 * @return
+	 */
+	GpsInfo addGpsInfo(GpsInfo gpsInfo);
+	
+	/**
+	 * 添加GPS至车辆轨迹集合
+	 * @param gpsInfo
+	 */
+	void addVehicleTrack(GpsInfo gpsInfo);
+	
+	/**
+	 * 查询车辆轨迹
+	 * @param simNo
+	 * @param recvDay
+	 * @return
+	 */
+	List<GpsInfo> findVehicleTrip(int simNo, long recvDay);
+	
+	/**
+	 * 删除车辆某日轨迹点
+	 * @param simNo
+	 * @param recvDay
+	 */
+	void deleteVehicleTrip(int simNo, long recvDay);
 
 }

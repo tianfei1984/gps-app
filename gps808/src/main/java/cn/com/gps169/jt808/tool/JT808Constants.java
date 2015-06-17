@@ -30,15 +30,36 @@ public class JT808Constants {
     
 	//终端鉴权码
 	public static final String AUTHENTICATION_CODE = "1234567890A";
-	
+    
+    //////////终端状态///////
     /**
-     * 车辆行驶状态--行驶中
+     * 缴费状态：待交费
      */
-    public static final String VEHICLE_RUNNING_STATUS_RUNNING = "running";
+    public static final byte TERMINAL_FLEE_STATUS_WAIT = 1;
+    /**
+     * 缴费状态：已缴费
+     */
+    public static final byte TERMINAL_FLEE_STATUS_DONE = 2;
+    /**
+     * 缴费状态:欠费
+     */
+    public static final byte TERMINAL_FLEE_STATUS_ARREARAGE = 3;
     
     /**
-     * 车辆行驶状态--停止
+     * 车辆终端在线状态:在线
      */
-    public static final String VEHICLE_RUNNING_STATUS_STOP = "stop";
-
+    public static final byte VEHICLE_TERMINAL_STATUS_ONLINE = 1;
+    /**
+     * 车辆终端在线状态：离线
+     */
+    public static final byte VEHICLE_TERMINAL_ONLINE_OFFLINE = 2;
+    /**
+     * 车辆运行状态：行程中
+     */
+    public static final byte VEHICLE_RUNNING_STATUS_MOVING = 1;
+    /**
+     * 车辆 运行状态：停止
+     */
+    public static final byte VEHICLE_RUNNING_STATUS_STOP = 2;
+    
 }
