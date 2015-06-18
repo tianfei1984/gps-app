@@ -325,9 +325,11 @@ public class DateUtil {
         System.out.println(TIMEFORMATER1().format(getStarDateByYear(2013)));
         
         Date d = stringToDatetime("2015-04-07 14:00:00");
+        Date d1 = stringToDatetime("2015-04-07 14:01:00");
         Calendar c = Calendar.getInstance();
         c.setTime(d);
         System.out.println(c.get(Calendar.YEAR));
+        System.out.println(getSeconds(d,d1));
     }
     
     public static Date getDate(Date date, int field, int i) {

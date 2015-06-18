@@ -71,7 +71,7 @@ public class VehicleController {
 	public String addVehicle(@RequestBody Vehicle vehicle){
 	    JSONObject result = new JSONObject();
 	    result.put("flag", "fail");
-	    if(StringUtils.isBlank(vehicle.getLicensePlate())){
+	    if(StringUtils.isBlank(vehicle.getPlateNo())){
 	        result.put("msg", "车牌号不能为空");
 	        return result.toString();
 	    }

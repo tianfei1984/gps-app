@@ -12,14 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import cn.com.gps169.bos.service.IVehicleMonitorService;
 import cn.com.gps169.common.cache.IDataAcquireCacheManager;
-import cn.com.gps169.common.cache.IRunningStatusCacheManager;
-import cn.com.gps169.common.cache.ITerminalCacheManager;
-import cn.com.gps169.common.cache.ITmnlVehiCacheManager;
 import cn.com.gps169.common.cache.ITripCacheManager;
 import cn.com.gps169.common.cache.ICacheManager;
-import cn.com.gps169.common.model.RunningState;
 import cn.com.gps169.common.tool.DateUtil;
-import cn.com.gps169.db.dao.TripMapper;
 
 /**
  * 车辆状态查询接口
@@ -34,22 +29,10 @@ public class VehicleMonitorResource {
 	private IDataAcquireCacheManager dataAcquireCacheManager;
 	
 	@Autowired
-	private IRunningStatusCacheManager runningStatusCacheManager;
-	
-	@Autowired
 	private ITripCacheManager tripCacheManager;
 	
 	@Autowired
-	private ITerminalCacheManager terminalCacheManager;
-	
-	@Autowired
 	private ICacheManager vehicleCacheManager;
-	
-	@Autowired
-	private ITmnlVehiCacheManager tmnlVehCacheManager;
-	
-	@Autowired
-	private TripMapper tripMapper;
 	
 	@Autowired
 	private IVehicleMonitorService vehicleMonitorService;
@@ -98,10 +81,10 @@ public class VehicleMonitorResource {
 	@RequestMapping(value="rstatus",method=RequestMethod.GET)
 	public @ResponseBody String getRunningSatus(@RequestParam("vid")int vehicleId) { 
 		Date occurTime = DateUtil.addDate(DateUtil.formatDate(new Date()), 0);
-		RunningState rs = runningStatusCacheManager.findLatestRunningState(vehicleId, occurTime);
-		if(rs != null){
-			return JSONObject.fromObject(rs).toString();
-		}
+//		RunningState rs = runningStatusCacheManager.findLatestRunningState(vehicleId, occurTime);
+//		if(rs != null){
+//			return JSONObject.fromObject(rs).toString();
+//		}
 		return "没有车辆运行状态";
 	}
 	
@@ -121,19 +104,5 @@ public class VehicleMonitorResource {
 	public @ResponseBody String getTrip(@RequestParam("tripId")int tripId){
 		return vehicleMonitorService.queryTripById(tripId);
 	}
-	
-	/**
-	 * 刷新缓存信息
-	 * @return
-	 */
-	@RequestMapping(value="refreshCache",method=RequestMethod.GET)
-	public @ResponseBody String refreshCache(){
-		terminalCacheManager.initCache();
-		vehicleCacheManager.initCache();
-		tmnlVehCacheManager.initCache();
-		
-		return "success";
-	}
-	
 	
 }

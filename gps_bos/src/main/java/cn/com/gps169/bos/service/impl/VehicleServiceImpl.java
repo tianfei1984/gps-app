@@ -30,10 +30,10 @@ public class VehicleServiceImpl implements IVehicleService {
 		VehicleExample example = new VehicleExample();
 		Criteria criteria = example.or();
 		if(status != 0){
-			criteria.andStatusEqualTo(status);
+//			criteria.andStatusEqualTo(status);
 		}
 		if(StringUtils.isNotBlank(licensePlate)){
-			criteria.andLicensePlateLike("%"+licensePlate+"%");
+			criteria.andPlateNoEqualTo("%"+licensePlate+"%");
 		}
 		example.setLimitStart(pageNum);
 		example.setLimitEnd(pageRows);
@@ -43,12 +43,9 @@ public class VehicleServiceImpl implements IVehicleService {
 		for(Vehicle v : list){
 			json = new JSONObject();
 			json.put("vid", v.getVehicleId());
-			json.put("licesePlate", v.getLicensePlate());
+			json.put("licesePlate", v.getPlateNo());
 			json.put("ein", v.getEin());
 			json.put("vin", v.getVin());
-			json.put("type", v.getType() == 1 ? "货运车辆" : "其他");
-			json.put("status", v.getStatus() == 1 ? "正常":"停用");
-			json.put("created", v.getCreated());
 			result.add(json);
 		}
 		JSONObject vehicles = new JSONObject();
@@ -67,9 +64,9 @@ public class VehicleServiceImpl implements IVehicleService {
         //判断车辆有限性
         VehicleExample example = new VehicleExample();
         if(vid == null){
-            example.or().andLicensePlateEqualTo(vehicle.getLicensePlate());
+            example.or().andPlateNoEqualTo(vehicle.getPlateNo());
         } else {
-            example.or().andLicensePlateEqualTo(vehicle.getLicensePlate()).andVehicleIdNotEqualTo(vid);
+            example.or().andPlateNoEqualTo(vehicle.getPlateNo()).andVehicleIdNotEqualTo(vid);
         }
         int count = vehicleMapper.countByExample(example);
         if(count > 0){
@@ -86,14 +83,14 @@ public class VehicleServiceImpl implements IVehicleService {
             return "发动机号已经存在";
         }
         if(vid == null){
-            vehicle.setCreated(new Date());
+//            vehicle.setCreated(new Date());
             vehicleMapper.insert(vehicle);
         } else {
-            vehicle.setUpdated(new Date());
+//            vehicle.setUpdated(new Date());
             vehicleMapper.updateByPrimaryKeySelective(vehicle);
         }
         // 更新缓存信息
-        vehicleCacheManager.addVehicle(vehicle);
+//        vehicleCacheManager.addVehicle(vehicle);
         return null;
     }
 
@@ -112,14 +109,14 @@ public class VehicleServiceImpl implements IVehicleService {
     @Override
     public JSONArray queryUnbindVeh() {
         VehicleExample example = new VehicleExample();
-        example.or().andStatusEqualTo(1).andTerminalIdIsNull();
+//        example.or().andStatusEqualTo(1).andTerminalIdIsNull();
         List<Vehicle> list = vehicleMapper.selectByExample(example);
         JSONArray array = new JSONArray();
         JSONObject veh = null;
         for(Vehicle v : list){
             veh = new JSONObject();
             veh.put("vid", v.getVehicleId());
-            veh.put("licensePlate", v.getLicensePlate());
+//            veh.put("licensePlate", v.getLicensePlate());
             array.add(veh);
         }
         

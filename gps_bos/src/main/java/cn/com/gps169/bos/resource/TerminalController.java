@@ -1,21 +1,11 @@
 package cn.com.gps169.bos.resource;
 
 import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import cn.com.gps169.bos.model.TerminalVo;
-import cn.com.gps169.bos.service.ITerminalService;
-import cn.com.gps169.db.model.Terminal;
 
 /**
  * 终端控制器
@@ -25,9 +15,6 @@ import cn.com.gps169.db.model.Terminal;
 @Controller
 @RequestMapping("terminal")
 public class TerminalController {
-	
-	@Autowired
-	private ITerminalService terminalService;
 	
 	/**
 	 * 分页查询终端信息
@@ -41,9 +28,9 @@ public class TerminalController {
 		String sStatus = request.getParameter("status");
 		int status = StringUtils.isNotBlank(sStatus) ? Integer.parseInt(sStatus) : 0;
 		String licensePlate = request.getParameter("licensePlate");
-		JSONObject result = terminalService.queryTerminal((pageNum-1)*pageRows, pageRows,status,licensePlate);
+//		JSONObject result = terminalService.queryTerminal((pageNum-1)*pageRows, pageRows,status,licensePlate);
 		
-		return result.toString();
+		return "";
 	}
 	
 	/**
@@ -64,10 +51,10 @@ public class TerminalController {
 	@RequestMapping("get")
 	@ResponseBody
 	public String getVehicle(@RequestParam("tid") int tid){
-	    Terminal terminal = terminalService.queryTerminalById(tid);
-	    if(terminal != null){
-	        return JSONObject.fromObject(terminal).toString();
-	    }
+//	    Terminal terminal = terminalService.queryTerminalById(tid);
+//	    if(terminal != null){
+//	        return JSONObject.fromObject(terminal).toString();
+//	    }
 	    return null;
 	}
 	
@@ -76,24 +63,24 @@ public class TerminalController {
 	 * @param vehicle
 	 * @return
 	 */
-	@RequestMapping(value="add",method=RequestMethod.POST,consumes="application/json")
-	@ResponseBody
-	public String addVehicle(@RequestBody TerminalVo terminal){
-	    JSONObject result = new JSONObject();
-	    result.put("flag", "fail");
-	    if(StringUtils.isBlank(terminal.getImei())){
-	        result.put("msg", "终端识别码不能为空");
-	        return result.toString();
-	    }
-	    String opt = terminalService.addOrUpdateVehicle(terminal); 
-	    if(StringUtils.isBlank(opt)){
-	        result.put("flag", "success");
-	    } else {
-	        result.put("msg", opt);
-	    }
-	    
-	    return result.toString();
-	}
+//	@RequestMapping(value="add",method=RequestMethod.POST,consumes="application/json")
+//	@ResponseBody
+//	public String addVehicle(@RequestBody TerminalVo terminal){
+//	    JSONObject result = new JSONObject();
+//	    result.put("flag", "fail");
+//	    if(StringUtils.isBlank(terminal.getImei())){
+//	        result.put("msg", "终端识别码不能为空");
+//	        return result.toString();
+//	    }
+//	    String opt = terminalService.addOrUpdateVehicle(terminal); 
+//	    if(StringUtils.isBlank(opt)){
+//	        result.put("flag", "success");
+//	    } else {
+//	        result.put("msg", opt);
+//	    }
+//	    
+//	    return result.toString();
+//	}
 	
 	/**
 	 * 终端、车辆解绑 
@@ -102,7 +89,7 @@ public class TerminalController {
 	@RequestMapping("unbind")
 	@ResponseBody
 	public String unbind(@RequestParam("vid")int vehicleId,@RequestParam("tid")int tid){
-		terminalService.unbind(vehicleId, tid);
+//		terminalService.unbind(vehicleId, tid);
 		
 		return "sucess";
 	}

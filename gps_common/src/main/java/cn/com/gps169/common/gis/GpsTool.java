@@ -1,4 +1,4 @@
-package cn.com.gps169.common.tool;
+package cn.com.gps169.common.gis;
 
 import cn.com.gps169.common.model.GpsInfo;
 import cn.com.gps169.common.tool.RestfulInvokeService;
@@ -9,7 +9,7 @@ import net.sf.json.JSONObject;
  * @author tianfei
  *
  */
-public class LocationTool {
+public class GpsTool {
 	
 	private static final String KEY = "eb11422e622e0cc276685ee0ea4f59be";
 	

@@ -1,5 +1,6 @@
 package cn.com.gps169.jt808.server;
 
+import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -11,9 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import cn.com.gps169.common.cache.ICacheManager;
+import cn.com.gps169.common.gis.GpsTool;
 import cn.com.gps169.common.model.GpsInfo;
 import cn.com.gps169.common.thread.MyThreadFactory;
-import cn.com.gps169.common.tool.LocationTool;
+import cn.com.gps169.common.tool.DateUtil;
 
 /**
  * GPS位置信息服务
@@ -26,7 +28,7 @@ public class GpsServer {
 	private static Logger logger = LoggerFactory.getLogger(GpsServer.class);
 	
 	/**
-	 * 位置 信息队列
+	 * 位置信息队列
 	 */
 	private static BlockingQueue<GpsInfo> gpsQueue = new LinkedBlockingQueue<GpsInfo>();
 	
@@ -118,17 +120,48 @@ public class GpsServer {
 
 		@Override
 		public void run() {
-			// 位置偏转
-		    GpsInfo gps = LocationTool.deflectGpsData(gpsInfo);
-			if(gps == null){
-				//位置偏转失败 TODO:T待优化处理
-				logger.error("位置信息偏转失败！"+gpsInfo.toString());
-				return;
+			//判断是否进行GPS解析
+			GpsInfo oldGps = cacheManager.findGpsInfoBySim(gpsInfo.getSimNo());
+			if(isDeflect(gpsInfo, oldGps)){
+				// 位置偏转
+				GpsInfo gps = GpsTool.deflectGpsData(gpsInfo);
+				if(gps == null){
+					//位置偏转失败 TODO:T待优化处理
+					logger.error("位置信息偏转失败！"+gpsInfo.toString());
+					return;
+				}
+				// 更新车辆最新位置
+				cacheManager.addGpsInfo(gps);
+				//更新车辆轨迹点
+				cacheManager.addVehicleTrack(gps);
 			}
-			// 更新车辆最新位置
-			cacheManager.addGpsInfo(gps);
-			//更新车辆轨迹点
-			cacheManager.addVehicleTrack(gps);
+		}
+		
+		/**
+		 * 判断是否需要进行GPS解析
+		 * @param currGps
+		 * @param oldGps
+		 * @return
+		 */
+		private boolean isDeflect(GpsInfo currGps,GpsInfo oldGps){
+			//首次上GPS
+			if(oldGps == null){
+				return true;
+			}
+			//判断两点是否相等
+			if(oldGps.getLatitude() == currGps.getLatitude() && oldGps.getLongitude() == currGps.getLongitude()){
+				return false;
+			}
+			//两点间隔大于1分钟
+			Date currTime = DateUtil.stringToDatetime(currGps.getSendTime());
+			Date preTime = DateUtil.stringToDatetime(oldGps.getSendTime());
+			if(DateUtil.getSeconds(preTime,currTime) >= 60){
+				return true;
+			}
+			//TODO:判断两点的距离大于100米
+			
+			
+			return false;
 		}
 	}
 	
