@@ -12,6 +12,8 @@ import net.sf.json.JSONObject;
 public class GpsTool {
 	
 	private static final String KEY = "eb11422e622e0cc276685ee0ea4f59be";
+	//www.che08.com/gis/ws/0.1/simplegeocoding?lat=39.990475&lon=116.481499&range&pattern&serviceid=1&encoded=0
+	//www.che08.com/gis/ws/0.1/gps/encode?latlon=116.456451%2C40.022356&serviceid=1
 	
 	/**
 	 * 将GPS偏转为高德位置 
