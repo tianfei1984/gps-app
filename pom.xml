@@ -147,7 +147,7 @@
 		<module>gps_db</module>
 		<module>gps_common</module>
 		<module>gps_bos</module>
-		<module>gps_push_server</module>
+		<module>gps_server</module>
 		<module>mybatis-page-plugin</module>
 		<module>gps808</module>
 		<module>gps809</module>

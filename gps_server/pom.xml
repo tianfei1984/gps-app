@@ -6,7 +6,7 @@
 		<artifactId>gps</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>gps_push_server</artifactId>
+	<artifactId>gps_server</artifactId>
 	<packaging>war</packaging>
 
 	<dependencies>
