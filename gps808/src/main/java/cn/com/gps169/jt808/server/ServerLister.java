@@ -28,15 +28,15 @@ public class ServerLister implements ServletContextListener {
 		ICacheManager vehicleCacheManager = (ICacheManager) app.getBean("cacheRedisImpl");
 		vehicleCacheManager.initCache();
 		LOGGER.info("初始化系统缓存数据结束...");
+		LOGGER.info("启动GPS服务开始...");
+		GpsServer gpsServer = (GpsServer) app.getBean("gpsServer");
+		gpsServer.start();
+		LOGGER.info("启动GPS服务完成...");
 		// 启动MINA服务
 		LOGGER.info("启动JT808服务开始....");
 		JT808Server minaServer = (JT808Server) app.getBean("jt808Server");
 		minaServer.start();
 		LOGGER.info("启动JT808服务结束....");
-		LOGGER.info("启动GPS服务开始...");
-		GpsServer gpsServer = (GpsServer) app.getBean("gpsServer");
-		gpsServer.start();
-		LOGGER.info("启动GPS服务完成...");
 	}
 
 	@Override

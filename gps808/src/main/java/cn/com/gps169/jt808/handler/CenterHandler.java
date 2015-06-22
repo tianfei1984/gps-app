@@ -64,13 +64,13 @@ public class CenterHandler extends ChannelHandlerAdapter {
         if(platformCommReponse.contains(msg.getMessageID())){
             //回复消息
             JT8001 rbody = new JT8001(msg.getHead().getFlowNo(), msg.getHead().getMessageId(), EMsgAck.SUCESS.value());
-            MessageHead head = msg.getHead();
+            MessageHead head = (MessageHead) msg.getHead().clone();
             head.setMessageId(0x8001);
             Message response = new Message(head,rbody);
             ctx.write(response);
         }
         //线程池调用消息处理器
-       executorService.execute(new ProcThread(msg));
+        executorService.execute(new ProcThread(msg));
     }
     
     /**

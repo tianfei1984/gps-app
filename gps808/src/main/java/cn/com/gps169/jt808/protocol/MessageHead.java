@@ -9,7 +9,7 @@ import cn.com.gps169.jt808.tool.Tools;
  * @author tianfei
  *
  */
-public class MessageHead {
+public class MessageHead implements Cloneable {
 	
 	private int messageId;		//消息ID
 	private short bodyLength;	// 消息体长度
@@ -191,5 +191,11 @@ public class MessageHead {
 		sb.append("消息ID:").append("0X"+Tools.ToHexString4Short((short) messageId)).append("消息体长度：").append(getBodyLength()).
 			append("终端手机号：").append(this.simNo).append("消息流水号：").append(this.flowNo);
 		return sb.toString();
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
 	}
 }

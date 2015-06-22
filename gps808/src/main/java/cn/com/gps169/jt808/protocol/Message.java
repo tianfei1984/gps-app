@@ -1,6 +1,7 @@
 package cn.com.gps169.jt808.protocol;
 
 import java.nio.ByteBuffer;
+
 import cn.com.gps169.jt808.tool.Tools;
 
 /**

@@ -29,13 +29,19 @@ var _menus = {
 			"menuname": "运营管理",
 			"menus": [{
 				"menuid": "21",
-				"menuname": "车辆信息管理",
+				"menuname": "帐号管理",
 				"icon": "icon-nav",
-				"url": "./views/mnt/vehicle.jsp"
+				"url": "./views/mnt/user.jsp"
 			},
 			{
 				"menuid": "22",
-				"menuname": "终端设备管理",
+				"menuname": "车辆管理",
+				"icon": "icon-nav",
+				"url": "./views/mnt/terminal.jsp"
+			},
+			{
+				"menuid": "23",
+				"menuname": "意见反馈",
 				"icon": "icon-nav",
 				"url": "./views/mnt/terminal.jsp"
 			}]

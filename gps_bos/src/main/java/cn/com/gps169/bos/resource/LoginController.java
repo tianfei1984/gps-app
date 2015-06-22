@@ -56,7 +56,7 @@ public class LoginController {
         	SecurityUtils.getSubject().login(token);
         	result.put("code", 1);
         } catch (UnknownAccountException e){
-            result.put("msg", "账号不存在!");
+            result.put("msg", "用户名/密码错误!");
         } catch (IncorrectCredentialsException e){
         	result.put("msg", "用户名/密码错误!");
         } catch (ExcessiveAttemptsException e) {
