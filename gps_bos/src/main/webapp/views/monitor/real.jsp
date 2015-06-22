@@ -126,11 +126,11 @@ function doSearch(type,content){
 	               marker.setMap(mapObj);
 	               var info = [];  
 	               info.push("<b> 车辆信息</b>");                 
-	               info.push("  车牌 :  "+item.licensePlate); 
+	               info.push("  车牌 :  "+item.plateNo); 
 	               info.push("  车速 : "+item.speed+" km/h");
 	               info.push("  经纬度 : "+item.longitude+":"+item.latitude);
 	               info.push("  定位时间  : "+item.sendTime);
-	               info.push("  地址 : ***");
+	               info.push("  地址 : "+item.location);
 	               var inforWindow = new AMap.InfoWindow({                 
 	                    offset:new AMap.Pixel(0,-23),
 	                    autoMove:true,

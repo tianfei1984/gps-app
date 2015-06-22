@@ -237,6 +237,7 @@ public class CacheRedisImpl implements ICacheManager {
             vehicleVo.setServiceStartTime(DateUtil.TIMEFORMATER1().parse(vehiclePb.getServiceStartTime()));
             vehicleVo.setVehicleStatus((byte)vehiclePb.getVehicleStatus());
             vehicleVo.setCreatedTime(DateUtil.TIMEFORMATER1().parse(vehiclePb.getCreatedTime()));
+            vehicleVo.setMovingStatus((byte) vehiclePb.getMovingStatus());
         } catch (Exception e) {
         	LOGGER.error("解析车辆信息失败，错误信息："+e.getMessage());
         	return null;

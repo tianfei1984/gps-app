@@ -2,14 +2,18 @@ package cn.com.gps169.bos.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import cn.com.gps169.bos.service.IVehicleMonitorService;
 import cn.com.gps169.common.cache.IDataAcquireCacheManager;
 import cn.com.gps169.common.cache.ICacheManager;
+import cn.com.gps169.common.model.GpsInfo;
 import cn.com.gps169.db.dao.VehicleMapper;
 import cn.com.gps169.db.model.Vehicle;
 import cn.com.gps169.db.model.VehicleExample;
@@ -24,7 +28,7 @@ public class VehicleMonitorServiceImpl implements IVehicleMonitorService {
 	
 	//车辆缓存
 	@Autowired
-	private ICacheManager vehicleCacheManager;
+	private ICacheManager cacheManager;
 	
 	@Autowired
 	private IDataAcquireCacheManager dataAcquireCacheManager;
@@ -34,34 +38,19 @@ public class VehicleMonitorServiceImpl implements IVehicleMonitorService {
 	
 	@Override
 	public JSONArray queryVehicles(JSONObject params) {
-		List<Integer> vehicleIds = new ArrayList<Integer>();
 		// 查询条件
-		String licensePlate = params.optString("licensePlate","");
-		if(StringUtils.isNotBlank(licensePlate)){
-			VehicleExample example = new VehicleExample();
-			example.or().andPlateNoEqualTo(licensePlate);
-			List<Vehicle> list = vehicleMapper.selectByExample(example);
-			for(Vehicle v : list){
-				vehicleIds.add(v.getVehicleId());
-			}
-		} else {
-			//所有车辆ID
-//			vehicleIds = vehicleCacheManager.findAllVehicleIds();
-		}
+		VehicleExample example = new VehicleExample();
+		List<Vehicle> list = vehicleMapper.selectByExample(example);
 		// 车辆列表信息、gps
 		JSONArray array = new JSONArray();
-		JSONObject gps = null;
-		Vehicle vehicle = null;
-		for(Integer vId : vehicleIds){
-			// 车辆信息
-			vehicle = vehicleCacheManager.findVehicleById(vId);
+		GpsInfo gps = null;
+		for(Vehicle vehicle : list){
 			//车辆位置
-			gps = dataAcquireCacheManager.getGps(vId);
+			gps = cacheManager.findGpsInfoBySim(vehicle.getSimNo());
 			if(gps == null){
 				continue;
 			}
-			gps.put("licensePlate", vehicle.getPlateNo());
-			array.add(gps);
+			array.add(JSONObject.fromObject(gps));
 		}
 		
 		return array;

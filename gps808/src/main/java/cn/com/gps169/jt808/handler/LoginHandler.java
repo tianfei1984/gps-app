@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import cn.com.gps169.common.cache.ICacheManager;
 import cn.com.gps169.common.model.VehicleVo;
 import cn.com.gps169.jt808.protocol.EMsgAck;
@@ -16,12 +15,14 @@ import cn.com.gps169.jt808.server.JT808Server;
 import cn.com.gps169.jt808.tool.JT808Constants;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelHandler.Sharable;
 
 /**
  * @author tianfei
  *
  */
 @Component
+@Sharable
 public class LoginHandler extends ChannelHandlerAdapter {
     
     private final Logger logger = LoggerFactory.getLogger(LoginHandler.class);
@@ -46,8 +47,11 @@ public class LoginHandler extends ChannelHandlerAdapter {
             JT0102 body = (JT0102) msg.getBody();
             String code = body.getAuthorCode();
             //判断终端鉴权码是否正确 
-            if(!JT808Constants.AUTHENTICATION_CODE.equals(code) || vehicle == null){
-                logger.error("终端鉴权失败，"+msg.getSimNo());
+            if(vehicle == null) {
+            	logger.error("终端鉴权失败，终端不存在 " +msg.getSimNo());
+            	optResult = EMsgAck.FAILURE.value();
+            } else if(!JT808Constants.AUTHENTICATION_CODE.equals(code)){
+                logger.error("终端鉴权失败，鉴权码错误："+msg.getSimNo());
                 optResult = EMsgAck.FAILURE.value();
             } else {
                 //设置连接鉴权成功
