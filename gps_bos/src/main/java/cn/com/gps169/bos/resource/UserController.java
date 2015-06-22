@@ -61,7 +61,5 @@ public class UserController {
 	public String addDriver(@RequestParam int userId){
 		return "";
 	}
-	
-	
 
 }

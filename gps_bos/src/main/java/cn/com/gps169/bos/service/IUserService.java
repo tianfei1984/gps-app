@@ -1,7 +1,5 @@
 package cn.com.gps169.bos.service;
 
-import java.util.List;
-
 import net.sf.json.JSONObject;
 import cn.com.gps169.db.model.User;
 
@@ -34,6 +32,5 @@ public interface IUserService {
 	 * @return
 	 */
 	User findUserById(int userId);
-	
 	
 }

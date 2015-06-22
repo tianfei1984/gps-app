@@ -77,5 +77,4 @@ public class UserServiceImpl implements IUserService {
 		
 		return userMapper.selectByPrimaryKey(userId);
 	}
-
 }
