@@ -62,12 +62,15 @@ public class UserServiceImpl implements IUserService {
 		}
 		if(user.getUserId() == null){
 			user.setRegisteredTime(new Date());
+			if(user.getParentUserId() == null){
+			    user.setParentUserId(0);
+			}
 			userMapper.insert(user);
 		} else {
 			userMapper.updateByPrimaryKeySelective(user);
 		}
 		
-		return null;
+		return "sucess";
 	}
 
 	@Override

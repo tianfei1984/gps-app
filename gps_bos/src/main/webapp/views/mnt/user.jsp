@@ -11,6 +11,7 @@
 	href="<c:url value="/easyui/themes/default/easyui.css" />">
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/easyui/themes/icon.css" /> ">
+<script type="text/javascript" src="<c:url value="/js/md5.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/js/jquery-2.1.3.min.js" /> "></script>
 <script type="text/javascript"
@@ -45,8 +46,8 @@
 			<div data-options="name:'3'">司机</div>
 		</div>
 		&nbsp;&nbsp;&nbsp; 
-	<a href="javascript:openWin(1);" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加车主帐号</a>
-	<a href="javascript:openWin(2);" class="easyui-linkbutton" iconCls="icon-edit" plain="true">增加司机帐号</a>
+	<a href="javascript:openWin();" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加用户</a>
+	<a href="javascript:openWin();" class="easyui-linkbutton" iconCls="icon-edit" plain="true">增加司机帐号</a>
 	</div>
 	
 	<script type="text/javascript">
@@ -77,27 +78,17 @@
 	}
 	//r搜索
 	function doSearch(value,name){
-		alert(name);
 		$('#dataGrid').datagrid("load",{
 			licensePlate:value,
 			status:name
 		});
 	}
 	//增加车主帐号
-	function openWin(type){
-		if(type == 1){
-	      $('#userWin').window("open");
-			
-		} else if(type == 2){
-	        $('#driverWin').window("open");			
-		}
+	function openWin(){
+	    $('#userWin').window("open");
 	}
-	function closeWin(type){
-		if(type == 1){
-			$('#userWin').window('close');
-		} else if(type == 2){
-			$('#driverWin').window('close');
-		}
+	function closeWin(){
+		$('#userWin').window('close');
 	}
 	$.fn.datebox.defaults.formatter = function(date){
 		var y = date.getFullYear();
@@ -106,15 +97,34 @@
 		return y+'-'+m+'-'+d;
 	}
 	function submitForm(){
-		var data = $("#ff").serializeArray(); //自动将form表单封装成json
+		var password = $.trim($('#password').val());
+		var password1 = $.trim($('#password1').val());
+		if($('#userId').val() == ''){
+			if(password =='' || password1 == ''){
+				$.messager.alert('增加用户','密码不能为空','warning');
+			    return ;	
+			}
+		}
+		if(password != password1){
+			 $.messager.alert('增加用户','两次输入密码不一致','warning');
+			 return;
+		}
+		if($('#roleId').val() == 3){
+		}
+		var data = $("#userForm").serializeArray(); //自动将form表单封装成json
 		var d = {};
 		//将form转换成json
 		$.each(data,function(){
-			d[this.name] = this.value;
+			if(this.name != 'password1'){
+				if(this.name == 'password')
+					d[this.name] = hex_md5(password);
+				else 
+				    d[this.name] = this.value;
+			}
 		});
 		$.ajax({
 	           type: 'post',
-	           url: '/gps_bos/ws/0.1/vehicle/add',
+	           url: '/gps_bos/ws/0.1/user/add',
 	           async: false,
 	           data: JSON.stringify(d),
 	           dataType : 'JSON',
@@ -122,14 +132,14 @@
 	           contentType: 'application/json;charset=utf-8',
 	           success: function(result) {
 	        	   if(result.flag == 'success'){
-	        		   closeForm();
-	        		   $.messager.alert('增加车辆',"增加车辆成功",'info');
+	        		   closeWin();
+	        		   $.messager.alert('增加用户',"增加用户成功",'info');
 	        	   } else {
-	        		   $.messager.alert('增加车辆',result.msg,'warning');
+	        		   $.messager.alert('增加用户',result.msg,'warning');
 	        	   }
 	           },
 	           error:function(e){
-	        	   $.messager.alert('增加车辆',"系统错误，请与管理员联系",'error');
+	        	   $.messager.alert('增加用户',"系统错误，请与管理员联系",'error');
 	           }
 		});
 	}
@@ -137,16 +147,34 @@
 	<div id="userWin" class="easyui-window" " title="增加车主帐号" closed="true"
 		modal="true" shadow="true" collapsible="false" minimizable="false"
 		maximizable="false"
-		style="width: 550px; height: 300px; background: #fafafa;"">
+		style="width: 600px; height: 300px; background: #fafafa;"">
 		<div class="easyui-layout" fit="true" align="center">
 			<form id="userForm" method="post">
 				<table cellpadding="5">
+				    <input type="hidden" id="userId" name="userId">
+				    <tr>
+                       <td>所属用户:</td>
+                       <td>
+                           <input class="easyui-combobox" name="parentUserId" data-options="
+                            url:'/gps_bos/ws/0.1/user/owner',
+                            method:'get',
+                            valueField:'userId',
+                            textField:'userName',
+                            panelHeight:'auto'
+                             ">
+                       </td>
+                       <td>用户类型：</td>
+                       <td><select class="easyui-combobox" name="roleId" id="roleId">
+                                <option value="2">车主</option>
+                                <option value="3">司机</option>
+                        </select></td>
+                    </tr>
 					<tr>
-						<td>车主/业户名称:</td>
+						<td>用户名称:</td>
 						<td><input class="easyui-textbox" type="text"
 							name="userName"
 							data-options="required:true,missingMessage:'车主/业户不能为空'"></input></td>
-						<td>帐号:</td>
+						<td>登录帐号:</td>
 						<td><input class="easyui-textbox" type="text" name="account" 
 							data-options="required:true,missingMessage:'发动机号不能为空',prompt:'车主手机号'"></input></td>
 					</tr>
@@ -161,9 +189,9 @@
 					</tr>
 					<tr>
 						<td>密码:</td>
-						<td><input class="easyui-textbox" type="password" name="password"></input></td>
+						<td><input class="easyui-textbox" type="password" name="password" id="password"></input></td>
 						<td>确认密码:</td>
-						<td><input class="easyui-textbox" type="password" name="password1"></input></td>
+						<td><input class="easyui-textbox" type="password" name="password1" id="password1"></input></td>
 					</tr>
 				</table>
 			</form>
@@ -174,59 +202,5 @@
 			</div>
 		</div>
 	</div>
-	<!-- 司机页面 -->
-	<div id="driverWin" class="easyui-window" " title="增加司机帐号" closed="true"
-        modal="true" shadow="true" collapsible="false" minimizable="false"
-        maximizable="false"
-        style="width: 550px; height: 300px; background: #fafafa;"">
-        <div class="easyui-layout" fit="true" align="center">
-            <form id="driverForm" method="post">
-                <table cellpadding="5">
-	                <tr>
-	                   <td>车主/业户:</td>
-	                   <td>
-	                       <input class="easyui-combobox" name="language" data-options="
-		                    url:'/gps_bos/ws/0.1/user/owner',
-		                    method:'get',
-		                    valueField:'userId',
-		                    textField:'userName',
-		                    panelHeight:'auto'
-		                     ">
-	                   </td>
-	                </tr>
-                    <tr>
-                        <td>车主/业户名称:</td>
-                        <td><input class="easyui-textbox" type="text"
-                            name="userName"
-                            data-options="required:true,missingMessage:'车主/业户不能为空'"></input></td>
-                        <td>帐号:</td>
-                        <td><input class="easyui-textbox" type="text" name="account" 
-                            data-options="required:true,missingMessage:'发动机号不能为空',prompt:'车主手机号'"></input></td>
-                    </tr>
-                    <tr>
-                        <td>联系电话:</td>
-                        <td><input class="easyui-textbox" type="text" name="telephone"></input></td>
-                        <td>帐号状态:</td>
-                        <td><select class="easyui-combobox" name="status">
-                                <option value="0">正常</option>
-                                <option value="1">停用</option>
-                        </select></td>
-                    </tr>
-                    <tr>
-                        <td>密码:</td>
-                        <td><input class="easyui-textbox" type="password" name="password"></input></td>
-                        <td>确认密码:</td>
-                        <td><input class="easyui-textbox" type="password" name="password1"></input></td>
-                    </tr>
-                </table>
-            </form>
-            <div style="text-align: center; padding: 20px">
-                <a href="javascript:void(0)" class="easyui-linkbutton"
-                    onclick="submitForm()">保存</a> <a href="javascript:void(0)"
-                    class="easyui-linkbutton" onclick="closeWin()">取消</a>
-            </div>
-        </div>
-    </div>
-
 </body>
 </html>
