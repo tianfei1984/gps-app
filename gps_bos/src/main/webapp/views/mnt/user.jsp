@@ -45,8 +45,8 @@
 			<div data-options="name:'3'">司机</div>
 		</div>
 		&nbsp;&nbsp;&nbsp; 
-	<a href="javascript:openForm();" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加车主帐号</a>
-	<a href="javascript:update();" class="easyui-linkbutton" iconCls="icon-edit" plain="true">增加司机帐号</a>
+	<a href="javascript:openWin(1);" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加车主帐号</a>
+	<a href="javascript:openWin(2);" class="easyui-linkbutton" iconCls="icon-edit" plain="true">增加司机帐号</a>
 	</div>
 	
 	<script type="text/javascript">
@@ -84,11 +84,20 @@
 		});
 	}
 	//增加车主帐号
-	function openUserWin(){
-		$('#userWin').window("open");
+	function openWin(type){
+		if(type == 1){
+	      $('#userWin').window("open");
+			
+		} else if(type == 2){
+	        $('#driverWin').window("open");			
+		}
 	}
-	function closeUserWin(){
-		$('#userWin').window('close');
+	function closeWin(type){
+		if(type == 1){
+			$('#userWin').window('close');
+		} else if(type == 2){
+			$('#driverWin').window('close');
+		}
 	}
 	$.fn.datebox.defaults.formatter = function(date){
 		var y = date.getFullYear();
@@ -161,10 +170,63 @@
 			<div style="text-align: center; padding: 20px">
 				<a href="javascript:void(0)" class="easyui-linkbutton"
 					onclick="submitForm()">保存</a> <a href="javascript:void(0)"
-					class="easyui-linkbutton" onclick="closeForm()">取消</a>
+					class="easyui-linkbutton" onclick="closeWin()">取消</a>
 			</div>
 		</div>
 	</div>
+	<!-- 司机页面 -->
+	<div id="driverWin" class="easyui-window" " title="增加司机帐号" closed="true"
+        modal="true" shadow="true" collapsible="false" minimizable="false"
+        maximizable="false"
+        style="width: 550px; height: 300px; background: #fafafa;"">
+        <div class="easyui-layout" fit="true" align="center">
+            <form id="driverForm" method="post">
+                <table cellpadding="5">
+	                <tr>
+	                   <td>车主/业户:</td>
+	                   <td>
+	                       <input class="easyui-combobox" name="language" data-options="
+		                    url:'/gps_bos/ws/0.1/user/owner',
+		                    method:'get',
+		                    valueField:'userId',
+		                    textField:'userName',
+		                    panelHeight:'auto'
+		                     ">
+	                   </td>
+	                </tr>
+                    <tr>
+                        <td>车主/业户名称:</td>
+                        <td><input class="easyui-textbox" type="text"
+                            name="userName"
+                            data-options="required:true,missingMessage:'车主/业户不能为空'"></input></td>
+                        <td>帐号:</td>
+                        <td><input class="easyui-textbox" type="text" name="account" 
+                            data-options="required:true,missingMessage:'发动机号不能为空',prompt:'车主手机号'"></input></td>
+                    </tr>
+                    <tr>
+                        <td>联系电话:</td>
+                        <td><input class="easyui-textbox" type="text" name="telephone"></input></td>
+                        <td>帐号状态:</td>
+                        <td><select class="easyui-combobox" name="status">
+                                <option value="0">正常</option>
+                                <option value="1">停用</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td>密码:</td>
+                        <td><input class="easyui-textbox" type="password" name="password"></input></td>
+                        <td>确认密码:</td>
+                        <td><input class="easyui-textbox" type="password" name="password1"></input></td>
+                    </tr>
+                </table>
+            </form>
+            <div style="text-align: center; padding: 20px">
+                <a href="javascript:void(0)" class="easyui-linkbutton"
+                    onclick="submitForm()">保存</a> <a href="javascript:void(0)"
+                    class="easyui-linkbutton" onclick="closeWin()">取消</a>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

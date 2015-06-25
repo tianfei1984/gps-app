@@ -1,6 +1,7 @@
 package cn.com.gps169.bos.resource;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.QueryParam;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -68,7 +69,7 @@ public class VehicleController {
 	 */
 	@RequestMapping(value="add",method=RequestMethod.POST,consumes="application/json")
 	@ResponseBody
-	public String addVehicle(@RequestBody Vehicle vehicle){
+	public String addVehicle(@RequestBody Vehicle vehicle,@QueryParam("userId")int userId){
 	    JSONObject result = new JSONObject();
 	    result.put("flag", "fail");
 	    if(StringUtils.isBlank(vehicle.getPlateNo())){
@@ -77,6 +78,10 @@ public class VehicleController {
 	    }
 	    if(StringUtils.isBlank(vehicle.getEin())){
 	        result.put("msg", "车辆发动机号不能为空");
+	        return result.toString();
+	    }
+	    if(StringUtils.isBlank(vehicle.getVin())){
+	        result.put("msg", "车辆识别码不能为空");
 	        return result.toString();
 	    }
 	    String opt = vehicleService.addOrUpdateVehicle(vehicle); 

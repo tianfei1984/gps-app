@@ -577,6 +577,136 @@ public class SuggestionExample {
             return (Criteria) this;
         }
 
+        public Criteria andProcessRemarkIsNull() {
+            addCriterion("process_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkIsNotNull() {
+            addCriterion("process_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkEqualTo(String value) {
+            addCriterion("process_remark =", value, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkNotEqualTo(String value) {
+            addCriterion("process_remark <>", value, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkGreaterThan(String value) {
+            addCriterion("process_remark >", value, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("process_remark >=", value, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkLessThan(String value) {
+            addCriterion("process_remark <", value, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkLessThanOrEqualTo(String value) {
+            addCriterion("process_remark <=", value, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkLike(String value) {
+            addCriterion("process_remark like", value, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkNotLike(String value) {
+            addCriterion("process_remark not like", value, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkIn(List<String> values) {
+            addCriterion("process_remark in", values, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkNotIn(List<String> values) {
+            addCriterion("process_remark not in", values, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkBetween(String value1, String value2) {
+            addCriterion("process_remark between", value1, value2, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessRemarkNotBetween(String value1, String value2) {
+            addCriterion("process_remark not between", value1, value2, "processRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdIsNull() {
+            addCriterion("processer_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdIsNotNull() {
+            addCriterion("processer_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdEqualTo(Integer value) {
+            addCriterion("processer_id =", value, "processerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdNotEqualTo(Integer value) {
+            addCriterion("processer_id <>", value, "processerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdGreaterThan(Integer value) {
+            addCriterion("processer_id >", value, "processerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("processer_id >=", value, "processerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdLessThan(Integer value) {
+            addCriterion("processer_id <", value, "processerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("processer_id <=", value, "processerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdIn(List<Integer> values) {
+            addCriterion("processer_id in", values, "processerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdNotIn(List<Integer> values) {
+            addCriterion("processer_id not in", values, "processerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdBetween(Integer value1, Integer value2) {
+            addCriterion("processer_id between", value1, value2, "processerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcesserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("processer_id not between", value1, value2, "processerId");
+            return (Criteria) this;
+        }
+
         public Criteria andCreatedTimeIsNull() {
             addCriterion("created_time is null");
             return (Criteria) this;
@@ -634,6 +764,66 @@ public class SuggestionExample {
 
         public Criteria andCreatedTimeNotBetween(Date value1, Date value2) {
             addCriterion("created_time not between", value1, value2, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeIsNull() {
+            addCriterion("process_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeIsNotNull() {
+            addCriterion("process_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeEqualTo(Date value) {
+            addCriterion("process_time =", value, "processTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeNotEqualTo(Date value) {
+            addCriterion("process_time <>", value, "processTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeGreaterThan(Date value) {
+            addCriterion("process_time >", value, "processTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("process_time >=", value, "processTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeLessThan(Date value) {
+            addCriterion("process_time <", value, "processTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeLessThanOrEqualTo(Date value) {
+            addCriterion("process_time <=", value, "processTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeIn(List<Date> values) {
+            addCriterion("process_time in", values, "processTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeNotIn(List<Date> values) {
+            addCriterion("process_time not in", values, "processTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeBetween(Date value1, Date value2) {
+            addCriterion("process_time between", value1, value2, "processTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessTimeNotBetween(Date value1, Date value2) {
+            addCriterion("process_time not between", value1, value2, "processTime");
             return (Criteria) this;
         }
     }

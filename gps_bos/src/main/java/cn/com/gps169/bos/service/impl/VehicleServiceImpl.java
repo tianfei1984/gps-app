@@ -30,26 +30,21 @@ public class VehicleServiceImpl implements IVehicleService {
 		VehicleExample example = new VehicleExample();
 		Criteria criteria = example.or();
 		if(status != 0){
-//			criteria.andStatusEqualTo(status);
+			criteria.andFleeStatusEqualTo((byte) status);
 		}
 		if(StringUtils.isNotBlank(licensePlate)){
-			criteria.andPlateNoEqualTo("%"+licensePlate+"%");
+			criteria.andPlateNoLike("%"+licensePlate+"%");
 		}
+		int total = vehicleMapper.countByExample(example);
 		example.setLimitStart(pageNum);
 		example.setLimitEnd(pageRows);
 		List<Vehicle> list = vehicleMapper.selectByExample(example);
-		JSONObject json = null;
 		JSONArray result = new JSONArray();
 		for(Vehicle v : list){
-			json = new JSONObject();
-			json.put("vid", v.getVehicleId());
-			json.put("licesePlate", v.getPlateNo());
-			json.put("ein", v.getEin());
-			json.put("vin", v.getVin());
-			result.add(json);
+			result.add(JSONObject.fromObject(v));
 		}
 		JSONObject vehicles = new JSONObject();
-		vehicles.put("total", 100);
+		vehicles.put("total", total);
 		vehicles.put("rows", result);
 		
 		return vehicles;

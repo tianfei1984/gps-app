@@ -2,6 +2,7 @@ package cn.com.gps169.bos.resource;
 
 import javax.ws.rs.QueryParam;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,10 @@ public class UserController {
 	@RequestMapping(value="add",method=RequestMethod.POST,consumes="application/json")
 	@ResponseBody
 	public String add(@RequestBody User user){
-		return "";
+	    if(user == null){
+	        return "";
+	    }
+		return userService.saveOrUpdateUser(user);
 	}
 	
 	/**
@@ -59,7 +63,21 @@ public class UserController {
 	@RequestMapping("get")
 	@ResponseBody
 	public String addDriver(@RequestParam int userId){
-		return "";
+	    User user = userService.findUserById(userId);
+	    
+		return JSONObject.fromObject(user).toString();
+	}
+	
+	/**
+	 * 查询车主
+	 * @return
+	 */
+	@RequestMapping("owner")
+	@ResponseBody
+	public String getVehicleOwner(){
+	    JSONArray array = userService.findVehOwner();
+	    
+	    return array.toString();
 	}
 
 }

@@ -1,5 +1,6 @@
 package cn.com.gps169.bos.service;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import cn.com.gps169.db.model.User;
 
@@ -32,5 +33,11 @@ public interface IUserService {
 	 * @return
 	 */
 	User findUserById(int userId);
+	
+	/**
+	 * 查询车主
+	 * @return
+	 */
+	JSONArray findVehOwner();
 	
 }

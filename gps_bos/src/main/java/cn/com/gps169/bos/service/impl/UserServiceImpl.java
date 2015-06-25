@@ -62,8 +62,6 @@ public class UserServiceImpl implements IUserService {
 		}
 		if(user.getUserId() == null){
 			user.setRegisteredTime(new Date());
-			user.setParentUserId(0);
-			user.setRoleId((byte) 2);
 			userMapper.insert(user);
 		} else {
 			userMapper.updateByPrimaryKeySelective(user);
@@ -77,4 +75,20 @@ public class UserServiceImpl implements IUserService {
 		
 		return userMapper.selectByPrimaryKey(userId);
 	}
+
+    /* (non-Javadoc)
+     * @see cn.com.gps169.bos.service.IUserService#findVehOwner()
+     */
+    @Override
+    public JSONArray findVehOwner() {
+        UserExample example = new UserExample();
+        example.or().andRoleIdEqualTo((byte) 2);
+        List<User> list = userMapper.selectByExample(example);
+        JSONArray array = new JSONArray();
+        for(User u : list) {
+            array.add(JSONObject.fromObject(u));
+        }
+        
+        return array;
+    }
 }
