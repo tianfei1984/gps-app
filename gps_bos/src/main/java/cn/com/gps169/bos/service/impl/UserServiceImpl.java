@@ -28,9 +28,10 @@ public class UserServiceImpl implements IUserService {
 		if(StringUtils.isNotBlank(search)){
 			criteria.andUserNameLike("%"+search+"%");
 		}
-		if(roleType != null){
+		if(roleType != null && roleType != 0){
 			criteria.andRoleIdEqualTo(roleType.byteValue());
 		}
+		criteria.andRoleIdNotEqualTo((byte)1);
 		int totalNum = userMapper.countByExample(example);
 		example.setLimitStart(pageIndex);
 		example.setLimitEnd(pageRows);

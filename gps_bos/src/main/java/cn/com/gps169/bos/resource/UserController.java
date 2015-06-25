@@ -35,7 +35,7 @@ public class UserController {
 	@RequestMapping("page")
 	@ResponseBody
 	public String page(@QueryParam("page")Integer page,@QueryParam("rows")Integer rows,@QueryParam("search")String search,
-			@QueryParam("type")Integer roleType){
+			@QueryParam("roleType")Integer roleType){
 		JSONObject result = userService.findUserByPage((page-1) * rows, rows, search,roleType);
 		
 		return result.toString();
@@ -64,6 +64,7 @@ public class UserController {
 	@ResponseBody
 	public String addDriver(@RequestParam int userId){
 	    User user = userService.findUserById(userId);
+	    user.setPassword("");
 	    
 		return JSONObject.fromObject(user).toString();
 	}
